@@ -13,6 +13,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.3",
     "@react-navigation/native": "^5.9.0",
+    "@react-navigation/stack": "^5.14.1",
     "axios": "^0.21.1",
     "normalizr": "^3.6.1",
     "react": "16.13.1",

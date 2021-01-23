@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, TextInput } from 'react-native';
+import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
 
-function Shop() {
+function Shop(props) {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: '#FFC7A8' }}>
@@ -18,76 +18,100 @@ function Shop() {
             }}>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <View
-                style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 20,
-                  backgroundColor: '#74CE4E',
-                }}></View>
-              <View
-                style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 20,
-                  backgroundColor: '#108EBE',
-                }}></View>
-              <View
-                style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 20,
-                  backgroundColor: '#D8B819',
-                }}></View>
-              <View
-                style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 20,
-                  backgroundColor: '#DB5F35',
-                }}></View>
+              <Pressable
+                onPress={() => props.navigation.navigate('Shop Details')}>
+                <View
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 20,
+                    backgroundColor: '#74CE4E',
+                  }}></View>
+              </Pressable>
+              <Pressable
+                onPress={() => props.navigation.navigate('Shop Details')}>
+                <View
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 20,
+                    backgroundColor: '#108EBE',
+                  }}></View>
+              </Pressable>
+              <Pressable
+                onPress={() => props.navigation.navigate('Shop Details')}>
+                <View
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 20,
+                    backgroundColor: '#D8B819',
+                  }}></View>
+              </Pressable>
+              <Pressable
+                onPress={() => props.navigation.navigate('Shop Details')}>
+                <View
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 20,
+                    backgroundColor: '#DB5F35',
+                  }}></View>
+              </Pressable>
             </View>
             <View style={{ paddingVertical: 30 }}>
               <Text>Popular shops!</Text>
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
               </ScrollView>
             </View>
             <View>
@@ -95,42 +119,54 @@ function Shop() {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
-                <View
-                  style={{
-                    backgroundColor: '#eee',
-                    height: 170,
-                    borderRadius: 5,
-                    width: 300,
-                    marginVertical: 10,
-                    marginRight: 20,
-                  }}></View>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
+                <Pressable
+                  onPress={() => props.navigation.navigate('Shop Details')}>
+                  <View
+                    style={{
+                      backgroundColor: '#eee',
+                      height: 170,
+                      borderRadius: 5,
+                      width: 300,
+                      marginVertical: 10,
+                      marginRight: 20,
+                    }}></View>
+                </Pressable>
               </ScrollView>
             </View>
             <View style={{ height: 200 }}>
