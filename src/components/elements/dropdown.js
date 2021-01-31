@@ -1,27 +1,44 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Platform, View, Text, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import PropTypes from 'prop-types';
 import ModalView from '../modules/modal';
 
 function DropDown(props) {
-  const { selectedItem, setSelectedItem } = props;
-  const [selectedValue, setSelectedValue] = useState('');
+  const {
+    listSource = [],
+    selectedItem,
+    setSelectedItem,
+    withLabel,
+    label,
+  } = props;
+  const [selectedValue, setSelectedValue] = useState();
   const [openModal, toggleModal] = useState(false);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      if (listSource && listSource.length && !selectedValue) {
+        onChange(listSource[0].value);
+      }
+    }
+  }, [listSource]);
+
+  const updateData = (itemValue) => {
+    const data = listSource.find((ls) => ls.value == itemValue);
+    if (setSelectedItem) {
+      setSelectedItem(data);
+    }
+  };
 
   const onChange = (itemValue, itemIndex) => {
     setSelectedValue(itemValue);
     if (Platform.OS === 'android') {
-      if (setSelectedItem) {
-        setSelectedItem(itemValue);
-      }
+      updateData(itemValue);
     }
   };
 
   const onOk = () => {
-    if (setSelectedItem) {
-      setSelectedItem(selectedValue);
-    }
+    updateData(selectedValue);
     toggleModal(false);
   };
 
@@ -42,7 +59,9 @@ function DropDown(props) {
               paddingHorizontal: 10,
               justifyContent: 'center',
             }}>
-            <Text style={{ fontSize: 16 }}>{selectedItem}</Text>
+            <Text style={{ fontSize: 16 }}>
+              {selectedItem ? selectedItem.key : ''}
+            </Text>
             <View
               style={{
                 position: 'absolute',
@@ -52,7 +71,11 @@ function DropDown(props) {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Text>{'>'}</Text>
+              {withLabel ? (
+                <Text style={{ fontWeight: '700' }}>{label}</Text>
+              ) : (
+                <Text>{'>'}</Text>
+              )}
             </View>
           </View>
         </TouchableOpacity>
@@ -76,17 +99,13 @@ function DropDown(props) {
                 width: '100%',
               }}
               onValueChange={onChange}>
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript0" value="js0" />
-              <Picker.Item label="JavaScript1" value="js1" />
-              <Picker.Item label="JavaScript2" value="js2" />
-              <Picker.Item label="JavaScript3" value="js3" />
-              <Picker.Item label="JavaScript4" value="js4" />
-              <Picker.Item label="JavaScript5" value="js5" />
-              <Picker.Item label="JavaScript6" value="js6" />
-              <Picker.Item label="JavaScript7" value="js7" />
-              <Picker.Item label="JavaScript8" value="js8" />
-              <Picker.Item label="JavaScript9" value="js9" />
+              {listSource.map((ls) => (
+                <Picker.Item
+                  key={String(ls.value)}
+                  label={String(ls.key)}
+                  value={String(ls.value)}
+                />
+              ))}
             </Picker>
             <View
               style={{
@@ -140,17 +159,38 @@ function DropDown(props) {
         width: '100%',
         borderBottomColor: 'green',
         borderBottomWidth: 1,
+        justifyContent: 'center',
       }}>
       <Picker
         selectedValue={selectedValue}
         style={{
-          width: '100%',
+          width: '80%',
           height: 30,
         }}
         onValueChange={onChange}>
-        <Picker.Item label="Java" value="java" />
-        <Picker.Item label="JavaScript" value="js" />
+        {listSource.map((ls) => (
+          <Picker.Item
+            key={String(ls.value)}
+            label={String(ls.key)}
+            value={String(ls.value)}
+          />
+        ))}
       </Picker>
+      <View
+        style={{
+          position: 'absolute',
+          right: 0,
+          width: 45,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        {withLabel ? (
+          <Text style={{ fontWeight: '700' }}>{label}</Text>
+        ) : (
+          <Text>{'>'}</Text>
+        )}
+      </View>
     </View>
   );
 }

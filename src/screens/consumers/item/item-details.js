@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMemo } from 'react';
 import { useState } from 'react';
 import {
   Image,
@@ -14,8 +15,14 @@ import Input from '../../../components/elements/input';
 
 function ItemDetails() {
   const [selectedUnit, updateUnit] = useState('gm');
-  const [selectedQuantity, setSelectedQuantity] = useState();
-
+  const [selectedQuantity, setSelectedQuantity] = useState({});
+  const quantityList = useMemo(() => [
+    { key: 1, value: 1 },
+    { key: 2, value: 2 },
+    { key: 5, value: 5 },
+    { key: 100, value: 100 },
+    { key: 500, value: 500 },
+  ]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
@@ -135,6 +142,9 @@ function ItemDetails() {
                 <DropDown
                   setSelectedItem={setSelectedQuantity}
                   selectedItem={selectedQuantity}
+                  withLabel={true}
+                  label={selectedUnit}
+                  listSource={quantityList}
                 />
               </View>
             </View>
