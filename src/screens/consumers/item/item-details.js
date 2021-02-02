@@ -191,7 +191,7 @@ function ItemDetails() {
           },
           shadowOpacity: 0.23,
           shadowRadius: 2.62,
-          elevation: 4,
+          elevation: 3,
         }}>
         <View
           style={{
