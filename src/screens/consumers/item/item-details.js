@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import DropDown from '../../../components/elements/dropdown';
 import Input from '../../../components/elements/input';
+import ShopCard from '../../../components/item-detail-helpers/shop-card';
 
 function ItemDetails() {
   const [selectedUnit, updateUnit] = useState('gm');
@@ -29,128 +30,196 @@ function ItemDetails() {
         <View
           style={[
             {
-              height: 400,
-              marginBottom: 20,
-              margin: 20,
-              borderRadius: 20,
+              height: 300,
+              marginBottom: 30,
+              marginTop: 20,
+              marginHorizontal: 50,
+              borderRadius: 150,
               backgroundColor: 'white',
+              justifyContent: 'center',
+              alignItems: 'center',
             },
             styles.imageBlock,
           ]}>
           <Image
             source={{ uri: 'https://picsum.photos/330/380' }}
             style={{
-              width: '100%',
-              height: '100%',
+              width: '50%',
+              height: '50%',
               resizeMode: 'stretch',
-              borderRadius: 5,
+              borderRadius: 20,
             }}
           />
         </View>
-        <View>
+        <View
+          style={{
+            backgroundColor: 'white',
+            borderTopStartRadius: 50,
+            borderTopEndRadius: 50,
+            paddingTop: 30,
+          }}>
           <View>
+            <View>
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: '500',
+                  width: '100%',
+                  textAlign: 'center',
+                }}>
+                Item Name
+              </Text>
+            </View>
+          </View>
+          <View style={{ marginTop: 20, paddingHorizontal: 30 }}>
             <Text
-              style={{
-                fontSize: 24,
-                fontWeight: '500',
-                width: '100%',
-                textAlign: 'center',
-              }}>
-              Item Name
+              style={{ textAlign: 'center', fontSize: 16, fontWeight: '500' }}>
+              Quantity
             </Text>
-          </View>
-        </View>
-        <View style={{ marginTop: 20, paddingHorizontal: 30 }}>
-          <Text
-            style={{ textAlign: 'center', fontSize: 16, fontWeight: '500' }}>
-            Quantity
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              margin: 10,
-            }}>
             <View
               style={{
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-                alignContent: 'flex-start',
                 flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                margin: 10,
               }}>
-              <Text style={{ fontSize: 16 }}>Unit</Text>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  alignContent: 'flex-start',
+                  flex: 1,
+                }}>
+                <Text style={{ fontSize: 16 }}>Unit</Text>
+              </View>
+              <View style={{ flex: 4, alignItems: 'flex-end' }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity onPress={() => updateUnit('gm')}>
+                    <View
+                      style={[
+                        styles.units,
+                        selectedUnit === 'gm' ? styles.selectedUnit : {},
+                      ]}>
+                      <Text
+                        style={[
+                          styles.unitText,
+                          selectedUnit === 'gm' ? styles.selectedUnitText : {},
+                        ]}>
+                        gm
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => updateUnit('kg')}>
+                    <View
+                      style={[
+                        styles.units,
+                        selectedUnit === 'kg' ? styles.selectedUnit : {},
+                      ]}>
+                      <Text
+                        style={[
+                          styles.unitText,
+                          selectedUnit === 'kg' ? styles.selectedUnitText : {},
+                        ]}>
+                        kg
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-            <View style={{ flex: 4, alignItems: 'flex-end' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => updateUnit('gm')}>
-                  <View
-                    style={[
-                      styles.units,
-                      selectedUnit === 'gm' ? styles.selectedUnit : {},
-                    ]}>
-                    <Text
-                      style={[
-                        styles.unitText,
-                        selectedUnit === 'gm' ? styles.selectedUnitText : {},
-                      ]}>
-                      gm
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => updateUnit('kg')}>
-                  <View
-                    style={[
-                      styles.units,
-                      selectedUnit === 'kg' ? styles.selectedUnit : {},
-                    ]}>
-                    <Text
-                      style={[
-                        styles.unitText,
-                        selectedUnit === 'kg' ? styles.selectedUnitText : {},
-                      ]}>
-                      kg
-                    </Text>
-                  </View>
-                </TouchableOpacity>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                margin: 10,
+              }}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  alignContent: 'flex-start',
+                  flex: 2,
+                }}>
+                <Text style={{ fontSize: 16 }}>Available Quantity</Text>
+              </View>
+              <View
+                style={{
+                  flex: 3,
+                  justifyContent: 'flex-end',
+                  flexDirection: 'row',
+                }}>
+                <View style={{ width: '78%', justifyContent: 'center' }}>
+                  <DropDown
+                    setSelectedItem={setSelectedQuantity}
+                    selectedItem={selectedQuantity}
+                    withLabel={true}
+                    label={selectedUnit}
+                    listSource={quantityList}
+                  />
+                </View>
               </View>
             </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              margin: 10,
-            }}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-                alignContent: 'flex-start',
-                flex: 2,
-              }}>
-              <Text style={{ fontSize: 16 }}>Available Quantity</Text>
-            </View>
-            <View
-              style={{
-                flex: 3,
-                justifyContent: 'flex-end',
-                flexDirection: 'row',
-              }}>
-              <View style={{ width: '78%', justifyContent: 'center' }}>
-                <DropDown
-                  setSelectedItem={setSelectedQuantity}
-                  selectedItem={selectedQuantity}
-                  withLabel={true}
-                  label={selectedUnit}
-                  listSource={quantityList}
-                />
-              </View>
+          <View style={{ marginTop: 20, paddingHorizontal: 30 }}>
+            <Text
+              style={{ textAlign: 'center', fontWeight: '500', fontSize: 16 }}>
+              Select a Seller:{' '}
+            </Text>
+            <View style={{ marginTop: 20 }}>
+              <ShopCard />
+              <ShopCard />
+              <ShopCard />
+              <ShopCard />
+              <ShopCard />
             </View>
           </View>
         </View>
       </ScrollView>
+      <View
+        style={{
+          height: 70,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderTopStartRadius: 20,
+          borderTopEndRadius: 20,
+          backgroundColor: 'white',
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: -3,
+          },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+          elevation: 4,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+            alignItems: 'center',
+            paddingHorizontal: 20,
+          }}>
+          <View>
+            <Text>Avg Price</Text>
+            <Text style={{ fontSize: 24, fontWeight: '500' }}>Rs: 100.00</Text>
+          </View>
+          <TouchableOpacity>
+            <View
+              style={{
+                backgroundColor: 'green',
+                paddingHorizontal: 15,
+                paddingVertical: 15,
+                borderRadius: 10,
+              }}>
+              <Text style={{ color: 'white', fontWeight: '500' }}>
+                Select a Seller
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
