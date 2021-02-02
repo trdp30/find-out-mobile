@@ -8,12 +8,12 @@ function SubCategory() {
       <View>
         <Text>Sub Category</Text>
       </View>
-      <ScrollView style={{ paddingHorizontal: 20 }}>
-        <CategorySubCategory backgroundColor="#3366FF" />
-        <CategorySubCategory backgroundColor="#76C120" />
-        <CategorySubCategory backgroundColor="#0CA2FF" />
-        <CategorySubCategory backgroundColor="#FFAD0A" />
-        <CategorySubCategory backgroundColor="#FF4823" />
+      <ScrollView style={{ paddingHorizontal: 20, backgroundColor: 'white' }}>
+        <CategorySubCategory backgroundColor="#ADC8FF" />
+        <CategorySubCategory backgroundColor="#DFFCA9" />
+        <CategorySubCategory backgroundColor="#AEF5FE" />
+        <CategorySubCategory backgroundColor="#FFF2B3" />
+        <CategorySubCategory backgroundColor="#FFD1A9" />
       </ScrollView>
     </SafeAreaView>
   );
