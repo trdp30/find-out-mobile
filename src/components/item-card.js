@@ -40,8 +40,10 @@ const styles = StyleSheet.create({
   itemRowContainer: {
     margin: 15,
     width: '40%',
+    backgroundColor: 'white',
   },
   itemRowContent: {
+    backgroundColor: 'white',
     borderColor: 'black',
     shadowColor: '#000',
     shadowOffset: {

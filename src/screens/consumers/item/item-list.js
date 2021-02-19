@@ -27,12 +27,27 @@ const data = [
   {
     id: 6,
   },
+  {
+    id: 7,
+  },
+  {
+    id: 8,
+  },
+  {
+    id: 9,
+  },
+  {
+    id: 10,
+  },
+  {
+    id: 11,
+  },
 ];
 function ItemList(props) {
   const renderItem = () => <ItemCard />;
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1, paddingTop: 40 }}>
         <View style={{ flex: 1, padding: 20 }}>
           <View>
             <Text>Selected Category</Text>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import colors from '../../styles/colors';
 
 function ShopCard() {
   return (
@@ -39,7 +40,7 @@ function ShopCard() {
           <TouchableOpacity>
             <View
               style={{
-                backgroundColor: 'green',
+                backgroundColor: colors['color-primary-500'],
                 paddingHorizontal: 15,
                 paddingVertical: 5,
                 borderRadius: 10,

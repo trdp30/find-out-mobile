@@ -13,6 +13,7 @@ import {
 import DropDown from '../../../components/elements/dropdown';
 import Input from '../../../components/elements/input';
 import ShopCard from '../../../components/item-detail-helpers/shop-card';
+import colors from '../../../styles/colors';
 
 function ItemDetails() {
   const [selectedUnit, updateUnit] = useState('gm');
@@ -32,7 +33,7 @@ function ItemDetails() {
             {
               height: 300,
               marginBottom: 30,
-              marginTop: 20,
+              marginTop: 50,
               marginHorizontal: 50,
               borderRadius: 150,
               backgroundColor: 'white',
@@ -208,7 +209,7 @@ function ItemDetails() {
           <TouchableOpacity>
             <View
               style={{
-                backgroundColor: 'green',
+                backgroundColor: colors['color-primary-500'],
                 paddingHorizontal: 15,
                 paddingVertical: 15,
                 borderRadius: 10,
@@ -240,13 +241,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     margin: 5,
-    borderColor: 'green',
+    borderColor: colors['color-primary-500'],
     borderWidth: 0.5,
     borderRadius: 10,
     width: 70,
   },
   selectedUnit: {
-    backgroundColor: 'green',
+    backgroundColor: colors['color-primary-500'],
     borderWidth: 0,
   },
   unitText: {
