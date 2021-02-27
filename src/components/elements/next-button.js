@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
+import colors from '../../styles/colors';
 
 function NextButton(props) {
   const { onPress } = props;
