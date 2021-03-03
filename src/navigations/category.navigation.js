@@ -5,7 +5,6 @@ import ItemList from '../screens/consumers/item/item-list';
 import ShopList from '../screens/consumers/shop/shop-list';
 import SubCategory from '../screens/consumers/category/sub-category';
 import ItemDetails from '../screens/consumers/item/item-details';
-import { View, Text } from 'react-native';
 import HeaderRightProfileButton from '../components/header-right-profile-button';
 
 const Stack = createStackNavigator();
