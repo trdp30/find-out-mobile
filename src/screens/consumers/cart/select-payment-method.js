@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import UpiView from '../../../components/payment/upi-view';
-import UpiAppView from './upi-app-view';
+import UpiAppView from '../../../components/payment/upi-app-view';
 import colors from '../../../styles/colors';
 
 function SelectPaymentMethod() {
