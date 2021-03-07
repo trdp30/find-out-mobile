@@ -12,6 +12,18 @@ import store from './src/store';
 import { Provider } from 'react-redux';
 import Navigation from './src/navigations';
 
+XMLHttpRequest = GLOBAL.originalXMLHttpRequest
+  ? GLOBAL.originalXMLHttpRequest
+  : GLOBAL.XMLHttpRequest;
+
+// fetch logger
+global._fetch = fetch;
+global.fetch = function (uri, options, ...args) {
+  return global._fetch(uri, options, ...args).then((response) => {
+    return response;
+  });
+};
+
 const App = () => {
   return (
     <Provider store={store}>

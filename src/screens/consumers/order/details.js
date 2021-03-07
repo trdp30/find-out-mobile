@@ -2,7 +2,6 @@ import React from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 
 function OrderDetails(props) {
-  console.log(JSON.stringify(props, null, ' '));
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView

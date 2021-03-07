@@ -1,10 +1,10 @@
 import axios from 'axios';
-import ENV from 'environment';
+// import ENV from 'environment';
 // import store from '../';
-import { initUnAuthenticate } from '../actions/session.action';
+// import { initUnAuthenticate } from '../actions/session.action';
 import { Platform } from 'react-native';
 
-const host = ENV.REACT_APP_CORE_DOMAIN;
+const host = 'https://findoutv1.herokuapp.com/api/v1/';
 
 const axiosInstance = axios.create({
   baseURL: host,
