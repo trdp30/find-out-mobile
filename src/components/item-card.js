@@ -5,10 +5,13 @@ import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 function ItemCard(props) {
   const route = useRoute();
   const navigation = useNavigation();
+  const { item } = props;
 
   const onPress = () => {
     if (route.name === 'selected-category-items-list') {
-      navigation.navigate('selected-category-item-details');
+      navigation.navigate('selected-category-item-details', {
+        item_id: item.id,
+      });
     }
   };
   return (
@@ -26,7 +29,7 @@ function ItemCard(props) {
             }}
           />
           <View style={{ padding: 10 }}>
-            <Text>Item name</Text>
+            <Text>{item && item.name}</Text>
           </View>
         </View>
       </Pressable>

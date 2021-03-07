@@ -7,10 +7,10 @@ import {
   put,
 } from 'redux-saga/effects';
 import { itemActionTypes as types } from '../action-types';
-import { findAllItemSucceed } from '../actions/item.action';
+import { findAllItemSucceed, queryItemSucceed } from '../actions/item.action';
 import { catchReduxError, normalizeData } from '../actions/general.action';
 import { itemArraySchema } from '../schemas';
-import { findAll } from '../server';
+import { findAll, query } from '../server';
 
 async function getAllData() {
   try {
@@ -19,6 +19,17 @@ async function getAllData() {
       return response.data;
     }
     return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function queryData(q) {
+  try {
+    const response = await query('item', q);
+    if (response.data) {
+      return response.data;
+    }
   } catch (error) {
     throw error;
   }
@@ -43,7 +54,17 @@ function* findByIdSaga({ item_id, actions = {} }) {
 }
 
 function* querySaga({ query, actions = {} }) {
-  yield put({ type: types.ITEM_REQUEST_INITIATED });
+  try {
+    yield put({ type: types.ITEM_REQUEST_INITIATED });
+    const payload = yield call(queryData, query);
+    const normalizedData = yield call(normalizeData, {
+      data: payload,
+      schema: itemArraySchema,
+    });
+    yield put(queryItemSucceed({ payload: normalizedData, meta: {} }));
+  } catch (error) {
+    yield call(catchReduxError, error);
+  }
 }
 
 // -------------------- watchers --------------------

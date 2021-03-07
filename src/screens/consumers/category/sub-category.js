@@ -1,21 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import CategorySubCategory from '../../../components/sub-category/category.sub-category';
 import { getDataById } from '../../../store/selectors/find-data.selector';
+import { queryItem } from '../../../store/actions/item.action';
 
 function SubCategory(props) {
-  console.log(props);
-  const { category } = props;
+  console.log('subcategory list', props);
+  const { category, getItemByCategory } = props;
+
+  useEffect(() => {
+    if (category) {
+      getItemByCategory({ query: { category_id: category.id } });
+    }
+  }, [category]);
+
   if (category.sub_categories && category.sub_categories.length) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ paddingTop: 60 }}>
-          <Text>Sub Category</Text>
+          <Text>{category && category.name}</Text>
         </View>
         <ScrollView style={{ paddingHorizontal: 20 }}>
           {category.sub_categories.map((sc) => (
-            <CategorySubCategory key={sc.id} backgroundColor="#ADC8FF" />
+            <CategorySubCategory
+              key={sc.id}
+              backgroundColor="#ADC8FF"
+              category={category}
+              subCategory={sc}
+            />
           ))}
         </ScrollView>
       </SafeAreaView>
@@ -51,4 +64,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(SubCategory);
+const mapDispatchToProps = (dispatch) => ({
+  getItemByCategory: ({ query, actions }) =>
+    dispatch(queryItem({ query, actions })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubCategory);

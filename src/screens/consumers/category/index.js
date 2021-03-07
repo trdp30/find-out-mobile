@@ -25,9 +25,17 @@ function Category(props) {
               paddingTop: 30,
             }}>
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}>
               {categories.map((category) => (
                 <Pressable
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                  }}
                   key={category.id}
                   onPress={() =>
                     props.navigation.navigate(
@@ -43,9 +51,50 @@ function Category(props) {
                       width: 70,
                       borderRadius: 20,
                       backgroundColor: '#BDF096',
-                    }}></View>
+                      justifyContent: 'center',
+                      paddingHorizontal: 5,
+                    }}>
+                    <Text
+                      numberOfLines={5}
+                      multiline={true}
+                      textBreakStrategy={'balanced'}
+                      style={{
+                        fontSize: 10,
+                        textAlign: 'center',
+                      }}>
+                      {category && category.name}
+                    </Text>
+                  </View>
                 </Pressable>
               ))}
+              <Pressable
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flex: 1,
+                }}
+                onPress={() => {}}>
+                <View
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 20,
+                    backgroundColor: '#BDF096',
+                    justifyContent: 'center',
+                    paddingHorizontal: 5,
+                  }}>
+                  <Text
+                    numberOfLines={5}
+                    multiline={true}
+                    textBreakStrategy={'balanced'}
+                    style={{
+                      fontSize: 10,
+                      textAlign: 'center',
+                    }}>
+                    More
+                  </Text>
+                </View>
+              </Pressable>
             </View>
             <View style={{ paddingVertical: 30 }}>
               <Text>Popular Categorys!</Text>
