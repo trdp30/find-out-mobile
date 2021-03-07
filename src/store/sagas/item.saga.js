@@ -6,15 +6,15 @@ import {
   call,
   put,
 } from 'redux-saga/effects';
-import { categoryActionTypes as types } from '../action-types';
-import { findAllCategorySucceed } from '../actions/category.action';
+import { itemActionTypes as types } from '../action-types';
+import { findAllItemSucceed } from '../actions/item.action';
 import { catchReduxError, normalizeData } from '../actions/general.action';
-import { categoryArraySchema } from '../schemas';
+import { itemArraySchema } from '../schemas';
 import { findAll } from '../server';
 
 async function getAllData() {
   try {
-    const response = await findAll('category');
+    const response = await findAll('item');
     if (response.data) {
       return response.data;
     }
@@ -26,39 +26,39 @@ async function getAllData() {
 
 function* findAllSaga({ actions = {} }) {
   try {
-    yield put({ type: types.CATEGORY_REQUEST_INITIATED });
+    yield put({ type: types.ITEM_REQUEST_INITIATED });
     const payload = yield call(getAllData);
     const normalizedData = yield call(normalizeData, {
       data: payload,
-      schema: categoryArraySchema,
+      schema: itemArraySchema,
     });
-    yield put(findAllCategorySucceed({ payload: normalizedData, meta: {} }));
+    yield put(findAllItemSucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
     yield call(catchReduxError, error);
   }
 }
 
-function* findByIdSaga({ category_id, actions = {} }) {
-  yield put({ type: types.CATEGORY_REQUEST_INITIATED });
+function* findByIdSaga({ item_id, actions = {} }) {
+  yield put({ type: types.ITEM_REQUEST_INITIATED });
 }
 
 function* querySaga({ query, actions = {} }) {
-  yield put({ type: types.CATEGORY_REQUEST_INITIATED });
+  yield put({ type: types.ITEM_REQUEST_INITIATED });
 }
 
 // -------------------- watchers --------------------
 function* watcherFindAll() {
-  yield takeLatest(types.CATEGORY_FIND_ALL_REQUEST, findAllSaga);
+  yield takeLatest(types.ITEM_FIND_ALL_REQUEST, findAllSaga);
 }
 
 function* watcherFindById() {
-  yield takeEvery(types.CATEGORY_FIND_BY_ID_REQUEST, findByIdSaga);
+  yield takeEvery(types.ITEM_FIND_BY_ID_REQUEST, findByIdSaga);
 }
 
 function* watcherQuery() {
-  yield takeLatest(types.CATEGORY_QUERY_REQUEST, querySaga);
+  yield takeLatest(types.ITEM_QUERY_REQUEST, querySaga);
 }
 
-export default function* rootCategorySaga() {
+export default function* rootItemSaga() {
   yield all([fork(watcherFindAll), fork(watcherFindById), fork(watcherQuery)]);
 }

@@ -1,4 +1,4 @@
-import types from '../action-types/category.action';
+import { categoryActionTypes as types } from '../action-types';
 
 export const findByIdCategory = ({ category_id, actions = {} }) => {
   return {

@@ -1,53 +1,53 @@
-import { categoryActionTypes as types } from '../action-types';
+import { itemActionTypes as types } from '../action-types';
 import { categoryInitialState as initialState } from '../initial-state';
 import { combineReducers } from 'redux';
 import { getById } from './extract-id.reducer';
 
 const request = (state = initialState.request, action) => {
   switch (action) {
-    case types.CATEGORY_REQUEST_INITIATED: {
+    case types.ITEM_REQUEST_INITIATED: {
       return {
         isLoading: true,
         error: null,
         ...state,
       };
     }
-    case types.CATEGORY_FIND_ALL_REQUEST_SUCCEED: {
+    case types.ITEM_FIND_ALL_REQUEST_SUCCEED: {
       return {
         isLoading: false,
         meta: action.meta,
         ...state,
       };
     }
-    case types.CATEGORY_FIND_ALL_REQUEST_FAILED: {
+    case types.ITEM_FIND_ALL_REQUEST_FAILED: {
       return {
         isLoading: false,
         error: action.error,
         ...state,
       };
     }
-    case types.CATEGORY_FIND_BY_ID_REQUEST_SUCCEED: {
+    case types.ITEM_FIND_BY_ID_REQUEST_SUCCEED: {
       return {
         isLoading: false,
         meta: action.meta,
         ...state,
       };
     }
-    case types.CATEGORY_FIND_BY_ID_REQUEST_FAILED: {
+    case types.ITEM_FIND_BY_ID_REQUEST_FAILED: {
       return {
         isLoading: false,
         error: action.error,
         ...state,
       };
     }
-    case types.CATEGORY_QUERY_REQUEST_SUCCEED: {
+    case types.ITEM_QUERY_REQUEST_SUCCEED: {
       return {
         isLoading: false,
         meta: action.meta,
         ...state,
       };
     }
-    case types.CATEGORY_QUERY_REQUEST_FAILED: {
+    case types.ITEM_QUERY_REQUEST_FAILED: {
       return {
         isLoading: false,
         error: action.error,
@@ -62,7 +62,7 @@ const request = (state = initialState.request, action) => {
 };
 
 const dataReducer = combineReducers({
-  byId: getById('category'),
+  byId: getById('item'),
 });
 
 const categoryReducer = combineReducers({
