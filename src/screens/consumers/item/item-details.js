@@ -10,12 +10,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import DropDown from '../../../components/elements/dropdown';
 import Input from '../../../components/elements/input';
 import ShopCard from '../../../components/item-detail-helpers/shop-card';
+import { getDataById } from '../../../store/selectors/find-data.selector';
 import colors from '../../../styles/colors';
 
-function ItemDetails() {
+function ItemDetails(props) {
+  const { item } = props;
   const [selectedUnit, updateUnit] = useState('gm');
   const [selectedQuantity, setSelectedQuantity] = useState({});
   const quantityList = useMemo(() => [
@@ -68,7 +71,7 @@ function ItemDetails() {
                   width: '100%',
                   textAlign: 'center',
                 }}>
-                Item Name
+                {item && item.name}
               </Text>
             </View>
           </View>
@@ -225,7 +228,18 @@ function ItemDetails() {
   );
 }
 
-export default ItemDetails;
+const mapStateToProps = () => {
+  const getItemData = getDataById();
+  return (state, { route }) => {
+    const item_id =
+      route && route.params && route.params.item_id ? route.params.item_id : 0;
+    return {
+      item: getItemData(state, 'item', item_id),
+    };
+  };
+};
+
+export default connect(mapStateToProps)(ItemDetails);
 
 const styles = StyleSheet.create({
   imageBlock: {
