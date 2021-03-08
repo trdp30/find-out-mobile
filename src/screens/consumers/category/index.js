@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
 import { connect } from 'react-redux';
+import CategoryThumbnails from '../../../components/category-thumbnails';
 import { findAllCategory } from '../../../store/actions/category.action';
 import { getListData } from '../../../store/selectors/data.selector';
 
 function Category(props) {
-  const { getAllCategory, categories } = props;
+  const { getAllCategory } = props;
   useEffect(() => {
     getAllCategory({ actions: () => {} });
   }, []);
@@ -24,78 +25,7 @@ function Category(props) {
               paddingHorizontal: 30,
               paddingTop: 30,
             }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-              }}>
-              {categories.map((category) => (
-                <Pressable
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1,
-                  }}
-                  key={category.id}
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                      {
-                        category_id: category.id,
-                      },
-                    )
-                  }>
-                  <View
-                    style={{
-                      height: 70,
-                      width: 70,
-                      borderRadius: 20,
-                      backgroundColor: '#BDF096',
-                      justifyContent: 'center',
-                      paddingHorizontal: 5,
-                    }}>
-                    <Text
-                      numberOfLines={5}
-                      multiline={true}
-                      textBreakStrategy={'balanced'}
-                      style={{
-                        fontSize: 10,
-                        textAlign: 'center',
-                      }}>
-                      {category && category.name}
-                    </Text>
-                  </View>
-                </Pressable>
-              ))}
-              <Pressable
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flex: 1,
-                }}
-                onPress={() => {}}>
-                <View
-                  style={{
-                    height: 70,
-                    width: 70,
-                    borderRadius: 20,
-                    backgroundColor: '#BDF096',
-                    justifyContent: 'center',
-                    paddingHorizontal: 5,
-                  }}>
-                  <Text
-                    numberOfLines={5}
-                    multiline={true}
-                    textBreakStrategy={'balanced'}
-                    style={{
-                      fontSize: 10,
-                      textAlign: 'center',
-                    }}>
-                    More
-                  </Text>
-                </View>
-              </Pressable>
-            </View>
+            <CategoryThumbnails />
             <View style={{ paddingVertical: 30 }}>
               <Text>Popular Categorys!</Text>
               <ScrollView

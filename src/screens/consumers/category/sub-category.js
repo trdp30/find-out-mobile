@@ -6,7 +6,6 @@ import { getDataById } from '../../../store/selectors/find-data.selector';
 import { queryItem } from '../../../store/actions/item.action';
 
 function SubCategory(props) {
-  console.log('subcategory list', props);
   const { category, getItemByCategory } = props;
 
   useEffect(() => {

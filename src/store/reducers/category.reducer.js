@@ -4,57 +4,56 @@ import { combineReducers } from 'redux';
 import { getById } from './extract-id.reducer';
 
 const request = (state = initialState.request, action) => {
-  switch (action) {
+  switch (action.type) {
     case types.CATEGORY_REQUEST_INITIATED: {
       return {
+        ...state,
         isLoading: true,
         error: null,
-        ...state,
       };
     }
     case types.CATEGORY_FIND_ALL_REQUEST_SUCCEED: {
       return {
+        ...state,
         isLoading: false,
         meta: action.meta,
-        ...state,
       };
     }
     case types.CATEGORY_FIND_ALL_REQUEST_FAILED: {
       return {
+        ...state,
         isLoading: false,
         error: action.error,
-        ...state,
       };
     }
     case types.CATEGORY_FIND_BY_ID_REQUEST_SUCCEED: {
       return {
+        ...state,
         isLoading: false,
         meta: action.meta,
-        ...state,
       };
     }
     case types.CATEGORY_FIND_BY_ID_REQUEST_FAILED: {
       return {
+        ...state,
         isLoading: false,
         error: action.error,
-        ...state,
       };
     }
     case types.CATEGORY_QUERY_REQUEST_SUCCEED: {
       return {
+        ...state,
         isLoading: false,
         meta: action.meta,
-        ...state,
       };
     }
     case types.CATEGORY_QUERY_REQUEST_FAILED: {
       return {
+        ...state,
         isLoading: false,
         error: action.error,
-        ...state,
       };
     }
-
     default: {
       return state;
     }
