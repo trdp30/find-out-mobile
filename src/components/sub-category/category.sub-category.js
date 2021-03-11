@@ -30,8 +30,7 @@ function CategorySubCategory(props) {
           paddingRight: 20,
           flexDirection: 'row',
         }}>
-        <Text
-          style={{ fontSize: 18, fontWeight: '700', color: '#000', flex: 1 }}>
+        <Text style={{ fontSize: 18, color: '#000', flex: 1 }}>
           {(subCategory && subCategory.name) || 'SC 1'}
         </Text>
         <Image

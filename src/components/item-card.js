@@ -5,12 +5,14 @@ import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 function ItemCard(props) {
   const route = useRoute();
   const navigation = useNavigation();
-  const { item } = props;
+  const { item, category, subCategory } = props;
 
   const onPress = () => {
     if (route.name === 'selected-category-items-list') {
       navigation.navigate('selected-category-item-details', {
         item_id: item.id,
+        category_id: category.id,
+        sub_category_id: subCategory.id,
       });
     }
   };

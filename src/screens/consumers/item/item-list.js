@@ -34,13 +34,17 @@ function ItemList(props) {
     }
   }, [category, params]);
 
-  const renderItem = ({ item }) => <ItemCard item={item} />;
+  const renderItem = ({ item }) => (
+    <ItemCard item={item} subCategory={subCategory} category={category} />
+  );
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ flex: 1, paddingTop: 40 }}>
         <View style={{ flex: 1, padding: 20 }}>
           <View>
-            <Text>{subCategory && subCategory.name}</Text>
+            <Text style={{ fontSize: 24 }}>
+              {subCategory && subCategory.name}
+            </Text>
           </View>
           <FlatList
             data={items}

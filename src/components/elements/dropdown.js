@@ -3,6 +3,7 @@ import { Platform, View, Text, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import PropTypes from 'prop-types';
 import ModalView from '../modules/modal';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function DropDown(props) {
   const {
@@ -74,7 +75,7 @@ function DropDown(props) {
               {withLabel ? (
                 <Text style={{ fontWeight: '700' }}>{label}</Text>
               ) : (
-                <Text>{'>'}</Text>
+                <Icon name="arrow-drop-down" size={40} />
               )}
             </View>
           </View>

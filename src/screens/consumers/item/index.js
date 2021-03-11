@@ -1,8 +1,13 @@
 import React from 'react';
-import ItemStackNaviagtions from '../../../navigations/item.navigation';
+import ItemWrapper from '../../../contexts/item.context';
+import ItemDetails from './item-details';
 
-function Item() {
-  return <ItemStackNaviagtions />;
+function Item(props) {
+  return (
+    <ItemWrapper {...props}>
+      <ItemDetails {...props} />
+    </ItemWrapper>
+  );
 }
 
 export default Item;

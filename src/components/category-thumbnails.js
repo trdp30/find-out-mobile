@@ -27,7 +27,6 @@ const ThumbnailLoader = () => (
 
 function CategoryThumbnails(props) {
   const { categories, request } = props;
-  console.log(request);
   if (request.isLoading) {
     return (
       <View

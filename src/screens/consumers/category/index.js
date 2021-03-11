@@ -31,12 +31,7 @@ function Category(props) {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -47,12 +42,7 @@ function Category(props) {
                       marginRight: 20,
                     }}></View>
                 </Pressable>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -63,12 +53,7 @@ function Category(props) {
                       marginRight: 20,
                     }}></View>
                 </Pressable>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -79,12 +64,7 @@ function Category(props) {
                       marginRight: 20,
                     }}></View>
                 </Pressable>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -102,12 +82,7 @@ function Category(props) {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -118,12 +93,7 @@ function Category(props) {
                       marginRight: 20,
                     }}></View>
                 </Pressable>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -134,12 +104,7 @@ function Category(props) {
                       marginRight: 20,
                     }}></View>
                 </Pressable>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',
@@ -150,12 +115,7 @@ function Category(props) {
                       marginRight: 20,
                     }}></View>
                 </Pressable>
-                <Pressable
-                  onPress={() =>
-                    props.navigation.navigate(
-                      'selected-category-sub-category-list',
-                    )
-                  }>
+                <Pressable onPress={() => {}}>
                   <View
                     style={{
                       backgroundColor: '#eee',

@@ -17,8 +17,8 @@ function SubCategory(props) {
   if (category.sub_categories && category.sub_categories.length) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ paddingTop: 60 }}>
-          <Text>{category && category.name}</Text>
+        <View style={{ paddingTop: 60, paddingHorizontal: 20 }}>
+          <Text style={{ fontSize: 24 }}>{category && category.name}</Text>
         </View>
         <ScrollView style={{ paddingHorizontal: 20 }}>
           {category.sub_categories.map((sc) => (

@@ -4,7 +4,7 @@ import Category from '../screens/consumers/category';
 import ItemList from '../screens/consumers/item/item-list';
 import ShopList from '../screens/consumers/shop/shop-list';
 import SubCategory from '../screens/consumers/category/sub-category';
-import ItemDetails from '../screens/consumers/item/item-details';
+import ItemDetails from '../screens/consumers/item';
 import HeaderRightProfileButton from '../components/header-right-profile-button';
 
 const Stack = createStackNavigator();
