@@ -1,40 +1,36 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
-import React from 'react';
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import SelectQuantityView from './grocery-helpers/select-quantity-view';
 
 function ItemCard(props) {
-  const route = useRoute();
-  const navigation = useNavigation();
-  const { item, category, subCategory } = props;
+  const { item, subCategory } = props;
+  const [draftCartItem, updateDraftCartItem] = useState({});
 
-  const onPress = () => {
-    if (route.name === 'selected-category-items-list') {
-      navigation.navigate('selected-category-item-details', {
-        item_id: item.id,
-        category_id: category.id,
-        sub_category_id: subCategory.id,
-      });
-    }
-  };
   return (
     <View style={styles.itemRowContainer}>
-      <Pressable onPress={onPress}>
-        <View style={styles.itemRowContent}>
-          <Image
-            source={{ uri: 'https://picsum.photos/330/220' }}
-            style={{
-              width: '100%',
-              height: 120,
-              resizeMode: 'stretch',
-              borderTopLeftRadius: 19,
-              borderTopRightRadius: 19,
-            }}
-          />
-          <View style={{ padding: 10 }}>
-            <Text>{item && item.name}</Text>
-          </View>
+      <View style={styles.itemRowContent}>
+        <Image
+          source={{ uri: 'https://picsum.photos/330/220' }}
+          style={{
+            width: '100%',
+            height: 93,
+            resizeMode: 'stretch',
+            borderTopLeftRadius: 19,
+            borderTopRightRadius: 19,
+          }}
+        />
+        <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
+          <Text>{item && item.name}</Text>
         </View>
-      </Pressable>
+        <View>
+          <SelectQuantityView
+            item={item}
+            draftCartItem={draftCartItem}
+            subCategory={subCategory}
+            updateDraftCartItem={updateDraftCartItem}
+          />
+        </View>
+      </View>
     </View>
   );
 }
@@ -57,7 +53,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.39,
     shadowRadius: 8.3,
-    height: 170,
+    // height: 200,
     width: '100%',
     elevation: 13,
     borderRadius: 20,

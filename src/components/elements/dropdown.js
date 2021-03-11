@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import PropTypes from 'prop-types';
 import ModalView from '../modules/modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import colors from '../../styles/colors';
 
 function DropDown(props) {
   const {
@@ -54,28 +55,25 @@ function DropDown(props) {
           <View
             style={{
               width: '100%',
-              height: 40,
-              borderBottomColor: 'green',
+              height: 30,
+              borderBottomColor: colors['color-primary-500'],
               borderBottomWidth: 0.5,
-              paddingHorizontal: 10,
-              justifyContent: 'center',
+              justifyContent: 'flex-end',
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
-            <Text style={{ fontSize: 16 }}>
+            <Text style={{ fontSize: 14 }}>
               {selectedItem ? selectedItem.key : ''}
             </Text>
             <View
               style={{
-                position: 'absolute',
                 right: 0,
-                width: 45,
-                height: 40,
                 justifyContent: 'center',
-                alignItems: 'center',
               }}>
               {withLabel ? (
                 <Text style={{ fontWeight: '700' }}>{label}</Text>
               ) : (
-                <Icon name="arrow-drop-down" size={40} />
+                <Icon name="arrow-drop-down" size={30} />
               )}
             </View>
           </View>

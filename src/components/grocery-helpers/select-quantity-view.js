@@ -1,30 +1,27 @@
-import React, { useMemo, useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, StyleSheet } from 'react-native';
 import DropDown from '../elements/dropdown';
 import colors from '../../styles/colors';
-import { ItemContext } from '../../contexts/item.context';
+import AddToCart from '../item-detail-helpers/add-to-cart';
 
 function SelectQuantityView(props) {
-  const state = useContext(ItemContext);
-  const { draftCartItem, updateDraftCartItem } = props;
+  const { draftCartItem, updateDraftCartItem, subCategory } = props;
 
-  const subCategory = useMemo(() => ({
-    ...state.subCategory,
-    avaiablePackageType: [
-      { id: 1, value: 1, unit: 'KG', price: 200 },
-      { id: 2, value: 2, unit: 'KG', price: 400 },
-      { id: 3, value: 5, unit: 'KG', price: 1000 },
-      { id: 4, value: 100, unit: 'GM', price: 20 },
-      { id: 5, value: 500, unit: 'GM', price: 100 },
-    ],
-  }));
+  const avaiablePackageType = useMemo(() => [
+    { id: 1, value: 1, unit: 'KG', price: 200 },
+    { id: 2, value: 2, unit: 'KG', price: 400 },
+    { id: 3, value: 5, unit: 'KG', price: 1000 },
+    { id: 4, value: 100, unit: 'GM', price: 20 },
+    { id: 5, value: 500, unit: 'GM', price: 100 },
+  ]);
+
   const packageList = useMemo(
     () =>
-      subCategory.avaiablePackageType.map((sc) => ({
+      avaiablePackageType.map((sc) => ({
         ...sc,
         key: `${sc.value} ${sc.unit}`,
       })),
-    [subCategory],
+    [avaiablePackageType],
   );
 
   const updatePackageType = (key, value) => {
@@ -35,68 +32,18 @@ function SelectQuantityView(props) {
   };
 
   return (
-    <View style={{ marginTop: 20, paddingHorizontal: 30 }}>
-      {/* <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '500' }}>
-        Quantity
-      </Text> */}
+    <View style={{ alignItems: 'center' }}>
       <View
         style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          margin: 10,
+          width: '56%',
         }}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            alignContent: 'flex-start',
-            flex: 2,
-          }}>
-          <Text style={{ fontSize: 16 }}>Select Package</Text>
-        </View>
-        <View
-          style={{
-            flex: 3,
-            justifyContent: 'flex-end',
-            flexDirection: 'row',
-          }}>
-          <View style={{ width: '78%', justifyContent: 'center' }}>
-            <DropDown
-              setSelectedItem={(value) =>
-                updatePackageType('packageType', value)
-              }
-              selectedItem={draftCartItem.packageType}
-              listSource={packageList}
-            />
-          </View>
-        </View>
+        <DropDown
+          setSelectedItem={(value) => updatePackageType('packageType', value)}
+          selectedItem={draftCartItem.packageType}
+          listSource={packageList}
+        />
       </View>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          margin: 10,
-        }}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'flex-start',
-            alignContent: 'flex-start',
-            flex: 2,
-          }}>
-          <Text style={{ fontSize: 16 }}>Quantity</Text>
-        </View>
-        <View
-          style={{
-            flex: 3,
-            justifyContent: 'flex-end',
-            flexDirection: 'row',
-          }}>
-          <View style={{ width: '78%', justifyContent: 'center' }}></View>
-        </View>
-      </View>
+      <AddToCart />
     </View>
   );
 }
