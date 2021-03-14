@@ -244,3 +244,5 @@ fastlane/test_output
 iOSInjectionProject/
 
 # ------- ios  ------
+
+android/java_pid**

@@ -184,11 +184,7 @@ function DropDown(props) {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {withLabel ? (
-          <Text style={{ fontWeight: '700' }}>{label}</Text>
-        ) : (
-          <Text>{'>'}</Text>
-        )}
+        {withLabel && <Text style={{ fontWeight: '700' }}>{label}</Text>}
       </View>
     </View>
   );

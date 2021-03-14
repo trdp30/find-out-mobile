@@ -20,7 +20,10 @@ function ItemCard(props) {
           }}
         />
         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-          <Text>{item && item.name}</Text>
+          <Text style={{ textAlign: 'center' }}>{item && item.name}</Text>
+          <Text style={{ fontWeight: '500', fontSize: 16, paddingTop: 5 }}>
+            Rs. 200
+          </Text>
         </View>
         <View>
           <SelectQuantityView
