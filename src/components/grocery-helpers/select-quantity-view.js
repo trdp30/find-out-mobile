@@ -5,7 +5,7 @@ import colors from '../../styles/colors';
 import AddToCart from '../item-detail-helpers/add-to-cart';
 
 function SelectQuantityView(props) {
-  const { draftCartItem, updateDraftCartItem, subCategory } = props;
+  const { draftCartItem, updateDraftCartItem, subCategory, item } = props;
 
   const avaiablePackageType = useMemo(() => [
     { id: 1, value: 1, unit: 'KG', price: 200 },
@@ -43,7 +43,7 @@ function SelectQuantityView(props) {
           listSource={packageList}
         />
       </View>
-      <AddToCart />
+      <AddToCart item={item} />
     </View>
   );
 }

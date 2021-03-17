@@ -1,4 +1,7 @@
 yarn add redux react-redux normalizr @react-navigation/native reselect redux-saga axios &&
 mkdir components store screens contexts utils navigations &&
 mkdir store/actions store/reducers store/selectors store/action-types store/sagas store/server &&
-touch store/index.js store/actions/index.js store/reducers/index.js store/selectors/index.js store/action-types/index.js store/sagas/index.js store/server/index.js 
+touch store/index.js store/actions/index.js store/reducers/index.js store/selectors/index.js store/action-types/index.js store/sagas/index.js store/server/index.js &&
+touch store/actions/cart-item.action.js store/actions/category.action.js store/actions/general.action.js store/actions/item.action.js store/actions/session.action.js &&
+touch store/reducers/cart-item.reducer.js store/reducers/category.reducer.js store/reducers/general.reducer.js store/reducers/item.reducer.js store/extract-id.reducer.js reducers/session.reducer.js &&
+touch store/sagas/cart-item.saga.js store/sagas/category.saga.js store/sagas/general.saga.js store/sagas/item.saga.js store/saga/session.saga.js store/selectors/find-data.selector.js store/selectors/get-list-data.selector.js

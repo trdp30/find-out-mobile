@@ -1,11 +1,28 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { connect } from 'react-redux';
+import { createCartItem } from '../../store/actions/cart-item.action';
+import { getCartItemData } from '../../store/selectors/cart-item.selector';
 import colors from '../../styles/colors';
 
-function AddToCart() {
+function AddToCart(props) {
+  const { item, addToCart } = props;
+  console.log(props);
+  const onPressAdd = () => {
+    addToCart({
+      item_id: item.id,
+      item_details: 1,
+      quantity: 1,
+    });
+    console.log({
+      item_id: item.id,
+      quantity: 1,
+    });
+  };
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPressAdd}>
       <View
         style={{
           flexDirection: 'row',
@@ -41,4 +58,16 @@ function AddToCart() {
   );
 }
 
-export default AddToCart;
+const mapStateToProps = () => {
+  const getData = getCartItemData();
+  return (state, { item = {} }) => ({
+    cartItem: getData(state, item.id),
+  });
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  addToCart: (payload, actions = {}) =>
+    dispatch(createCartItem({ payload, actions })),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCart);

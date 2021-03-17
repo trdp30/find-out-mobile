@@ -34,7 +34,7 @@ function* findAllSaga({ actions = {} }) {
     });
     yield put(findAllCategorySucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
-    yield call(catchReduxError, error);
+    yield call(catchReduxError, types.CATEGORY_FIND_ALL_REQUEST_FAILED, error);
   }
 }
 

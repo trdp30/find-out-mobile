@@ -5,6 +5,7 @@ import { put, call } from 'redux-saga/effects';
 import PropTypes from 'prop-types';
 import omitBy from 'lodash/omitBy';
 import isNil from 'lodash/isNil';
+import { toastError } from '../../components/alert-box';
 
 export function* catchReduxError(type, error, skipToast = false) {
   if (!type) {
@@ -12,35 +13,33 @@ export function* catchReduxError(type, error, skipToast = false) {
   } else if (!error) {
     throw new Error('"error" cannot be null');
   }
-  // Sentry.captureException(error);
   if (error && error.response && error.response.data) {
     if (error.response.status === 401) {
       yield put({
         type: type,
         error: error.response.data,
       });
-      // yield call(toastError, error);
+      yield call(toastError, error);
     } else if (error.response.status >= 500) {
       yield put({
         type: type,
         error: { message: 'Something went worng' },
       });
-      // yield call(toastError, { message: "Something went worng" });
+
+      yield call(toastError, { message: 'Something went worng' });
     } else {
       yield put({
         type: type,
         error: error.response.data,
       });
-      if (!skipToast) {
-        // yield call(toastError, error);
-      }
+      yield call(toastError, error);
     }
   } else {
     yield put({
       type: type,
       error: error.message,
     });
-    // yield call(toastError, error);
+    yield call(toastError, error);
   }
 }
 

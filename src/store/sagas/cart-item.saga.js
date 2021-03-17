@@ -6,6 +6,7 @@ function* querySaga({ query, actions = {} }) {
 }
 
 function* createSaga({ payload, actions = {} }) {
+  console.log('createSaga', payload);
   yield put({ type: types.CARTITEM_REQUEST_INITIATED });
 }
 
