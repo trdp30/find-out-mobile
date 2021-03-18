@@ -6,9 +6,9 @@ import { findAllCategory } from '../../../store/actions/category.action';
 import { getListData } from '../../../store/selectors/data.selector';
 
 function Category(props) {
-  const { getAllCategory } = props;
+  const { getAllCategory, dispatch } = props;
   useEffect(() => {
-    getAllCategory({ actions: () => {} });
+    dispatch(findAllCategory({}));
   }, []);
 
   return (
@@ -145,8 +145,4 @@ const mapStateToProps = () => {
   });
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getAllCategory: (actions) => dispatch(findAllCategory(actions)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Category);
+export default connect(mapStateToProps)(Category);

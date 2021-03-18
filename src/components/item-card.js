@@ -4,7 +4,6 @@ import SelectQuantityView from './grocery-helpers/select-quantity-view';
 
 function ItemCard(props) {
   const { item, subCategory } = props;
-  const [draftCartItem, updateDraftCartItem] = useState({});
 
   return (
     <View style={styles.itemRowContainer}>
@@ -26,12 +25,7 @@ function ItemCard(props) {
           </Text>
         </View>
         <View>
-          <SelectQuantityView
-            item={item}
-            draftCartItem={draftCartItem}
-            subCategory={subCategory}
-            updateDraftCartItem={updateDraftCartItem}
-          />
+          <SelectQuantityView item={item} subCategory={subCategory} />
         </View>
       </View>
     </View>

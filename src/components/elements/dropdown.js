@@ -17,22 +17,35 @@ function DropDown(props) {
   const [selectedValue, setSelectedValue] = useState();
   const [openModal, toggleModal] = useState(false);
 
-  useEffect(() => {
-    if (Platform.OS === 'android') {
-      if (listSource && listSource.length && !selectedValue) {
-        onChange(listSource[0].value);
-      }
-    }
-  }, [listSource]);
+  console.log(selectedItem, selectedValue);
 
-  const updateData = (itemValue) => {
-    const data = listSource.find((ls) => ls.value == itemValue);
+  // useEffect(() => {
+  //   if (Platform.OS === 'android') {
+  //     if (listSource && listSource.length && !selectedValue) {
+  //       onChange(listSource[0].value);
+  //     }
+  //   }
+  // }, [listSource]);
+
+  // useEffect(() => {
+  //   if (Platform.OS === 'android') {
+  //     if (selectedValue) {
+  //       const data = listSource.find((ls) => ls.value == selectedValue);
+  //       setSelectedItem(data);
+  //     } else {
+  //       setSelectedItem({});
+  //     }
+  //   }
+  // }, [selectedValue]);
+
+  const updateData = (value) => {
+    const data = listSource.find((ls) => ls.value == value);
     if (setSelectedItem) {
       setSelectedItem(data);
     }
   };
 
-  const onChange = (itemValue, itemIndex) => {
+  const onChange = (itemValue) => {
     setSelectedValue(itemValue);
     if (Platform.OS === 'android') {
       updateData(itemValue);
@@ -156,16 +169,18 @@ function DropDown(props) {
     <View
       style={{
         width: '100%',
+        minWidth: 110,
         borderBottomColor: 'green',
         borderBottomWidth: 1,
         justifyContent: 'center',
       }}>
       <Picker
-        selectedValue={selectedValue}
+        selectedValue={selectedItem.value}
         style={{
-          width: '80%',
+          width: '100%',
           height: 30,
         }}
+        itemStyle={{ fontSize: 10 }}
         onValueChange={onChange}>
         {listSource.map((ls) => (
           <Picker.Item
@@ -175,17 +190,6 @@ function DropDown(props) {
           />
         ))}
       </Picker>
-      <View
-        style={{
-          position: 'absolute',
-          right: 0,
-          width: 45,
-          height: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {withLabel && <Text style={{ fontWeight: '700' }}>{label}</Text>}
-      </View>
     </View>
   );
 }
