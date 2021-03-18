@@ -18,6 +18,14 @@ const ItemWrapper = memo(({ children, ...props }) => {
   } = props;
   const [draftCartItem, updateDraftCartItem] = useState({});
 
+  useEffect(() => {
+    if (item && item.id) {
+      updateDraftCartItem({
+        item_id: item.id,
+      });
+    }
+  }, [item]);
+
   const subCategory = useMemo(() => {
     if (
       category &&

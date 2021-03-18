@@ -1,12 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import DropDown from '../elements/dropdown';
 import colors from '../../styles/colors';
-import AddToCart from '../item-detail-helpers/add-to-cart';
+import { ItemContext } from '../../contexts/item.context';
 
-function SelectQuantityView(props) {
-  const { item } = props;
+function SelectQuantityView() {
+  const state = useContext(ItemContext);
+  const { draftCartItem, updateDraftCartItem } = state;
+
   const [itemDetails, updateItemDetails] = useState({});
+
+  console.log(draftCartItem);
 
   const avaiablePackageType = useMemo(() => [
     { id: 1, value: '1', unit: 'KG', price: 200 },
@@ -26,14 +30,38 @@ function SelectQuantityView(props) {
   );
 
   const updatePackageType = (value) => {
+    updateDraftCartItem((prev) => ({
+      ...prev,
+      item_details: value,
+    }));
     updateItemDetails(value);
   };
 
+  useEffect(() => {
+    if (draftCartItem && !draftCartItem.item_details) {
+      updateItemDetails((prev) => ({ ...prev, item_details: packageList[0] }));
+      updateDraftCartItem((prev) => ({
+        ...prev,
+        item_details: packageList[0],
+      }));
+    }
+  }, [draftCartItem]);
+
   return (
-    <View style={{ alignItems: 'center' }}>
+    <View
+      style={{
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        justifyContent: 'center',
+        paddingVertical: 20,
+      }}>
+      <View style={{ width: '50%' }}>
+        <Text style={{ fontSize: 16 }}>Select Packet: </Text>
+      </View>
       <View
         style={{
-          width: '56%',
+          width: '40%',
         }}>
         <DropDown
           setSelectedItem={updatePackageType}
@@ -41,33 +69,8 @@ function SelectQuantityView(props) {
           listSource={packageList}
         />
       </View>
-      <AddToCart item={item} itemDetails={itemDetails} />
     </View>
   );
 }
 
 export default SelectQuantityView;
-
-const styles = StyleSheet.create({
-  units: {
-    paddingVertical: 10,
-    borderRadius: 10,
-    margin: 5,
-    borderColor: colors['color-primary-500'],
-    borderWidth: 0.5,
-    borderRadius: 10,
-    width: 70,
-  },
-  selectedUnit: {
-    backgroundColor: colors['color-primary-500'],
-    borderWidth: 0,
-  },
-  unitText: {
-    textAlign: 'center',
-    fontSize: 18,
-    color: 'black',
-  },
-  selectedUnitText: {
-    color: 'white',
-  },
-});

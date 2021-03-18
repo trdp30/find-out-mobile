@@ -17,27 +17,6 @@ function DropDown(props) {
   const [selectedValue, setSelectedValue] = useState();
   const [openModal, toggleModal] = useState(false);
 
-  console.log(selectedItem, selectedValue);
-
-  // useEffect(() => {
-  //   if (Platform.OS === 'android') {
-  //     if (listSource && listSource.length && !selectedValue) {
-  //       onChange(listSource[0].value);
-  //     }
-  //   }
-  // }, [listSource]);
-
-  // useEffect(() => {
-  //   if (Platform.OS === 'android') {
-  //     if (selectedValue) {
-  //       const data = listSource.find((ls) => ls.value == selectedValue);
-  //       setSelectedItem(data);
-  //     } else {
-  //       setSelectedItem({});
-  //     }
-  //   }
-  // }, [selectedValue]);
-
   const updateData = (value) => {
     const data = listSource.find((ls) => ls.value == value);
     if (setSelectedItem) {

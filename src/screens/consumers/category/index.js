@@ -1,5 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  Pressable,
+  Image,
+} from 'react-native';
 import { connect } from 'react-redux';
 import CategoryThumbnails from '../../../components/category-thumbnails';
 import { findAllCategory } from '../../../store/actions/category.action';
@@ -40,7 +47,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
                 <Pressable onPress={() => {}}>
                   <View
@@ -51,7 +63,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
                 <Pressable onPress={() => {}}>
                   <View
@@ -62,7 +79,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
                 <Pressable onPress={() => {}}>
                   <View
@@ -73,7 +95,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
               </ScrollView>
             </View>
@@ -91,7 +118,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
                 <Pressable onPress={() => {}}>
                   <View
@@ -102,7 +134,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
                 <Pressable onPress={() => {}}>
                   <View
@@ -113,7 +150,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
                 <Pressable onPress={() => {}}>
                   <View
@@ -124,7 +166,12 @@ function Category(props) {
                       width: 300,
                       marginVertical: 10,
                       marginRight: 20,
-                    }}></View>
+                    }}>
+                    <Image
+                      style={{ width: '100%', height: '100%', borderRadius: 5 }}
+                      source={{ uri: 'https://picsum.photos/330/380' }}
+                    />
+                  </View>
                 </Pressable>
               </ScrollView>
             </View>

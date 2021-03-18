@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import colors from '../../styles/colors';
+import AddToCart from './add-to-cart';
 
 function ShopCard() {
   return (
@@ -31,33 +31,14 @@ function ShopCard() {
         </View>
         <View style={{ marginHorizontal: 5, flex: 1 }}>
           <Text style={{ fontWeight: '500', fontSize: 16 }}>Seller Name</Text>
+          <Text>Rs. 16/kg</Text>
           <Text>Deliver within 30min</Text>
         </View>
         <View
           style={{
             justifyContent: 'center',
           }}>
-          <TouchableOpacity>
-            <View
-              style={{
-                backgroundColor: colors['color-primary-500'],
-                paddingHorizontal: 15,
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '500',
-                  textAlign: 'center',
-                }}>
-                Rs. 16/kg
-              </Text>
-              <Text style={{ color: 'white', fontWeight: '500' }}>
-                Add to cart
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <AddToCart />
         </View>
       </View>
     </View>

@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import SelectQuantityView from './grocery-helpers/select-quantity-view';
+import { useNavigation } from '@react-navigation/core';
+import React from 'react';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 
 function ItemCard(props) {
   const { item, subCategory } = props;
+  const navigation = useNavigation();
+
+  const onPress = () => {
+    navigation.navigate('selected-category-item-details', {
+      item_id: item.id,
+      sub_category: subCategory.id,
+    });
+  };
 
   return (
-    <View style={styles.itemRowContainer}>
+    <Pressable onPress={onPress} style={styles.itemRowContainer}>
       <View style={styles.itemRowContent}>
         <Image
           source={{ uri: 'https://picsum.photos/330/220' }}
           style={{
             width: '100%',
-            height: 93,
+            height: 100,
             resizeMode: 'stretch',
             borderTopLeftRadius: 19,
             borderTopRightRadius: 19,
@@ -20,15 +28,9 @@ function ItemCard(props) {
         />
         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
           <Text style={{ textAlign: 'center' }}>{item && item.name}</Text>
-          <Text style={{ fontWeight: '500', fontSize: 16, paddingTop: 5 }}>
-            Rs. 200
-          </Text>
-        </View>
-        <View>
-          <SelectQuantityView item={item} subCategory={subCategory} />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
