@@ -7,4 +7,19 @@ const categoryArraySchema = new schema.Array(categorySchema);
 const itemSchema = new schema.Entity('item');
 const itemArraySchema = new schema.Array(itemSchema);
 
-export { categorySchema, categoryArraySchema, itemSchema, itemArraySchema };
+const cartItemSchema = new schema.Entity('cartitem');
+const cartItemArraySchema = new schema.Array(cartItemSchema);
+
+const sellerSchema = new schema.Entity('seller');
+const sellerArraySchema = new schema.Array(sellerSchema);
+
+export {
+  categorySchema,
+  categoryArraySchema,
+  itemSchema,
+  itemArraySchema,
+  cartItemArraySchema,
+  cartItemSchema,
+  sellerSchema,
+  sellerArraySchema,
+};

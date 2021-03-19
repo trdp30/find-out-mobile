@@ -1,16 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import DropDown from '../elements/dropdown';
-import colors from '../../styles/colors';
 import { ItemContext } from '../../contexts/item.context';
 
 function SelectQuantityView() {
   const state = useContext(ItemContext);
-  const { draftCartItem, updateDraftCartItem } = state;
+  const { draftCartItem, updateDraftCartItem, isAlreadyAdded } = state;
 
   const [itemDetails, updateItemDetails] = useState({});
-
-  console.log(draftCartItem);
 
   const avaiablePackageType = useMemo(() => [
     { id: 1, value: '1', unit: 'KG', price: 200 },

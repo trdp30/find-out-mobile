@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState, useMemo } from 'react';
 import { memo } from 'react';
 import { connect } from 'react-redux';
 import { createCartItem } from '../store/actions/cart-item.action';
+import { getListData } from '../store/selectors/data.selector';
 import { getDataById } from '../store/selectors/find-data.selector';
 
 export const ItemContext = createContext();
@@ -17,6 +18,9 @@ const ItemWrapper = memo(({ children, ...props }) => {
     category,
   } = props;
   const [draftCartItem, updateDraftCartItem] = useState({});
+  const [isAlreadyAdded, updateAlreadyAdded] = useState({});
+
+  console.log(cartItems, draftCartItem);
 
   useEffect(() => {
     if (item && item.id) {
@@ -42,8 +46,11 @@ const ItemWrapper = memo(({ children, ...props }) => {
   }, [category, params]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (cartItems && cartItems.length && item && item.id) {
+      const exist = cartItems.find((ci) => ci.item_id === item.id);
+      updateAlreadyAdded(exist);
+    }
+  }, [cartItems, item]);
 
   return (
     <ItemContext.Provider
@@ -55,6 +62,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
         cartItemRequest,
         subCategory,
         category,
+        isAlreadyAdded,
       }}>
       {typeof children === 'function'
         ? children({
@@ -65,6 +73,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
             cartItemRequest,
             subCategory,
             category,
+            isAlreadyAdded,
           })
         : children}
     </ItemContext.Provider>
@@ -73,6 +82,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
 
 const mapStateToProps = () => {
   let getItemData = getDataById();
+  const getAllData = getListData();
   return (state, { route }) => {
     const item_id =
       route && route.params && route.params.item_id ? route.params.item_id : 0;
@@ -82,7 +92,7 @@ const mapStateToProps = () => {
         : 0;
     return {
       item: getItemData(state, 'item', item_id),
-      cartItems: state.cartItem.data.byId,
+      cartItems: getAllData(state, 'cartItem'),
       cartItemRequest: state.cartItem.request,
       category: getItemData(state, 'category', category_id),
     };

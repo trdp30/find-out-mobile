@@ -1,13 +1,24 @@
-import { all, fork, put, takeLatest } from 'redux-saga/effects';
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { cartItemActionTypes as types } from '../action-types';
+import { v4 as uuid } from 'uuid';
+import { cartItemSchema } from '../schemas';
+import { normalizeData } from '../actions/general.action';
+import { createCartItemSucceed } from '../actions/cart-item.action';
 
 function* querySaga({ query, actions = {} }) {
   yield put({ type: types.CARTITEM_REQUEST_INITIATED });
 }
 
 function* createSaga({ payload, actions = {} }) {
-  console.log('createSaga', payload);
   yield put({ type: types.CARTITEM_REQUEST_INITIATED });
+  const normalizedData = yield call(normalizeData, {
+    data: {
+      ...payload,
+      id: uuid(),
+    },
+    schema: cartItemSchema,
+  });
+  yield put(createCartItemSucceed({ payload: normalizedData }));
 }
 
 function* updateSaga({ cart_item_id, payload, actions = {} }) {

@@ -3,7 +3,8 @@ import session from './session.reducer';
 import category from './category.reducer';
 import item from './item.reducer';
 import cartItem from './cart-item.reducer';
+import seller from './seller.reducer';
 
-const reducers = combineReducers({ session, category, item, cartItem });
+const reducers = combineReducers({ session, category, item, cartItem, seller });
 
 export default reducers;
