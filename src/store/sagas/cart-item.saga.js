@@ -1,4 +1,12 @@
-import { all, call, delay, fork, put, takeLatest } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  delay,
+  fork,
+  put,
+  takeLatest,
+  select,
+} from 'redux-saga/effects';
 import { cartItemActionTypes as types } from '../action-types';
 import { v4 as uuid } from 'uuid';
 import { cartItemSchema } from '../schemas';
@@ -31,6 +39,7 @@ function* updateSaga({ cart_item_id, payload, actions = {} }) {
     schema: cartItemSchema,
   });
   yield put(updateCartItemSucceed({ payload: normalizedData }));
+  const data = yield select((state) => state.cartItem.data.byId[cart_item_id]);
 }
 
 function* deleteSaga({ cart_item_id, actions = {} }) {

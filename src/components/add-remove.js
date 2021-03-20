@@ -5,7 +5,7 @@ import colors from '../styles/colors';
 
 function AddRemove(props) {
   const { update, state } = props;
-  const [count, updateCount] = useState();
+  const [count, updateCount] = useState(1);
 
   const increment = () => {
     // update('quantity', parseInt(state.quantity) + 1);
