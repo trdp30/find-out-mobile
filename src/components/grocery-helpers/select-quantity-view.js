@@ -5,7 +5,7 @@ import { ItemContext } from '../../contexts/item.context';
 
 function SelectQuantityView() {
   const state = useContext(ItemContext);
-  const { draftCartItem, updateDraftCartItem, isAlreadyAdded } = state;
+  const { cartItem, update } = state;
 
   const [itemDetails, updateItemDetails] = useState({});
 
@@ -27,22 +27,26 @@ function SelectQuantityView() {
   );
 
   const updatePackageType = (value) => {
-    updateDraftCartItem((prev) => ({
-      ...prev,
-      item_details: value,
-    }));
     updateItemDetails(value);
   };
 
   useEffect(() => {
-    if (draftCartItem && !draftCartItem.item_details) {
-      updateItemDetails((prev) => ({ ...prev, item_details: packageList[0] }));
-      updateDraftCartItem((prev) => ({
-        ...prev,
-        item_details: packageList[0],
-      }));
+    if (
+      itemDetails &&
+      itemDetails.id &&
+      cartItem.item_details !== itemDetails.id
+    ) {
+      update('item_details', itemDetails.id);
     }
-  }, [draftCartItem]);
+  }, [itemDetails]);
+
+  useEffect(() => {
+    if (cartItem && cartItem.item_details && itemDetails && !itemDetails.id) {
+      updateItemDetails(
+        packageList.find((d) => d.id === cartItem.item_details),
+      );
+    }
+  }, [cartItem]);
 
   return (
     <View

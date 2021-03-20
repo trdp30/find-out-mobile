@@ -1,8 +1,11 @@
-import React, { createContext, useEffect, useState, useMemo } from 'react';
+import React, { createContext, useEffect, useMemo } from 'react';
 import { memo } from 'react';
 import { connect } from 'react-redux';
-import { createCartItem } from '../store/actions/cart-item.action';
-import { getListData } from '../store/selectors/data.selector';
+import {
+  createCartItem,
+  updateCartItem,
+} from '../store/actions/cart-item.action';
+import { getCartItemData } from '../store/selectors/cart-item.selector';
 import { getDataById } from '../store/selectors/find-data.selector';
 
 export const ItemContext = createContext();
@@ -12,23 +15,58 @@ ItemContext.displayName = 'ItemContext';
 const ItemWrapper = memo(({ children, ...props }) => {
   const {
     item = {},
-    cartItems,
     cartItemRequest,
     route: { params },
     category,
+    createCI,
+    updateCI,
+    cartItem,
   } = props;
-  const [draftCartItem, updateDraftCartItem] = useState({});
-  const [isAlreadyAdded, updateAlreadyAdded] = useState({});
 
-  console.log(cartItems, draftCartItem);
+  const addToCart = (payload) => {
+    createCI({
+      ...payload,
+    });
+  };
 
   useEffect(() => {
-    if (item && item.id) {
-      updateDraftCartItem({
-        item_id: item.id,
+    if (!cartItemRequest.isQueryRequestLoading && cartItem && !cartItem.id) {
+      addToCart({
+        item_id: params.item_id,
+        item_details: 1,
+        quantity: 0,
+        isSaved: false,
       });
     }
-  }, [item]);
+  }, [params.item_id, cartItemRequest.isQueryRequestLoading]);
+
+  const update = (key, value) => {
+    if (cartItem && cartItem.id) {
+      switch (key) {
+        case 'seller_id':
+          updateCI(cartItem.id, {
+            ...cartItem,
+            [key]: value,
+            quantity: 1,
+          });
+          break;
+        case 'item_details':
+          updateCI(cartItem.id, {
+            ...cartItem,
+            [key]: value,
+            quantity: 0,
+            seller_id: null,
+          });
+          break;
+        default:
+          updateCI(cartItem.id, {
+            ...cartItem,
+            [key]: value,
+          });
+          break;
+      }
+    }
+  };
 
   const subCategory = useMemo(() => {
     if (
@@ -45,35 +83,25 @@ const ItemWrapper = memo(({ children, ...props }) => {
     }
   }, [category, params]);
 
-  useEffect(() => {
-    if (cartItems && cartItems.length && item && item.id) {
-      const exist = cartItems.find((ci) => ci.item_id === item.id);
-      updateAlreadyAdded(exist);
-    }
-  }, [cartItems, item]);
-
   return (
     <ItemContext.Provider
       value={{
         item,
-        draftCartItem,
-        updateDraftCartItem,
-        cartItems,
         cartItemRequest,
         subCategory,
         category,
-        isAlreadyAdded,
+        cartItem,
+        addToCart,
+        update,
       }}>
       {typeof children === 'function'
         ? children({
             item,
-            draftCartItem,
-            updateDraftCartItem,
-            cartItems,
             cartItemRequest,
             subCategory,
             category,
-            isAlreadyAdded,
+            cartItem,
+            update,
           })
         : children}
     </ItemContext.Provider>
@@ -82,7 +110,8 @@ const ItemWrapper = memo(({ children, ...props }) => {
 
 const mapStateToProps = () => {
   let getItemData = getDataById();
-  const getAllData = getListData();
+  const getData = getCartItemData();
+
   return (state, { route }) => {
     const item_id =
       route && route.params && route.params.item_id ? route.params.item_id : 0;
@@ -92,16 +121,18 @@ const mapStateToProps = () => {
         : 0;
     return {
       item: getItemData(state, 'item', item_id),
-      cartItems: getAllData(state, 'cartItem'),
       cartItemRequest: state.cartItem.request,
       category: getItemData(state, 'category', category_id),
+      cartItem: getData(state, item_id),
     };
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addToCart: (data, actions) =>
+  createCI: (data, actions) =>
     dispatch(createCartItem({ payload: data, actions })),
+  updateCI: (cart_item_id, payload, actions = {}) =>
+    dispatch(updateCartItem({ cart_item_id, payload, actions })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemWrapper);

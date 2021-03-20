@@ -9,7 +9,7 @@ const getData = (state, item_id) => {
     Object.keys(state.cartItem.data.byId).length
   ) {
     return Object.values(state.cartItem.data.byId).find(
-      (ci) => ci.item == item_id,
+      (ci) => ci.item_id == item_id,
     );
   }
 };

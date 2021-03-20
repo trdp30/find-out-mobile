@@ -1,18 +1,11 @@
-import React, { useContext, useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useContext } from 'react';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import SelectQuantityView from '../../../components/grocery-helpers/select-quantity-view';
 import ItemImageView from '../../../components/item-detail-helpers/item-image-view';
 import SelectSellerView from '../../../components/item-detail-helpers/select-seller-view';
 import { ItemContext } from '../../../contexts/item.context';
-import colors from '../../../styles/colors';
 
-function ItemDetails(props) {
+function ItemDetails() {
   const state = useContext(ItemContext);
 
   const { item } = state;

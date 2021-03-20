@@ -32,9 +32,10 @@ export const createCartItemSucceed = ({ payload, meta = {} }) => {
   };
 };
 
-export const updateCartItem = ({ payload, actions = {} }) => {
+export const updateCartItem = ({ cart_item_id, payload, actions = {} }) => {
   return {
     type: types.CARTITEM_UPDATE_REQUEST,
+    cart_item_id,
     payload,
     actions,
   };

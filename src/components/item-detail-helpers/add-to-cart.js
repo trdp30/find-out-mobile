@@ -3,56 +3,45 @@ import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { connect } from 'react-redux';
 import { ItemContext } from '../../contexts/item.context';
-import { createCartItem } from '../../store/actions/cart-item.action';
 import { getCartItemData } from '../../store/selectors/cart-item.selector';
 import colors from '../../styles/colors';
+import AddRemove from '../add-remove';
 
 function AddToCart(props) {
   const state = useContext(ItemContext);
-  const { addToCart, seller } = props;
-  const { item, draftCartItem, isAlreadyAdded, updateDraftCartItem } = state;
-  const [quantity, updateQuantity] = useState(0);
+  const { seller } = props;
+  const { item, update, cartItem, addToCart } = state;
 
   const onPressAdd = () => {
-    if (
-      draftCartItem &&
-      Object.keys(draftCartItem).length &&
-      draftCartItem.item_details
-    ) {
-      updateDraftCartItem((prev) => ({
-        ...prev,
-        quantity: quantity > 0 ? quantity : 1,
-        seller: seller,
-      }));
+    if (cartItem && cartItem.id && cartItem.item_details) {
+      update('seller_id', seller.id);
+    } else {
       addToCart({
-        item_id: draftCartItem.item_id,
-        item_details: draftCartItem.item_details.id,
-        quantity: quantity > 0 ? quantity : 1,
+        item_id: item.id,
+        item_details: 1,
+        quantity: 1,
+        isSaved: false,
         seller_id: seller.id,
       });
-    } else {
-      Alert.alert('Please Select a packet type');
+      // Alert.alert('Please Select a packet type');
     }
   };
 
-  useEffect(() => {
-    if (isAlreadyAdded && seller && seller.id) {
-      if (isAlreadyAdded.seller_id === seller.id) {
-        updateQuantity(() => isAlreadyAdded.quantity);
-      }
-    }
-  }, [isAlreadyAdded]);
-
   const isDisabled = useMemo(() => {
-    if (isAlreadyAdded && isAlreadyAdded.quantity > 0 && quantity <= 0) {
+    if (cartItem && cartItem.seller_id && cartItem.quantity > 0) {
       return true;
     } else if (!(item && item.id)) {
       return true;
     }
-  }, [isAlreadyAdded, quantity, item]);
+  }, [cartItem, item]);
 
-  if (quantity) {
-    return <Text>Added</Text>;
+  if (
+    isDisabled &&
+    cartItem.seller_id === seller.id &&
+    cartItem.item_id === item.id &&
+    cartItem.quantity > 0
+  ) {
+    return <AddRemove update={update} state={cartItem} />;
   } else {
     return (
       <TouchableOpacity onPress={onPressAdd} disabled={isDisabled}>
@@ -97,9 +86,4 @@ const mapStateToProps = () => {
   });
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addToCart: (payload, actions = {}) =>
-    dispatch(createCartItem({ payload, actions })),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCart);
+export default connect(mapStateToProps)(AddToCart);

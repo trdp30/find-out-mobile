@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 const initialState = {
   request: {
     isLoading: false,
+    isQueryRequestLoading: false,
     meta: {},
     error: null,
   },
@@ -19,10 +20,17 @@ const request = (state = initialState.request, action) => {
         error: null,
       };
     }
+    case types.CARTITEM_QUERY_REQUEST: {
+      return {
+        ...state,
+        isQueryRequestLoading: true,
+        error: null,
+      };
+    }
     case types.CARTITEM_QUERY_REQUEST_SUCCEED: {
       return {
         ...state,
-        isLoading: false,
+        isQueryRequestLoading: false,
         meta: {
           ...state.meta,
           ...action.meta,
