@@ -14,21 +14,26 @@ function AddToCart(props) {
 
   const onPressAdd = () => {
     if (cartItem && cartItem.id && cartItem.item_details) {
-      update('seller_id', seller.id);
+      update('seller', seller);
     } else {
       addToCart({
-        item_id: item.id,
+        item: item,
         item_details: 1,
         quantity: 1,
         isSaved: false,
-        seller_id: seller.id,
+        seller: seller,
       });
       // Alert.alert('Please Select a packet type');
     }
   };
 
   const isDisabled = useMemo(() => {
-    if (cartItem && cartItem.seller_id && cartItem.quantity > 0) {
+    if (
+      cartItem &&
+      cartItem.seller &&
+      cartItem.seller.id &&
+      cartItem.quantity > 0
+    ) {
       return true;
     } else if (!(item && item.id)) {
       return true;
@@ -37,8 +42,8 @@ function AddToCart(props) {
 
   if (
     isDisabled &&
-    cartItem.seller_id === seller.id &&
-    cartItem.item_id === item.id &&
+    cartItem.seller.id === seller.id &&
+    cartItem.item.id === item.id &&
     cartItem.quantity > 0
   ) {
     return <AddRemove update={update} state={cartItem} />;

@@ -5,26 +5,20 @@ import { ItemContext } from '../../contexts/item.context';
 
 function SelectQuantityView() {
   const state = useContext(ItemContext);
-  const { cartItem, update } = state;
+  const { item, cartItem, update } = state;
 
   const [itemDetails, updateItemDetails] = useState({});
 
-  const avaiablePackageType = useMemo(() => [
-    { id: 1, value: '1', unit: 'KG', price: 200 },
-    { id: 2, value: '2', unit: 'KG', price: 400 },
-    { id: 3, value: '5', unit: 'KG', price: 1000 },
-    { id: 4, value: '100', unit: 'GM', price: 20 },
-    { id: 5, value: '500', unit: 'GM', price: 100 },
-  ]);
-
-  const packageList = useMemo(
-    () =>
-      avaiablePackageType.map((sc) => ({
+  const packageList = useMemo(() => {
+    if (item && item.item_details && item.item_details.length) {
+      return item.item_details.map((sc) => ({
         ...sc,
         key: `${sc.value} ${sc.unit}`,
-      })),
-    [avaiablePackageType],
-  );
+      }));
+    } else {
+      return [];
+    }
+  }, [item, item.item_details]);
 
   const updatePackageType = (value) => {
     updateItemDetails(value);
@@ -34,16 +28,22 @@ function SelectQuantityView() {
     if (
       itemDetails &&
       itemDetails.id &&
-      cartItem.item_details !== itemDetails.id
+      cartItem.item_details.id !== itemDetails.id
     ) {
-      update('item_details', itemDetails.id);
+      update('item_details', itemDetails);
     }
   }, [itemDetails]);
 
   useEffect(() => {
-    if (cartItem && cartItem.item_details && itemDetails && !itemDetails.id) {
+    if (
+      cartItem &&
+      cartItem.item_details &&
+      cartItem.item_details.id &&
+      itemDetails &&
+      !itemDetails.id
+    ) {
       updateItemDetails(
-        packageList.find((d) => d.id === cartItem.item_details),
+        packageList.find((d) => d.id === cartItem.item_details.id),
       );
     }
   }, [cartItem]);

@@ -23,6 +23,23 @@ const ItemWrapper = memo(({ children, ...props }) => {
     cartItem,
   } = props;
 
+  const itemClone = useMemo(() => {
+    if (item && item.id) {
+      return {
+        ...item,
+        item_details: [
+          { id: 1, value: '1', unit: 'KG', price: 200 },
+          { id: 2, value: '2', unit: 'KG', price: 400 },
+          { id: 3, value: '5', unit: 'KG', price: 1000 },
+          { id: 4, value: '100', unit: 'GM', price: 20 },
+          { id: 5, value: '500', unit: 'GM', price: 100 },
+        ],
+      };
+    } else {
+      return {};
+    }
+  }, [item, params.item_id]);
+
   const addToCart = (payload) => {
     createCI({
       ...payload,
@@ -30,20 +47,28 @@ const ItemWrapper = memo(({ children, ...props }) => {
   };
 
   useEffect(() => {
-    if (!cartItemRequest.isQueryRequestLoading && cartItem && !cartItem.id) {
+    if (
+      !cartItemRequest.isQueryRequestLoading &&
+      cartItem &&
+      !cartItem.id &&
+      item &&
+      item.id &&
+      itemClone.item_details &&
+      itemClone.item_details.length
+    ) {
       addToCart({
-        item_id: params.item_id,
-        item_details: 1,
+        item: item,
+        item_details: itemClone.item_details[0],
         quantity: 0,
         isSaved: false,
       });
     }
-  }, [params.item_id, cartItemRequest.isQueryRequestLoading]);
+  }, [params.item_id, cartItemRequest.isQueryRequestLoading, item, itemClone]);
 
   const update = (key, value) => {
     if (cartItem && cartItem.id) {
       switch (key) {
-        case 'seller_id':
+        case 'seller':
           updateCI(cartItem.id, {
             ...cartItem,
             [key]: value,
@@ -86,7 +111,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
   return (
     <ItemContext.Provider
       value={{
-        item,
+        item: itemClone,
         cartItemRequest,
         subCategory,
         category,
@@ -96,7 +121,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
       }}>
       {typeof children === 'function'
         ? children({
-            item,
+            item: itemClone,
             cartItemRequest,
             subCategory,
             category,
