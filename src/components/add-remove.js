@@ -8,23 +8,21 @@ function AddRemove(props) {
   const [count, updateCount] = useState(1);
 
   const increment = () => {
-    // update('quantity', parseInt(state.quantity) + 1);
     updateCount((prev) => parseInt(prev) + 1);
   };
 
   const decrement = () => {
     let currentCount = parseInt(state.quantity);
-    if (currentCount > 0) {
-      // update('quantity', currentCount - 1);
+    if (currentCount > 0 && count > 0) {
       updateCount((prev) => parseInt(prev) - 1);
     }
   };
 
   useEffect(() => {
-    if (state && Object.keys(state).length) {
+    if (state && Object.keys(state).length && count !== state.quantity) {
       updateCount(state.quantity);
     }
-  }, []);
+  }, [state.quantity]);
 
   useEffect(() => {
     if (

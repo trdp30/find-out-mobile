@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import colors from '../../../styles/colors';
-import CartItemCard from './cart-item-card';
 import OrderSummary from '../../../components/cart/order-summary';
+import CartItemList from '../../../components/cart/cart-item-list';
 
 function Cart(props) {
   const { navigation } = props;
@@ -17,11 +17,7 @@ function Cart(props) {
       <View style={{ marginTop: 20, flex: 1, paddingTop: 20 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           <View style={{ margin: 15 }}>
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
-            <CartItemCard />
+            <CartItemList />
           </View>
           <OrderSummary />
           <TouchableOpacity

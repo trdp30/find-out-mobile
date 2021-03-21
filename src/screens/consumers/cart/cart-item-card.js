@@ -1,8 +1,23 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import colors from '../../../styles/colors';
+import { connect } from 'react-redux';
+import AddRemove from '../../../components/add-remove';
+import { updateCartItem } from '../../../store/actions/cart-item.action';
+import { getDataById } from '../../../store/selectors/find-data.selector';
 
-function CartItemCard() {
+function CartItemCard(props) {
+  const { cartItem, cart_item_id, updateCI } = props;
+  const { item, item_details, seller, quantity } = cartItem;
+  console.log(cartItem, cart_item_id);
+
+  const update = (key, value) => {
+    console.log(value);
+    updateCI(cart_item_id, {
+      ...cartItem,
+      [key]: value,
+    });
+  };
+
   return (
     <View
       style={{
@@ -19,46 +34,40 @@ function CartItemCard() {
         style={{ width: 60, height: 60, borderRadius: 20 }}
       />
       <View style={{ marginHorizontal: 10, flex: 1 }}>
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>Card 1</Text>
-        <Text>Rs. 100</Text>
+        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+          {item && item.name}
+        </Text>
+        <Text>Rs. {item_details && item_details.price}</Text>
+        <Text>
+          {item_details && `${item_details.value} ${item_details.unit}`}
+        </Text>
       </View>
       <View
         style={{
           flexDirection: 'row',
-          width: 70,
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-        <TouchableOpacity>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 20,
-              width: 20,
-              borderRadius: 10,
-              backgroundColor: colors['color-danger-300'],
-            }}>
-            <Text>-</Text>
-          </View>
-        </TouchableOpacity>
-        <Text>1</Text>
-        <TouchableOpacity>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 20,
-              width: 20,
-              borderRadius: 10,
-              backgroundColor: colors['color-primary-300'],
-            }}>
-            <Text>+</Text>
-          </View>
-        </TouchableOpacity>
+        <AddRemove update={update} state={cartItem} />
       </View>
     </View>
   );
 }
 
-export default CartItemCard;
+const mapStateToProps = () => {
+  const getData = getDataById();
+  return (state, { cart_item_id }) => {
+    return {
+      cartItem: getData(state, 'cartItem', cart_item_id),
+    };
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateCI: (cart_item_id, payload, actions = {}) =>
+      dispatch(updateCartItem({ cart_item_id, payload, actions })),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartItemCard);
