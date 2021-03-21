@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useEffect, useMemo } from 'react';
 import { memo } from 'react';
 import { connect } from 'react-redux';
 import {
-  createCartItem,
-  updateCartItem,
+  createDraftCartItem,
+  updateDraftCartItem,
 } from '../store/actions/cart-item.action';
 import { getCartItemData } from '../store/selectors/cart-item.selector';
 import { getDataById } from '../store/selectors/find-data.selector';
@@ -70,22 +70,19 @@ const ItemWrapper = memo(({ children, ...props }) => {
       switch (key) {
         case 'seller':
           updateCI(cartItem.id, {
-            ...cartItem,
             [key]: value,
             quantity: 1,
           });
           break;
         case 'item_details':
           updateCI(cartItem.id, {
-            ...cartItem,
             [key]: value,
             quantity: 0,
-            seller_id: null,
+            seller: null,
           });
           break;
         default:
           updateCI(cartItem.id, {
-            ...cartItem,
             [key]: value,
           });
           break;
@@ -155,9 +152,9 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => ({
   createCI: (data, actions) =>
-    dispatch(createCartItem({ payload: data, actions })),
+    dispatch(createDraftCartItem({ payload: data, actions })),
   updateCI: (cart_item_id, payload, actions = {}) =>
-    dispatch(updateCartItem({ cart_item_id, payload, actions })),
+    dispatch(updateDraftCartItem({ cart_item_id, payload, actions })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemWrapper);

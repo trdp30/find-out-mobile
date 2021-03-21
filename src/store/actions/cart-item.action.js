@@ -64,3 +64,32 @@ export const deleteCartItemSucceed = ({ payload, meta = {} }) => {
     meta,
   };
 };
+
+export const createDraftCartItem = ({ payload, actions = {} }) => {
+  return {
+    type: types.CARTITEM_CREATE_DRAFT_REQUEST,
+    payload,
+    actions,
+  };
+};
+
+export const updateDraftCartItem = ({
+  cart_item_id,
+  payload,
+  actions = {},
+}) => {
+  return {
+    type: types.CARTITEM_UPDATE_DRAFT_REQUEST,
+    cart_item_id,
+    payload,
+    actions,
+  };
+};
+
+export const storeCartItemData = ({ payload, meta = {} }) => {
+  return {
+    type: types.CARTITEM_DRAFT_DATA,
+    payload,
+    meta,
+  };
+};

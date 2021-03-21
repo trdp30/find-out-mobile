@@ -64,11 +64,15 @@ function SelectQuantityView() {
         style={{
           width: '40%',
         }}>
-        <DropDown
-          setSelectedItem={updatePackageType}
-          selectedItem={itemDetails}
-          listSource={packageList}
-        />
+        {packageList && packageList.length ? (
+          <DropDown
+            setSelectedItem={updatePackageType}
+            selectedItem={itemDetails}
+            listSource={packageList}
+          />
+        ) : (
+          <></>
+        )}
       </View>
     </View>
   );

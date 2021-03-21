@@ -19,7 +19,12 @@ function AddRemove(props) {
   };
 
   useEffect(() => {
-    if (state && Object.keys(state).length && count !== state.quantity) {
+    if (
+      state &&
+      Object.keys(state).length &&
+      state.id &&
+      count !== state.quantity
+    ) {
       updateCount(state.quantity);
     }
   }, [state.quantity]);
@@ -28,6 +33,7 @@ function AddRemove(props) {
     if (
       state &&
       Object.keys(state).length &&
+      state.id &&
       parseInt(state.quantity) !== count
     ) {
       update('quantity', count);
