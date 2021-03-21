@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Login from '../screens/authentication/login';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text } from 'react-native';
+import ApplicationWrapper from '../contexts/application.context';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,10 +47,12 @@ function RootNavigation() {
   } else {
     return (
       <NavigationContainer>
-        <Stack.Navigator headerMode={'none'} initialRouteName="login">
-          <Stack.Screen name="home" component={TabNavigations} />
-          <Stack.Screen name="login" component={Login} />
-        </Stack.Navigator>
+        <ApplicationWrapper>
+          <Stack.Navigator headerMode={'none'} initialRouteName="login">
+            <Stack.Screen name="home" component={TabNavigations} />
+            <Stack.Screen name="login" component={Login} />
+          </Stack.Navigator>
+        </ApplicationWrapper>
       </NavigationContainer>
     );
   }
