@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import ItemCard from '../../../components/item-card';
 import { queryItem } from '../../../store/actions/item.action';
 import { getDataById } from '../../../store/selectors/find-data.selector';
-import { getCategoryItemData } from '../../../store/selectors/item.selector';
+import { getCategoryProductsData } from '../../../store/selectors/product.selector';
 
 function ItemList(props) {
   const {
@@ -60,7 +60,7 @@ function ItemList(props) {
 }
 
 const mapStateToProps = () => {
-  const getItemData = getCategoryItemData();
+  const getItemData = getCategoryProductsData();
   const getCategoryData = getDataById();
   return (state, { route }) => {
     const category_id =

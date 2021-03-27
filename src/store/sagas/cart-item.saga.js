@@ -82,7 +82,7 @@ function* deleteSaga({ cart_item_id, payload, actions = {} }) {
     const normalizedData = yield call(normalizeData, {
       data: {
         ...payload,
-        seller: null,
+        seller_proctuct: null,
         quantity: 0,
       },
       schema: cartItemSchema,
@@ -125,7 +125,7 @@ function* updateDraftSaga({ cart_item_id, payload, actions = {} }) {
     const newState = yield select(
       (state) => state.cartItem.data.byId[cart_item_id],
     );
-    if (newState.seller && newState.seller.id) {
+    if (newState.seller_proctuct && newState.seller_proctuct.id) {
       if (!newState.isSaved) {
         yield put({
           type: types.CARTITEM_CREATE_REQUEST,

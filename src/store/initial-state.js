@@ -33,3 +33,27 @@ export const itemInitialState = {
     filters: {},
   },
 };
+
+export const addressInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null,
+  },
+  data: {
+    byIds: {},
+    filters: {},
+  },
+};
+
+export const pbuInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null,
+  },
+  data: {
+    byIds: {},
+    filters: {},
+  },
+};

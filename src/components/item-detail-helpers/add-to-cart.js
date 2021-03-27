@@ -1,27 +1,28 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useMemo } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { connect } from 'react-redux';
 import { ItemContext } from '../../contexts/item.context';
-import { getCartItemData } from '../../store/selectors/cart-item.selector';
 import colors from '../../styles/colors';
 import AddRemove from '../add-remove';
 
 function AddToCart(props) {
   const state = useContext(ItemContext);
-  const { seller } = props;
+  const { sellerProduct } = props;
   const { item, update, cartItem, addToCart } = state;
 
   const onPressAdd = () => {
-    if (cartItem && cartItem.id && cartItem.item_details) {
-      update('seller', seller);
+    if (cartItem && cartItem.id && cartItem.product_brand_unit) {
+      update('seller_proctuct', sellerProduct);
     } else {
       addToCart({
         item: item,
-        item_details: 1,
         quantity: 1,
         isSaved: false,
-        seller: seller,
+        product_brand_unit:
+          item.productBrandUnits && item.productBrandUnits.length
+            ? item.productBrandUnits[0]
+            : null,
+        seller_proctuct: sellerProduct,
       });
       // Alert.alert('Please Select a packet type');
     }
@@ -30,20 +31,20 @@ function AddToCart(props) {
   const isDisabled = useMemo(() => {
     if (
       cartItem &&
-      cartItem.seller &&
-      cartItem.seller.id &&
+      cartItem.seller_proctuct &&
+      cartItem.seller_proctuct.id &&
       cartItem.quantity > 0
     ) {
       return true;
-    } else if (!(item && item.id)) {
+    } else if (!(item && item.productBrand && item.productBrand.id)) {
       return true;
     }
   }, [cartItem, item]);
 
   if (
     isDisabled &&
-    cartItem.seller.id === seller.id &&
-    cartItem.item.id === item.id &&
+    cartItem.seller_proctuct.id === sellerProduct.id &&
+    cartItem.item.productBrand.id === item.productBrand.id &&
     cartItem.quantity > 0
   ) {
     return <AddRemove update={update} state={cartItem} />;
@@ -84,11 +85,4 @@ function AddToCart(props) {
   }
 }
 
-const mapStateToProps = () => {
-  const getData = getCartItemData();
-  return (state, { item = {} }) => ({
-    cartItem: getData(state, item.id),
-  });
-};
-
-export default connect(mapStateToProps)(AddToCart);
+export default AddToCart;

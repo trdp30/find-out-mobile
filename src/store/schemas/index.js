@@ -13,6 +13,12 @@ const cartItemArraySchema = new schema.Array(cartItemSchema);
 const sellerSchema = new schema.Entity('seller');
 const sellerArraySchema = new schema.Array(sellerSchema);
 
+const addressSchema = new schema.Entity('address');
+const addressArraySchema = new schema.Array(addressSchema);
+
+const pbuSchema = new schema.Entity('pbu');
+const pbuArraySchema = new schema.Array(pbuSchema);
+
 export {
   categorySchema,
   categoryArraySchema,
@@ -22,4 +28,8 @@ export {
   cartItemSchema,
   sellerSchema,
   sellerArraySchema,
+  addressSchema,
+  addressArraySchema,
+  pbuSchema,
+  pbuArraySchema,
 };

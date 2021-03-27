@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getData = (state, item_id) => {
+const getData = (state, product_brand_id) => {
   if (
     state &&
     state.cartItem &&
@@ -9,7 +9,7 @@ const getData = (state, item_id) => {
     Object.keys(state.cartItem.data.byId).length
   ) {
     return Object.values(state.cartItem.data.byId).find(
-      (ci) => ci.item.id == item_id,
+      (ci) => ci.item.productBrand.id == product_brand_id,
     );
   }
 };

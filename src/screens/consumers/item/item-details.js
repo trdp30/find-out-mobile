@@ -28,7 +28,10 @@ function ItemDetails() {
                 width: '100%',
                 textAlign: 'center',
               }}>
-              {item && item.name}
+              {item && item.productBrand && item.productBrand.brand_name}
+            </Text>
+            <Text style={{ textAlign: 'center' }}>
+              {item && item.product && item.product.name}
             </Text>
           </View>
           <SelectQuantityView />

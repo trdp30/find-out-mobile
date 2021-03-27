@@ -1,18 +1,11 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native';
+import React from 'react';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import CategorySubCategory from '../../../components/sub-category/category.sub-category';
 import { getDataById } from '../../../store/selectors/find-data.selector';
-import { queryItem } from '../../../store/actions/item.action';
 
 function SubCategory(props) {
-  const { category, getItemByCategory } = props;
-
-  useEffect(() => {
-    if (category) {
-      getItemByCategory({ query: { category_id: category.id } });
-    }
-  }, [category]);
+  const { category } = props;
 
   if (category.sub_categories && category.sub_categories.length) {
     return (
@@ -63,9 +56,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getItemByCategory: ({ query, actions }) =>
-    dispatch(queryItem({ query, actions })),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubCategory);
+export default connect(mapStateToProps)(SubCategory);

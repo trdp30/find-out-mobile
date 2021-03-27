@@ -1,18 +1,17 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Category from '../screens/consumers/category';
-import ItemList from '../screens/consumers/item/item-list';
 import ShopList from '../screens/consumers/shop/shop-list';
 import SubCategory from '../screens/consumers/category/sub-category';
-import ItemDetails from '../screens/consumers/item';
 import HeaderRightProfileButton from '../components/header-right-profile-button';
+import ItemNavigation from './item.navigation';
 
 const Stack = createStackNavigator();
 
 function CategoryNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName={'Category Home'}
+      initialRouteName={'category-home'}
       screenOptions={{
         headerTransparent: true,
         headerBackTitleVisible: false,
@@ -34,16 +33,10 @@ function CategoryNavigation() {
       />
       <Stack.Screen
         name="selected-category-items-list"
-        component={ItemList}
+        component={ItemNavigation}
         options={({ route }) => ({
           title: '',
-        })}
-      />
-      <Stack.Screen
-        name="selected-category-item-details"
-        component={ItemDetails}
-        options={({ route }) => ({
-          title: '',
+          headerShown: false,
         })}
       />
       <Stack.Screen

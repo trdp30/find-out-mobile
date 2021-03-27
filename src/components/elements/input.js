@@ -3,12 +3,13 @@ import { StyleSheet, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 
 function Input(props) {
-  const { style } = props;
+  const { style, placeholder = '' } = props;
   const [value, onChangeText] = useState();
 
   return (
     <TextInput
       style={[styles.input, style]}
+      placeholder={placeholder}
       onChangeText={(text) => onChangeText(text)}
       value={value}
     />

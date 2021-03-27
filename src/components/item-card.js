@@ -7,7 +7,7 @@ function ItemCard(props) {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate('selected-category-item-details', {
+    navigation.navigate('selected-item-brand-list', {
       item_id: item.id,
       sub_category: subCategory.id,
     });

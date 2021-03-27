@@ -9,11 +9,12 @@ import {
 import { sellerActionTypes as types } from '../action-types';
 import {
   findAllSellerSucceed,
+  findByIdSellerSucceed,
   querySellerSucceed,
 } from '../actions/seller.action';
 import { catchReduxError, normalizeData } from '../actions/general.action';
-import { sellerArraySchema } from '../schemas';
-import { findAll, query } from '../server';
+import { sellerArraySchema, sellerSchema } from '../schemas';
+import { findAll, findRecord, query } from '../server';
 
 async function getAllData() {
   try {
@@ -38,6 +39,17 @@ async function queryData(q) {
   }
 }
 
+async function findData({ seller_id }) {
+  try {
+    const response = await findRecord('seller', seller_id);
+    if (response.data) {
+      return response.data;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
 function* findAllSaga({ actions = {} }) {
   try {
     yield put({ type: types.SELLER_REQUEST_INITIATED });
@@ -53,7 +65,17 @@ function* findAllSaga({ actions = {} }) {
 }
 
 function* findByIdSaga({ seller_id, actions = {} }) {
-  yield put({ type: types.SELLER_REQUEST_INITIATED });
+  try {
+    yield put({ type: types.SELLER_REQUEST_INITIATED });
+    const payload = yield call(findData, { seller_id });
+    const normalizedData = yield call(normalizeData, {
+      data: payload,
+      schema: sellerSchema,
+    });
+    yield put(findByIdSellerSucceed({ payload: normalizedData, meta: {} }));
+  } catch (error) {
+    yield call(catchReduxError, types.SELLER_FIND_BY_ID_REQUEST_FAILED, error);
+  }
 }
 
 function* querySaga({ query, actions = {} }) {
@@ -66,7 +88,7 @@ function* querySaga({ query, actions = {} }) {
     });
     yield put(querySellerSucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
-    yield call(catchReduxError, error);
+    yield call(catchReduxError, types.SELLER_QUERY_REQUEST_FAILED, error);
   }
 }
 

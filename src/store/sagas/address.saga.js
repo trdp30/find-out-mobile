@@ -6,15 +6,18 @@ import {
   call,
   put,
 } from 'redux-saga/effects';
-import { itemActionTypes as types } from '../action-types';
-import { findAllItemSucceed, queryItemSucceed } from '../actions/item.action';
+import { addressActionTypes as types } from '../action-types';
+import {
+  findAllAddressSucceed,
+  queryAddressSucceed,
+} from '../actions/address.action';
 import { catchReduxError, normalizeData } from '../actions/general.action';
-import { itemArraySchema } from '../schemas';
+import { addressArraySchema } from '../schemas';
 import { findAll, query } from '../server';
 
 async function getAllData() {
   try {
-    const response = await findAll('product');
+    const response = await findAll('address');
     if (response.data) {
       return response.data;
     }
@@ -26,7 +29,7 @@ async function getAllData() {
 
 async function queryData(q) {
   try {
-    const response = await query('product', q);
+    const response = await query('address', q);
     if (response.data) {
       return response.data;
     }
@@ -37,31 +40,31 @@ async function queryData(q) {
 
 function* findAllSaga({ actions = {} }) {
   try {
-    yield put({ type: types.ITEM_REQUEST_INITIATED });
+    yield put({ type: types.ADDRESS_REQUEST_INITIATED });
     const payload = yield call(getAllData);
     const normalizedData = yield call(normalizeData, {
       data: payload,
-      schema: itemArraySchema,
+      schema: addressArraySchema,
     });
-    yield put(findAllItemSucceed({ payload: normalizedData, meta: {} }));
+    yield put(findAllAddressSucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
     yield call(catchReduxError, error);
   }
 }
 
-function* findByIdSaga({ item_id, actions = {} }) {
-  yield put({ type: types.ITEM_REQUEST_INITIATED });
+function* findByIdSaga({ address_id, actions = {} }) {
+  yield put({ type: types.ADDRESS_REQUEST_INITIATED });
 }
 
 function* querySaga({ query, actions = {} }) {
   try {
-    yield put({ type: types.ITEM_REQUEST_INITIATED });
+    yield put({ type: types.ADDRESS_REQUEST_INITIATED });
     const payload = yield call(queryData, query);
     const normalizedData = yield call(normalizeData, {
       data: payload,
-      schema: itemArraySchema,
+      schema: addressArraySchema,
     });
-    yield put(queryItemSucceed({ payload: normalizedData, meta: {} }));
+    yield put(queryAddressSucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
     yield call(catchReduxError, error);
   }
@@ -69,17 +72,17 @@ function* querySaga({ query, actions = {} }) {
 
 // -------------------- watchers --------------------
 function* watcherFindAll() {
-  yield takeLatest(types.ITEM_FIND_ALL_REQUEST, findAllSaga);
+  yield takeLatest(types.ADDRESS_FIND_ALL_REQUEST, findAllSaga);
 }
 
 function* watcherFindById() {
-  yield takeEvery(types.ITEM_FIND_BY_ID_REQUEST, findByIdSaga);
+  yield takeEvery(types.ADDRESS_FIND_BY_ID_REQUEST, findByIdSaga);
 }
 
 function* watcherQuery() {
-  yield takeEvery(types.ITEM_QUERY_REQUEST, querySaga);
+  yield takeLatest(types.ADDRESS_QUERY_REQUEST, querySaga);
 }
 
-export default function* rootItemSaga() {
+export default function* rootAddressSaga() {
   yield all([fork(watcherFindAll), fork(watcherFindById), fork(watcherQuery)]);
 }

@@ -6,39 +6,22 @@ import {
   updateDraftCartItem,
 } from '../store/actions/cart-item.action';
 import { getCartItemData } from '../store/selectors/cart-item.selector';
-import { getDataById } from '../store/selectors/find-data.selector';
+import { getItemData } from '../store/selectors/item.selector';
 
 export const ItemContext = createContext();
 
 ItemContext.displayName = 'ItemContext';
 
 const ItemWrapper = memo(({ children, ...props }) => {
+  console.log('item context', props);
   const {
     item = {},
     cartItemRequest,
     route: { params },
-    category,
     createCI,
     updateCI,
     cartItem,
   } = props;
-
-  const itemClone = useMemo(() => {
-    if (item && item.id) {
-      return {
-        ...item,
-        item_details: [
-          { id: 1, value: '1', unit: 'KG', price: 200 },
-          { id: 2, value: '2', unit: 'KG', price: 400 },
-          { id: 3, value: '5', unit: 'KG', price: 1000 },
-          { id: 4, value: '100', unit: 'GM', price: 20 },
-          { id: 5, value: '500', unit: 'GM', price: 100 },
-        ],
-      };
-    } else {
-      return {};
-    }
-  }, [item, params.item_id]);
 
   const addToCart = (payload) => {
     createCI({
@@ -52,29 +35,31 @@ const ItemWrapper = memo(({ children, ...props }) => {
       cartItem &&
       !cartItem.id &&
       item &&
-      item.id &&
-      itemClone.item_details &&
-      itemClone.item_details.length
+      item.product
     ) {
       addToCart({
         item: item,
-        item_details: itemClone.item_details[0],
         quantity: 0,
         isSaved: false,
+        product_brand_unit:
+          item.productBrandUnits && item.productBrandUnits.length
+            ? item.productBrandUnits[0]
+            : null,
+        // seller_proctuct: null
       });
     }
-  }, [params.item_id, cartItemRequest.isQueryRequestLoading, item, itemClone]);
+  }, [params, cartItemRequest.isQueryRequestLoading, item]);
 
   const update = (key, value) => {
     if (cartItem && cartItem.id) {
       switch (key) {
-        case 'seller':
+        case 'seller_proctuct':
           updateCI(cartItem.id, {
             [key]: value,
             quantity: 1,
           });
           break;
-        case 'item_details':
+        case 'product_brand_unit':
           updateCI(cartItem.id, {
             [key]: value,
             quantity: 0,
@@ -90,38 +75,19 @@ const ItemWrapper = memo(({ children, ...props }) => {
     }
   };
 
-  const subCategory = useMemo(() => {
-    if (
-      category &&
-      category.sub_categories &&
-      category.sub_categories.length &&
-      params.sub_category_id
-    ) {
-      return category.sub_categories.find(
-        (sub) => sub.id === params.sub_category_id,
-      );
-    } else {
-      return {};
-    }
-  }, [category, params]);
-
   return (
     <ItemContext.Provider
       value={{
-        item: itemClone,
+        item,
         cartItemRequest,
-        subCategory,
-        category,
         cartItem,
         addToCart,
         update,
       }}>
       {typeof children === 'function'
         ? children({
-            item: itemClone,
+            item,
             cartItemRequest,
-            subCategory,
-            category,
             cartItem,
             update,
           })
@@ -131,21 +97,14 @@ const ItemWrapper = memo(({ children, ...props }) => {
 });
 
 const mapStateToProps = () => {
-  let getItemData = getDataById();
   const getData = getCartItemData();
-
-  return (state, { route }) => {
-    const item_id =
-      route && route.params && route.params.item_id ? route.params.item_id : 0;
-    const category_id =
-      route && route.params && route.params.category_id
-        ? route.params.category_id
-        : 0;
+  const getProduct = getItemData();
+  return (state, { route: { params } }) => {
+    const { item_id, product_brand_id } = params;
     return {
-      item: getItemData(state, 'item', item_id),
       cartItemRequest: state.cartItem.request,
-      category: getItemData(state, 'category', category_id),
-      cartItem: getData(state, item_id),
+      cartItem: getData(state, product_brand_id),
+      item: getProduct(state, product_brand_id, item_id),
     };
   };
 };
