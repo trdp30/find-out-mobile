@@ -63,7 +63,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
           updateCI(cartItem.id, {
             [key]: value,
             quantity: 0,
-            seller: null,
+            seller_proctuct: null,
           });
           break;
         default:

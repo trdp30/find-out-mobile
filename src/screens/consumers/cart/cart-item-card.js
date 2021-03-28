@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import AddRemove from '../../../components/add-remove';
 import { updateDraftCartItem } from '../../../store/actions/cart-item.action';
-import { getDataById } from '../../../store/selectors/find-data.selector';
+import colors from '../../../styles/colors';
 
 function CartItemCard(props) {
   const { cartItem, cart_item_id, updateCI } = props;
-  const { item, item_details, seller, quantity } = cartItem;
+  const { item, product_brand_unit, seller_proctuct, quantity } = cartItem;
+
+  const offerDiscount = useMemo(() => {
+    if (seller_proctuct && seller_proctuct.id) {
+      const sub = seller_proctuct.mrp_price - seller_proctuct.selling_price;
+      return Math.floor((sub / seller_proctuct.mrp_price) * 100);
+    } else {
+      return 0;
+    }
+  }, [seller_proctuct]);
 
   const update = (key, value) => {
     updateCI(cart_item_id, {
@@ -33,11 +42,39 @@ function CartItemCard(props) {
       />
       <View style={{ marginHorizontal: 10, flex: 1 }}>
         <Text style={{ fontSize: 16, fontWeight: '500' }}>
-          {item && item.name}
+          {item && item.productBrand.brand_name}
         </Text>
-        <Text>Rs. {item_details && item_details.price}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text>
+            Rs.{' '}
+            <Text style={{ fontSize: 18 }}>
+              {seller_proctuct.selling_price}
+            </Text>
+          </Text>
+          <Text
+            style={{
+              marginHorizontal: 5,
+              textDecorationLine: 'line-through',
+            }}>
+            {seller_proctuct.mrp_price}
+          </Text>
+          {offerDiscount ? (
+            <View>
+              <Text
+                style={{
+                  color: colors['color-primary-500'],
+                  fontWeight: '700',
+                }}>
+                (off {offerDiscount}%)
+              </Text>
+            </View>
+          ) : (
+            <></>
+          )}
+        </View>
         <Text>
-          {item_details && `${item_details.value} ${item_details.unit}`}
+          {product_brand_unit &&
+            `${product_brand_unit.unit_quantity} ${item.product.unit}`}
         </Text>
       </View>
       <View
@@ -52,15 +89,6 @@ function CartItemCard(props) {
   );
 }
 
-const mapStateToProps = () => {
-  const getData = getDataById();
-  return (state, { cart_item_id }) => {
-    return {
-      cartItem: getData(state, 'cartItem', cart_item_id),
-    };
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     updateCI: (cart_item_id, payload, actions = {}) =>
@@ -68,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CartItemCard);
+export default connect(null, mapDispatchToProps)(CartItemCard);

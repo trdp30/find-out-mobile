@@ -9,7 +9,7 @@ const generateList = (state) => {
     Object.keys(state.cartItem.data.byId).length
   ) {
     return Object.values(state.cartItem.data.byId).filter(
-      (ci) => ci.seller && ci.quantity,
+      (ci) => ci.seller_proctuct && ci.quantity,
     );
   }
 };

@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { findByIdSeller } from '../../store/actions/seller.action';
 import { getDataById } from '../../store/selectors/find-data.selector';
+import colors from '../../styles/colors';
 import AddToCart from './add-to-cart';
 
 function ShopCard(props) {
@@ -10,7 +11,8 @@ function ShopCard(props) {
   console.log('ShopCard', props);
   const offerDiscount = useMemo(() => {
     if (sellerProduct && sellerProduct.id) {
-      return sellerProduct.mrp_price - sellerProduct.selling_price;
+      const sub = sellerProduct.mrp_price - sellerProduct.selling_price;
+      return Math.floor((sub / sellerProduct.mrp_price) * 100);
     } else {
       return 0;
     }
@@ -50,11 +52,29 @@ function ShopCard(props) {
         </View>
         <View style={{ marginHorizontal: 5, flex: 1 }}>
           <Text style={{ fontWeight: '700', fontSize: 16 }}>{seller.name}</Text>
-          <View style={{ flexDirection: 'row' }}>
-            <Text>Rs. 16/kg</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text>
+              Rs.{' '}
+              <Text style={{ fontSize: 18 }}>
+                {sellerProduct.selling_price}
+              </Text>
+            </Text>
+            <Text
+              style={{
+                marginHorizontal: 5,
+                textDecorationLine: 'line-through',
+              }}>
+              {sellerProduct.mrp_price}
+            </Text>
             {offerDiscount ? (
               <View>
-                <Text>off {offerDiscount}</Text>
+                <Text
+                  style={{
+                    color: colors['color-primary-500'],
+                    fontWeight: '700',
+                  }}>
+                  (off {offerDiscount}%)
+                </Text>
               </View>
             ) : (
               <></>

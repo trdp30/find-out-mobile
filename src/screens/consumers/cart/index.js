@@ -30,7 +30,7 @@ function Cart(props) {
         <View style={{ marginTop: 20, flex: 1, paddingTop: 20 }}>
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <View style={{ margin: 15 }}>
-              <CartItemList />
+              <CartItemList cartItems={cartItems} />
             </View>
             <OrderSummary />
             <TouchableOpacity
