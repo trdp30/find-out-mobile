@@ -38,7 +38,13 @@ function SelectSellerView(props) {
     );
   } else {
     return (
-      <View style={{ marginTop: 20, paddingHorizontal: 30 }}>
+      <View
+        style={{
+          marginTop: 20,
+          paddingHorizontal: 30,
+          height: 150,
+          justifyContent: 'center',
+        }}>
         <Text style={{ textAlign: 'center' }}>No Seller Available</Text>
       </View>
     );

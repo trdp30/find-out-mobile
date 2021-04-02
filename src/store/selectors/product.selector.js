@@ -13,9 +13,9 @@ const generateList = (state, category_id, sub_category_id) => {
       return data.filter((d) => {
         if (category_id && sub_category_id) {
           // return d.category_id === category_id && d.sub_id === sub_category_id;
-          return d.sub_category === sub_category_id;
+          return d.sub_category_id === sub_category_id;
         } else if (sub_category_id) {
-          return d.sub_category === sub_category_id;
+          return d.sub_category_id === sub_category_id;
         } else if (category_id) {
           return d.category_id === category_id;
         } else {

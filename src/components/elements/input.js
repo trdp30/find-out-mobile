@@ -3,15 +3,25 @@ import { StyleSheet, TextInput } from 'react-native';
 import PropTypes from 'prop-types';
 
 function Input(props) {
-  const { style, placeholder = '' } = props;
-  const [value, onChangeText] = useState();
+  const {
+    style,
+    placeholder = '',
+    keyboardType = 'default',
+    maxLength = 300,
+    onChangeText = () => {},
+    value = '',
+    editable = true,
+  } = props;
 
   return (
     <TextInput
+      keyboardType={keyboardType}
       style={[styles.input, style]}
       placeholder={placeholder}
       onChangeText={(text) => onChangeText(text)}
       value={value}
+      maxLength={maxLength}
+      editable={editable}
     />
   );
 }
@@ -31,4 +41,9 @@ const styles = StyleSheet.create({
 
 Input.propTypes = {
   style: PropTypes.object,
+  keyboardType: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChangeText: PropTypes.func.isRequired,
+  value: PropTypes.any,
+  editable: PropTypes.bool,
 };

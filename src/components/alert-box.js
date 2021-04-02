@@ -17,6 +17,27 @@ export function toastError(error) {
     };
     Alert.alert(e.title, e.message);
   } else {
-    Alert.alert('Oops!', error.message);
+    Alert.alert(error.title || 'Oops!', error.message);
+  }
+}
+
+export function toastSuccess(payload) {
+  if (
+    payload &&
+    payload.response &&
+    payload.response.data &&
+    payload.response.data.errors
+  ) {
+    payload.response.data.errors.forEach((e) => {
+      Alert.alert(e.title || 'Oops!', e.message);
+    });
+  } else if (payload && payload.response && payload.response.data) {
+    let e = {
+      title: payload.response.data.name || 'Oops!',
+      message: payload.response.data.message,
+    };
+    Alert.alert(e.title, e.message);
+  } else {
+    Alert.alert(payload.title || 'Oops!', payload.message);
   }
 }

@@ -1,39 +1,47 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useContext } from 'react';
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import Input from '../../components/elements/input';
+import Icon from 'react-native-vector-icons/AntDesign';
+import colors from '../../styles/colors';
+import AuthWrapper, { AuthContext } from '../../contexts/auth.context';
+import CollectPhoneNumber from '../../components/authentication-helpers/collect-phone-number';
+import ValidateCode from '../../components/authentication-helpers/validate-code';
+
+const InputContainer = () => {
+  const { showCodeView } = useContext(AuthContext);
+  if (showCodeView) {
+    return (
+      <ValidateCode
+        style={{ container: { flex: 1, justifyContent: 'center' } }}
+      />
+    );
+  }
+  return (
+    <CollectPhoneNumber
+      style={{ container: { flex: 1, justifyContent: 'center' } }}
+    />
+  );
+};
 
 function Login(props) {
-  const dispatch = useDispatch();
-  const session = useSelector((state) => state.session);
-  const [isLogin, updateIsLogin] = useState(false);
-
-  const login = () => {
-    updateIsLogin(true);
-    dispatch({ type: 'AUTHENTICATION_SUCCESS' });
-  };
-
-  useEffect(() => {
-    if (isLogin) {
-      dispatch({ type: 'AUTHENTICATION_SUCCESS' });
-      if (session.isAuthenticated) {
-        updateIsLogin(false);
-        props.navigation.replace('home');
-      }
-    }
-  }, [isLogin, session]);
-
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Login Screen</Text>
-      <TouchableOpacity onPress={login}>
-        <Text>Log in</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.replace('home')}>
-        <Text>Skip</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <AuthWrapper {...props}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            paddingHorizontal: 20,
+            paddingVertical: 30,
+          }}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Text style={{ fontSize: 20 }}>Login using your</Text>
+            <Text>Phone Number</Text>
+          </View>
+          <InputContainer />
+        </View>
+      </AuthWrapper>
+    </SafeAreaView>
   );
 }
 

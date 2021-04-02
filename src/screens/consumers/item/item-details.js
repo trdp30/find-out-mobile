@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, StyleSheet } from 'react-native';
 import SelectQuantityView from '../../../components/grocery-helpers/select-quantity-view';
 import ItemImageView from '../../../components/item-detail-helpers/item-image-view';
 import SelectSellerView from '../../../components/item-detail-helpers/select-seller-view';
@@ -14,12 +14,15 @@ function ItemDetails() {
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <ItemImageView item={item} />
         <View
-          style={{
-            backgroundColor: 'white',
-            borderTopStartRadius: 50,
-            borderTopEndRadius: 50,
-            paddingTop: 30,
-          }}>
+          style={[
+            {
+              backgroundColor: 'white',
+              borderTopStartRadius: 50,
+              borderTopEndRadius: 50,
+              paddingTop: 20,
+            },
+            styles.shadow,
+          ]}>
           <View>
             <Text
               style={{
@@ -27,6 +30,7 @@ function ItemDetails() {
                 fontWeight: '500',
                 width: '100%',
                 textAlign: 'center',
+                paddingHorizontal: 20,
               }}>
               {item && item.productBrand && item.productBrand.brand_name}
             </Text>
@@ -43,3 +47,18 @@ function ItemDetails() {
 }
 
 export default ItemDetails;
+
+const styles = StyleSheet.create({
+  shadow: {
+    backgroundColor: 'white',
+    borderColor: 'black',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.39,
+    shadowRadius: 4.3,
+    elevation: 8,
+  },
+});

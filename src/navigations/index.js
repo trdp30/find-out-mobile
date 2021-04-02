@@ -12,6 +12,7 @@ import { View, Text } from 'react-native';
 import ApplicationWrapper from '../contexts/application.context';
 import Address from '../screens/consumers/address';
 import SelectPaymentMethod from '../screens/consumers/cart/select-payment-method';
+import Landing from '../screens/landing';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,13 +30,6 @@ const Stack = createStackNavigator();
 
 function RootNavigation() {
   const session = useSelector((state) => state.session);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!session.isLoading) {
-      setTimeout(() => dispatch({ type: 'AUTHENTICATION_SUCCESS' }), 2000);
-    }
-  }, []);
 
   if (session.isLoading) {
     return (
@@ -48,7 +42,7 @@ function RootNavigation() {
       <NavigationContainer>
         <ApplicationWrapper>
           <Stack.Navigator
-            initialRouteName="login"
+            initialRouteName="landing"
             screenOptions={{
               headerTransparent: true,
               headerBackTitleVisible: false,
@@ -61,10 +55,17 @@ function RootNavigation() {
               })}
             />
             <Stack.Screen
+              name="landing"
+              component={Landing}
+              options={() => ({
+                headerShown: false,
+              })}
+            />
+            <Stack.Screen
               name="login"
               component={Login}
               options={(route) => ({
-                title: '',
+                headerShown: false,
               })}
             />
             <Stack.Screen
