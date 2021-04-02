@@ -5,11 +5,11 @@ function Landing(props) {
   const { navigation } = props;
 
   const login = () => {
-    navigation.navigate('login');
+    navigation.replace('login');
   };
 
   const skip = () => {
-    navigation.navigate('home');
+    navigation.replace('home');
   };
 
   return (

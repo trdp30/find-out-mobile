@@ -23,22 +23,6 @@ function CartNavigation() {
           title: 'My Cart',
         })}
       />
-      {/* <Stack.Screen
-        name="cart-add-address"
-        component={Address}
-        options={({ route }) => ({
-          title: 'Select Address',
-        })}
-      />
-      <Stack.Screen
-        name="select-payment-method"
-        component={SelectPaymentMethod}
-        options={({ route }) => ({
-          title: '',
-          // headerShown: false,
-          headerRight: null,
-        })}
-      /> */}
     </Stack.Navigator>
   );
 }

@@ -14,18 +14,18 @@ export default (state = initialState, action) => {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        details: action.session,
-        authorization: action.authorization,
-        user: action.user,
+        token: action.payload.token,
+        refreshToken: action.payload.refresh_token,
+        expiresIn: action.payload.expiresIn,
       };
     case 'UNAUTHENTICATE_SUCCESS': {
       return {
         ...state,
         isLoading: false,
         isAuthenticated: false,
-        details: null,
-        authorization: null,
-        user: null,
+        token: null,
+        refreshToken: null,
+        expiresIn: null,
       };
     }
     default:

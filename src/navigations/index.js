@@ -51,7 +51,7 @@ function RootNavigation() {
               name="home"
               component={TabNavigations}
               options={(route) => ({
-                title: '',
+                headerShown: false,
               })}
             />
             <Stack.Screen

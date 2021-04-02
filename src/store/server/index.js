@@ -1,7 +1,5 @@
 import axios from 'axios';
-// import ENV from 'environment';
-// import store from '../';
-// import { initUnAuthenticate } from '../actions/session.action';
+import store from '../';
 import { Platform } from 'react-native';
 
 const host = 'https://findoutv1.herokuapp.com/api/v1/';
@@ -17,7 +15,17 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    let state = store.getState();
+    console.log('session', state.session);
+    if (state.session && state.session.isAuthenticated) {
+      let header = {
+        authorization: `Bearer ${state.session.token}`,
+      };
+      config.headers.common = { ...config.headers.common, ...header };
+    }
+    return config;
+  },
   (error) => Promise.reject(error),
 );
 
