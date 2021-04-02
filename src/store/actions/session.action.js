@@ -1,12 +1,12 @@
 import { sessionActionTypes as types } from '../action-types';
 
-export function authenticate({}) {
+export function authenticate({ actions = {} }) {
   return {
     type: types.AUTHENTICATION_SUCCESS,
   };
 }
 
-export function unAuthenticate({}) {
+export function unAuthenticate({ actions = {} }) {
   return {
     type: types.UNAUTHENTICATE_SUCCESS,
   };

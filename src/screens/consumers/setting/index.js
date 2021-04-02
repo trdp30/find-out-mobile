@@ -10,16 +10,9 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import colors from '../../../styles/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { connect } from 'react-redux';
+import LoginLogoutButton from '../../../components/login-logout-button';
 
 function Settings(props) {
-  const authCheck = () => {
-    if (props.session.isAuthenticated) {
-      props.logout();
-    } else {
-      props.login();
-    }
-  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView
@@ -103,31 +96,13 @@ function Settings(props) {
             <Text>Refer</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={authCheck}>
-          <View style={styles.listItem}>
-            <View style={{ marginRight: 10 }}>
-              <Icon
-                name={'user'}
-                size={20}
-                color={colors['color-primary-500']}
-              />
-            </View>
-            <Text>{props.session.isAuthenticated ? 'Log out' : 'Login'}</Text>
-          </View>
-        </TouchableOpacity>
+        <LoginLogoutButton styles={styles} />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const mapStateToProps = (state) => ({ session: state.session });
-
-const mapDispatchToProps = (dispatch) => ({
-  login: () => dispatch({ type: 'AUTHENTICATION_SUCCESS' }),
-  logout: () => dispatch({ type: 'UNAUTHENTICATE_SUCCESS' }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default Settings;
 
 const styles = StyleSheet.create({
   listItem: {

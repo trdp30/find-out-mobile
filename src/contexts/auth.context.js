@@ -1,8 +1,13 @@
 import React, { createContext, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useState } from 'react';
-import { triggerOtp, triggerValidation } from '../store/actions/session.action';
+import {
+  triggerOtp,
+  triggerValidation,
+  unAuthenticate,
+} from '../store/actions/session.action';
 import { toastError } from '../components/alert-box';
+import { useNavigation } from '@react-navigation/native';
 
 export const AuthContext = createContext();
 
@@ -11,6 +16,7 @@ AuthContext.displayName = 'AuthContext';
 const AuthWrapper = ({ children, ...props }) => {
   const { session, dispatch } = props;
   const { isAuthenticated } = session;
+  const navigation = useNavigation();
   const [phone, updatePhone] = useState('');
   const [code, updateCode] = useState('');
   const [showCodeView, toggleView] = useState(false);
@@ -49,6 +55,7 @@ const AuthWrapper = ({ children, ...props }) => {
 
   const onValidateSucceed = () => {
     toggleRequesting(false);
+    navigation.replace('home');
   };
 
   const onValidateFailed = () => {
@@ -78,11 +85,13 @@ const AuthWrapper = ({ children, ...props }) => {
     }
   };
 
-  useEffect(() => {
-    if (session.isAuthenticated) {
-      props.navigation.replace('home');
-    }
-  }, [session]);
+  const logout = () => {
+    dispatch(unAuthenticate({ actions: {} }));
+  };
+
+  const initiateLoging = () => {
+    navigation.navigate('login');
+  };
 
   return (
     <AuthContext.Provider
@@ -97,6 +106,8 @@ const AuthWrapper = ({ children, ...props }) => {
         showCodeView,
         toggleView,
         isRequesting,
+        logout,
+        initiateLoging,
       }}>
       {typeof children === 'function'
         ? children({
@@ -110,6 +121,8 @@ const AuthWrapper = ({ children, ...props }) => {
             showCodeView,
             toggleView,
             isRequesting,
+            logout,
+            initiateLoging,
           })
         : children}
     </AuthContext.Provider>
