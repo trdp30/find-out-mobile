@@ -1,4 +1,6 @@
-import React, { createContext, useEffect, useMemo } from 'react';
+import { useNavigation } from '@react-navigation/core';
+import React, { createContext, useContext, useEffect, useMemo } from 'react';
+import { Alert } from 'react-native';
 import { memo } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -7,7 +9,7 @@ import {
 } from '../store/actions/cart-item.action';
 import { getCartItemData } from '../store/selectors/cart-item.selector';
 import { getItemData } from '../store/selectors/item.selector';
-
+import { ApplicationContext } from './application.context';
 export const ItemContext = createContext();
 
 ItemContext.displayName = 'ItemContext';
@@ -22,6 +24,8 @@ const ItemWrapper = memo(({ children, ...props }) => {
     updateCI,
     cartItem,
   } = props;
+  const { isAuthenticated } = useContext(ApplicationContext);
+  const navigation = useNavigation();
 
   const addToCart = (payload) => {
     createCI({
@@ -50,15 +54,36 @@ const ItemWrapper = memo(({ children, ...props }) => {
     }
   }, [params, cartItemRequest.isQueryRequestLoading, item]);
 
+  const checkIsAuthenticated = () => {
+    Alert.alert(
+      'Please Login ',
+      'to continue',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Login', onPress: () => navigation.navigate('login') },
+      ],
+      { cancelable: false },
+    );
+  };
+
   const update = (key, value) => {
     if (cartItem && cartItem.id) {
       switch (key) {
-        case 'seller_proctuct':
-          updateCI(cartItem.id, {
-            [key]: value,
-            quantity: 1,
-          });
+        case 'seller_proctuct': {
+          if (isAuthenticated) {
+            updateCI(cartItem.id, {
+              [key]: value,
+              quantity: 1,
+            });
+          } else {
+            checkIsAuthenticated();
+          }
           break;
+        }
         case 'product_brand_unit':
           updateCI(cartItem.id, {
             [key]: value,
@@ -67,9 +92,13 @@ const ItemWrapper = memo(({ children, ...props }) => {
           });
           break;
         default:
-          updateCI(cartItem.id, {
-            [key]: value,
-          });
+          if (key === 'quantity' && !isAuthenticated) {
+            checkIsAuthenticated();
+          } else {
+            updateCI(cartItem.id, {
+              [key]: value,
+            });
+          }
           break;
       }
     }

@@ -26,20 +26,7 @@ function SubCategory(props) {
       </SafeAreaView>
     );
   } else {
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ paddingTop: 60 }}>
-          <Text>Sub Category</Text>
-        </View>
-        <ScrollView style={{ paddingHorizontal: 20 }}>
-          <CategorySubCategory backgroundColor="#ADC8FF" />
-          <CategorySubCategory backgroundColor="#DFFCA9" />
-          <CategorySubCategory backgroundColor="#AEF5FE" />
-          <CategorySubCategory backgroundColor="#FFF2B3" />
-          <CategorySubCategory backgroundColor="#FFD1A9" />
-        </ScrollView>
-      </SafeAreaView>
-    );
+    return <Text>{console.log('SubCategory', props)}Loading...</Text>;
   }
 }
 
