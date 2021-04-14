@@ -8,7 +8,6 @@ import { catchReduxError, normalizeData } from '../actions/general.action';
 import { cartItemArraySchema, cartItemSchema, cartSchema } from '../schemas';
 import { findAll } from '../server';
 import { findByIdProductBrand } from '../actions/product-brand.action';
-import { findByIdItem } from '../actions/item.action';
 import { findByIdProduct } from '../actions/product.action';
 
 async function getAllData() {

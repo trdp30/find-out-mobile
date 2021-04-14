@@ -13,12 +13,12 @@ function ShopList(props) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1, padding: 20 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -27,12 +27,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -41,12 +41,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -55,12 +55,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -69,12 +69,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -83,12 +83,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -97,12 +97,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -111,12 +111,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -125,12 +125,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -139,12 +139,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -154,12 +154,12 @@ function ShopList(props) {
             </Pressable>
           </View>
 
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -168,12 +168,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -182,12 +182,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -196,12 +196,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -210,12 +210,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -224,12 +224,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -238,12 +238,12 @@ function ShopList(props) {
               </View>
             </Pressable>
           </View>
-          <View style={styles.itemRowContainer}>
+          <View style={styles.productRowContainer}>
             <Pressable
               onPress={() =>
                 props.navigation.navigate('Shop', { screen: 'Shop Details' })
               }>
-              <View style={styles.itemRowContent}>
+              <View style={styles.productRowContent}>
                 <Image
                   source={{ uri: 'https://picsum.photos/330/220' }}
                   style={{ width: 80, height: 80, resizeMode: 'stretch' }}
@@ -261,7 +261,7 @@ function ShopList(props) {
 export default ShopList;
 
 const styles = StyleSheet.create({
-  itemRowContainer: {
+  productRowContainer: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 15,
   },
-  itemRowContent: {
+  productRowContent: {
     flexDirection: 'row',
   },
 });

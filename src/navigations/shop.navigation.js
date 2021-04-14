@@ -8,19 +8,19 @@ const Stack = createStackNavigator();
 
 function ShopStackNaviagtions() {
   return (
-    <Stack.Navigator initialRouteName={'Shope Home'}>
+    <Stack.Navigator initialRouteName={'shope-home'}>
       <Stack.Screen
-        name="Shop Home"
+        name="shop-Home"
         component={Shop}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Shop Details"
+        name="shop-details"
         component={ShopDetails}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Shop List"
+        name="shop-list"
         component={ShopList}
         options={{ headerShown: false }}
       />

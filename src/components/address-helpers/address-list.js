@@ -10,7 +10,7 @@ function AddressList(props) {
       data={addresses}
       showsVerticalScrollIndicator={false}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
     />
   );
 }

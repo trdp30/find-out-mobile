@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { SafeAreaView, ScrollView, Text, View, StyleSheet } from 'react-native';
 import SelectQuantityView from '../../../components/grocery-helpers/select-quantity-view';
-import ItemImageView from '../../../components/item-detail-helpers/item-image-view';
-import SelectSellerView from '../../../components/item-detail-helpers/select-seller-view';
+import ProductImageView from '../../../components/product-detail-helpers/product-image-view';
+import SelectSellerView from '../../../components/product-detail-helpers/select-seller-view';
 import { ItemContext } from '../../../contexts/item.context';
 
-function ItemDetails() {
+function ProductDetails() {
   const state = useContext(ItemContext);
 
   const { item } = state;
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        <ItemImageView item={item} />
+        <ProductImageView item={item} />
         <View
           style={[
             {
@@ -46,7 +46,7 @@ function ItemDetails() {
   );
 }
 
-export default ItemDetails;
+export default ProductDetails;
 
 const styles = StyleSheet.create({
   shadow: {

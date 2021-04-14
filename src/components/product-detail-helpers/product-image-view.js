@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-function ItemImageView(props) {
+function ProductImageView(props) {
   return (
     <View
       style={[
@@ -30,7 +30,7 @@ function ItemImageView(props) {
   );
 }
 
-export default ItemImageView;
+export default ProductImageView;
 
 const styles = StyleSheet.create({
   imageBlock: {

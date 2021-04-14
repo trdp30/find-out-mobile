@@ -16,7 +16,6 @@ function Category(props) {
   const { categories, fetchAllCategories } = props;
 
   useEffect(() => {
-    debugger;
     if (categories && !categories.length) {
       fetchAllCategories({});
     }

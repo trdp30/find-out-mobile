@@ -127,7 +127,7 @@ function* deleteSaga({ cart_item_uuid, payload, actions = {} }) {
     const normalizedData = yield call(normalizeData, {
       data: {
         ...payload,
-        seller_item_id: null,
+        seller_product_id: null,
         quantity: 0,
       },
       schema: cartItemSchema,
@@ -162,14 +162,6 @@ function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
       oldState && Object.keys(oldState).length
         ? { ...oldState, ...payload }
         : payload;
-    // const normalizedData = yield call(normalizeData, {
-    //   data: data,
-    //   schema: cartItemSchema,
-    // });
-    // yield put(storeCartItemData({ payload: normalizedData }));
-    // const newState = yield select(
-    //   (state) => state.cartItem.data.byId[cart_item_uuid],
-    // );
     if (data.seller_product_id || data.seller_id) {
       const { id, seller_product_id, quantity, uuid } = data;
       if (!data.id) {
@@ -177,7 +169,7 @@ function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
           type: types.CARTITEM_CREATE_REQUEST,
           payload: {
             id: id,
-            seller_item_id: seller_product_id,
+            seller_product_id,
             quantity,
             uuid,
           },
@@ -188,7 +180,7 @@ function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
           type: types.CARTITEM_UPDATE_REQUEST,
           payload: {
             id: id,
-            seller_item_id: seller_product_id,
+            seller_product_id,
             quantity,
             uuid,
           },
@@ -203,13 +195,12 @@ function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
         actions,
       });
       const normalizedData = yield call(normalizeData, {
-        data: { ...data, seller_item_id: null, quantity: 0 },
+        data: { ...data, seller_product_id: null, quantity: 0 },
         schema: cartItemSchema,
       });
       yield put(storeCartItemData({ payload: normalizedData }));
     }
   } catch (error) {
-    debugger;
     yield call(catchReduxError, types.CARTITEM_DRAFT_PROCESS_FAILED, error);
   }
 }
@@ -226,7 +217,7 @@ function* workerSessionAuthenticated() {
               type: types.CARTITEM_CREATE_REQUEST,
               payload: {
                 id: id,
-                seller_item_id: seller_proctuct.id,
+                seller_product_id: seller_proctuct.id,
                 quantity,
               },
               actions,
@@ -236,7 +227,7 @@ function* workerSessionAuthenticated() {
               type: types.CARTITEM_UPDATE_REQUEST,
               payload: {
                 id: id,
-                seller_item_id: seller_proctuct.id,
+                seller_product_id: seller_proctuct.id,
                 quantity,
               },
               actions,

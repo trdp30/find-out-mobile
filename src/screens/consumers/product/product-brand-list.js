@@ -1,10 +1,10 @@
 import React, { useContext, useMemo } from 'react';
 import { View, Text, SafeAreaView, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import BrandItemCard from '../../../components/item-detail-helpers/brand-item-card';
+import ProductBrandCard from '../../../components/product-detail-helpers/product-brand-card';
 import { getDataById } from '../../../store/selectors/find-data.selector';
 
-function ItemBrandList(props) {
+function ProductBrandList(props) {
   const { product } = props;
 
   const productBrands = useMemo(() => {
@@ -16,7 +16,7 @@ function ItemBrandList(props) {
   });
 
   const renderItem = ({ item }) => (
-    <BrandItemCard product={product} productBrand={item} />
+    <ProductBrandCard product={product} productBrand={item} />
   );
 
   return (
@@ -45,8 +45,8 @@ function ItemBrandList(props) {
 const mapStateToProps = () => {
   const getProduct = getDataById();
   return (state, { route: { params } }) => ({
-    product: getProduct(state, 'product', params.item_id),
+    product: getProduct(state, 'product', params.product_id),
   });
 };
 
-export default connect(mapStateToProps)(ItemBrandList);
+export default connect(mapStateToProps)(ProductBrandList);

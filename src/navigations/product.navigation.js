@@ -1,34 +1,34 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import ItemDetails from '../screens/consumers/item';
-import ItemList from '../screens/consumers/item/item-list';
+import ProductDetails from '../screens/consumers/product';
+import ProductList from '../screens/consumers/product/product-list';
 import HeaderRightProfileButton from '../components/header-right-profile-button';
-import ItemBrandList from '../screens/consumers/item/item-brand-list';
+import ProductBrandList from '../screens/consumers/product/product-brand-list';
 
 const Stack = createStackNavigator();
 
-function ItemStackNaviagtions() {
+function ProductStackNaviagtions() {
   return (
     <Stack.Navigator
-      initialRouteName={'item-list'}
+      initialRouteName={'product-list'}
       screenOptions={{
         headerTransparent: true,
         headerBackTitleVisible: false,
         headerRight: () => <HeaderRightProfileButton />,
       }}>
       <Stack.Screen
-        name="item-list"
-        component={ItemList}
+        name="product-list"
+        component={ProductList}
         options={{ title: '' }}
       />
       <Stack.Screen
-        name="selected-item-brand-list"
-        component={ItemBrandList}
+        name="selected-product-brand-list"
+        component={ProductBrandList}
         options={{ title: '' }}
       />
       <Stack.Screen
-        name="selected-item-brand-details"
-        component={ItemDetails}
+        name="selected-product-brand-details"
+        component={ProductDetails}
         options={({ route }) => ({
           title: '',
         })}
@@ -37,4 +37,4 @@ function ItemStackNaviagtions() {
   );
 }
 
-export default ItemStackNaviagtions;
+export default ProductStackNaviagtions;

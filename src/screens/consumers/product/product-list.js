@@ -8,17 +8,18 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import ItemCard from '../../../components/item-card';
-import { queryItem } from '../../../store/actions/item.action';
+import ProductCard from '../../../components/product-card';
+import { queryProduct } from '../../../store/actions/product.action';
 import { getDataById } from '../../../store/selectors/find-data.selector';
 import { getCategoryProductsData } from '../../../store/selectors/product.selector';
 
-function ItemList(props) {
+function ProductList(props) {
   const {
-    items,
+    products,
     category,
     route: { params },
   } = props;
+
   const subCategory = useMemo(() => {
     if (
       category &&
@@ -35,7 +36,7 @@ function ItemList(props) {
   }, [category, params]);
 
   const renderItem = ({ item }) => (
-    <ItemCard item={item} subCategory={subCategory} category={category} />
+    <ProductCard product={item} subCategory={subCategory} category={category} />
   );
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -47,11 +48,11 @@ function ItemList(props) {
             </Text>
           </View>
           <FlatList
-            data={items}
+            data={products}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
           />
         </View>
       </View>
@@ -60,7 +61,7 @@ function ItemList(props) {
 }
 
 const mapStateToProps = () => {
-  const getItemData = getCategoryProductsData();
+  const getProductData = getCategoryProductsData();
   const getCategoryData = getDataById();
   return (state, { route }) => {
     const category_id =
@@ -72,7 +73,7 @@ const mapStateToProps = () => {
         ? route.params.sub_category_id
         : 0;
     return {
-      items: getItemData(state, category_id, sub_category_id),
+      products: getProductData(state, category_id, sub_category_id),
       category: getCategoryData(state, 'category', category_id),
     };
   };
@@ -80,13 +81,13 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => ({
   getItemByCategory: ({ query, actions }) =>
-    dispatch(queryItem({ query, actions })),
+    dispatch(queryProduct({ query, actions })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemList);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);
 
 const styles = StyleSheet.create({
-  itemRowContainer: {
+  productRowContainer: {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 15,
   },
-  itemRowContent: {
+  productRowContent: {
     flexDirection: 'row',
   },
 });

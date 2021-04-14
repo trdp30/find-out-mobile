@@ -14,7 +14,7 @@ export const ItemContext = createContext();
 
 ItemContext.displayName = 'ItemContext';
 
-const ItemWrapper = memo(({ children, ...props }) => {
+const ProductWrapper = memo(({ children, ...props }) => {
   console.log('item context', props);
   const {
     item = {},
@@ -145,11 +145,11 @@ const mapStateToProps = () => {
   const getData = getCartItemData();
   const getProduct = getItemData();
   return (state, { route: { params } }) => {
-    const { item_id, product_brand_id } = params;
+    const { product_id, product_brand_id } = params;
     return {
       cartRequest: state.cart.request,
       cartItem: getData(state, product_brand_id),
-      item: getProduct(state, product_brand_id, item_id),
+      item: getProduct(state, product_brand_id, product_id),
     };
   };
 };
@@ -161,4 +161,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateDraftCartItem({ cart_item_uuid, payload, actions })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductWrapper);

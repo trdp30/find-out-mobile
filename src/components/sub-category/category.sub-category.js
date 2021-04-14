@@ -15,8 +15,8 @@ function CategorySubCategory(props) {
   }, [subCategory]);
 
   const onPress = () => {
-    navigation.navigate('selected-category-items-list', {
-      screen: 'item-list',
+    navigation.navigate('selected-category-product-list', {
+      screen: 'product-list',
       params: {
         category_id: category.id,
         sub_category_id: subCategory.id,

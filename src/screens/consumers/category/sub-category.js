@@ -44,7 +44,7 @@ function SubCategory(props) {
       </SafeAreaView>
     );
   } else {
-    return <Text>{console.log('SubCategory', props)}Loading...</Text>;
+    return <Text>Loading...</Text>;
   }
 }
 

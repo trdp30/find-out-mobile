@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { queryPbu } from '../../store/actions/product-brand-unit.action';
 
-function BrandItemCard(props) {
+function ProductBrandCard(props) {
   const { product, productBrand, getProductBrandUnit } = props;
   const { navigate } = useNavigation();
 
@@ -15,8 +15,8 @@ function BrandItemCard(props) {
   }, [productBrand]);
 
   const onPress = () => {
-    navigate('selected-item-brand-details', {
-      item_id: product.id,
+    navigate('selected-product-brand-details', {
+      product_id: product.id,
       product_brand_id: productBrand.id,
     });
   };
@@ -67,7 +67,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(queryPbu({ query, actions })),
 });
 
-export default connect(null, mapDispatchToProps)(BrandItemCard);
+export default connect(null, mapDispatchToProps)(ProductBrandCard);
 
 const styles = StyleSheet.create({
   shadow: {

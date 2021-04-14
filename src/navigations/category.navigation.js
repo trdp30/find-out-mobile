@@ -4,7 +4,7 @@ import Category from '../screens/consumers/category';
 import ShopList from '../screens/consumers/shop/shop-list';
 import SubCategory from '../screens/consumers/category/sub-category';
 import HeaderRightProfileButton from '../components/header-right-profile-button';
-import ItemNavigation from './item.navigation';
+import ProductNavigation from './product.navigation';
 
 const Stack = createStackNavigator();
 
@@ -32,15 +32,15 @@ function CategoryNavigation() {
         })}
       />
       <Stack.Screen
-        name="selected-category-items-list"
-        component={ItemNavigation}
+        name="selected-category-product-list"
+        component={ProductNavigation}
         options={({ route }) => ({
           title: '',
           headerShown: false,
         })}
       />
       <Stack.Screen
-        name="selected-item-shop-list"
+        name="selected-product-shop-list"
         component={ShopList}
         options={({ route }) => ({ headerShown: false })}
       />

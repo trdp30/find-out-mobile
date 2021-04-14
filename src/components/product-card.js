@@ -2,20 +2,20 @@ import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 
-function ItemCard(props) {
-  const { item, subCategory } = props;
+function ProductCard(props) {
+  const { product, subCategory } = props;
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate('selected-item-brand-list', {
-      item_id: item.id,
+    navigation.navigate('selected-product-brand-list', {
+      product_id: product.id,
       sub_category: subCategory.id,
     });
   };
 
   return (
-    <Pressable onPress={onPress} style={styles.itemRowContainer}>
-      <View style={styles.itemRowContent}>
+    <Pressable onPress={onPress} style={styles.productRowContainer}>
+      <View style={styles.productRowContent}>
         <Image
           source={{ uri: 'https://picsum.photos/330/220' }}
           style={{
@@ -27,22 +27,22 @@ function ItemCard(props) {
           }}
         />
         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-          <Text style={{ textAlign: 'center' }}>{item && item.name}</Text>
+          <Text style={{ textAlign: 'center' }}>{product && product.name}</Text>
         </View>
       </View>
     </Pressable>
   );
 }
 
-export default ItemCard;
+export default ProductCard;
 
 const styles = StyleSheet.create({
-  itemRowContainer: {
+  productRowContainer: {
     margin: 15,
     width: '40%',
     backgroundColor: 'white',
   },
-  itemRowContent: {
+  productRowContent: {
     backgroundColor: 'white',
     borderColor: 'black',
     shadowColor: '#000',
