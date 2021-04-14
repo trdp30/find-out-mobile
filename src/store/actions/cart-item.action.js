@@ -32,10 +32,10 @@ export const createCartItemSucceed = ({ payload, meta = {} }) => {
   };
 };
 
-export const updateCartItem = ({ cart_item_id, payload, actions = {} }) => {
+export const updateCartItem = ({ cart_item_uuid, payload, actions = {} }) => {
   return {
     type: types.CARTITEM_UPDATE_REQUEST,
-    cart_item_id,
+    cart_item_uuid,
     payload,
     actions,
   };
@@ -74,13 +74,13 @@ export const createDraftCartItem = ({ payload, actions = {} }) => {
 };
 
 export const updateDraftCartItem = ({
-  cart_item_id,
+  cart_item_uuid,
   payload,
   actions = {},
 }) => {
   return {
     type: types.CARTITEM_UPDATE_DRAFT_REQUEST,
-    cart_item_id,
+    cart_item_uuid,
     payload,
     actions,
   };

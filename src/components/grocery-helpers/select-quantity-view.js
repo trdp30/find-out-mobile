@@ -35,25 +35,27 @@ function SelectQuantityView() {
     if (
       avaiableProductBrandUnits &&
       avaiableProductBrandUnits.id &&
-      cartItem.product_brand_unit.id !== avaiableProductBrandUnits.id
+      cartItem.product_brand_unit_id !== avaiableProductBrandUnits.id
     ) {
-      update('product_brand_unit', avaiableProductBrandUnits);
+      update({
+        key: 'product_brand_unit_id',
+        value: avaiableProductBrandUnits.id,
+      });
     }
   }, [avaiableProductBrandUnits]);
 
   useEffect(() => {
     if (
       cartItem &&
-      cartItem.product_brand_unit &&
-      cartItem.product_brand_unit.id &&
+      cartItem.product_brand_unit_id &&
       avaiableProductBrandUnits &&
       !avaiableProductBrandUnits.id
     ) {
       updateProductBrandUnits(
-        quantityList.find((d) => d.id === cartItem.product_brand_unit.id),
+        quantityList.find((d) => d.id === cartItem.product_brand_unit_id),
       );
     }
-  }, [cartItem, cartItem.product_brand_unit]);
+  }, [cartItem, cartItem.product_brand_unit_id]);
 
   if (quantityList && quantityList.length) {
     return (

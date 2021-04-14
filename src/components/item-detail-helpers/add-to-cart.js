@@ -11,28 +11,40 @@ function AddToCart(props) {
   const { item, update, cartItem, addToCart } = state;
 
   const onPressAdd = () => {
-    if (cartItem && cartItem.id && cartItem.product_brand_unit) {
-      update('seller_proctuct', sellerProduct);
+    if (cartItem && cartItem.id && cartItem.product_brand_unit_id) {
+      update('seller_product_id', sellerProduct.id);
     } else {
       addToCart({
-        item: item,
-        quantity: 1,
+        product_brand_id: item.productBrand.id,
+        quantity: 0,
         isSaved: false,
-        product_brand_unit:
+        product_brand_unit_id:
           item.productBrandUnits && item.productBrandUnits.length
-            ? item.productBrandUnits[0]
+            ? item.productBrandUnits[0].id
             : null,
-        seller_proctuct: sellerProduct,
+        seller_product_id: sellerProduct.id,
       });
       // Alert.alert('Please Select a packet type');
+    }
+  };
+
+  const updateQuantity = (key, value, actions = {}) => {
+    if (cartItem && cartItem.seller_product_id) {
+      update({ key, value, actions });
+    } else {
+      update({
+        key,
+        value,
+        actions,
+        other: { seller_product_id: sellerProduct.id },
+      });
     }
   };
 
   const isDisabled = useMemo(() => {
     if (
       cartItem &&
-      cartItem.seller_proctuct &&
-      cartItem.seller_proctuct.id &&
+      (cartItem.seller_product_id || cartItem.seller_id) &&
       cartItem.quantity > 0
     ) {
       return true;
@@ -43,11 +55,12 @@ function AddToCart(props) {
 
   if (
     isDisabled &&
-    cartItem.seller_proctuct.id === sellerProduct.id &&
-    cartItem.item.productBrand.id === item.productBrand.id &&
+    (cartItem.seller_product_id === sellerProduct.id ||
+      cartItem.seller_id === sellerProduct.seller_id) &&
+    cartItem.product_brand_id === item.productBrand.id &&
     cartItem.quantity > 0
   ) {
-    return <AddRemove update={update} state={cartItem} />;
+    return <AddRemove update={updateQuantity} state={cartItem} />;
   } else {
     return (
       <TouchableOpacity onPress={onPressAdd} disabled={isDisabled}>

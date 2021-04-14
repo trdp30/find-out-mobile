@@ -18,6 +18,10 @@ function AddRemove(props) {
     }
   };
 
+  const onFailed = () => {
+    updateCount(() => state.quantity);
+  };
+
   useEffect(() => {
     if (
       state &&
@@ -36,7 +40,7 @@ function AddRemove(props) {
       state.id &&
       parseInt(state.quantity) !== count
     ) {
-      update('quantity', count);
+      update('quantity', count, { onFailed });
     }
   }, [count]);
 

@@ -3,12 +3,12 @@ import { createSelector } from 'reselect';
 const generateList = (state, category_id, sub_category_id) => {
   if (
     state &&
-    state.item &&
-    state.item.data &&
-    state.item.data.byId &&
-    Object.keys(state.item.data.byId).length
+    state.product &&
+    state.product.data &&
+    state.product.data.byId &&
+    Object.keys(state.product.data.byId).length
   ) {
-    const data = Object.values(state.item.data.byId);
+    const data = Object.values(state.product.data.byId);
     if (data && data.length) {
       return data.filter((d) => {
         if (category_id && sub_category_id) {

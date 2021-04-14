@@ -17,7 +17,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     let state = store.getState();
-    console.log('session', state.session);
     if (state.session && state.session.isAuthenticated) {
       let header = {
         authorization: `Bearer ${state.session.token}`,
@@ -92,6 +91,12 @@ export function updateRecord(type, id, payload = {}) {
   return axiosInstance.put(url, payload);
 }
 
-export async function patch(type, payload = {}, config = {}) {
-  return axiosInstance.patch(type, payload, config);
+export async function patch(type, id, payload = {}, config = {}) {
+  let url = `${type}/${id}`;
+  return axiosInstance.patch(url, payload, config);
+}
+
+export function deleteRecord(type, id, payload) {
+  let url = `${type}/${id}`;
+  return axiosInstance.delete(url);
 }

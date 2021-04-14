@@ -1,13 +1,20 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { findAllCart } from '../store/actions/cart.action';
 
 export const ApplicationContext = createContext();
 
 ApplicationContext.displayName = 'ApplicationContext';
 
 const ApplicationWrapper = ({ children, ...props }) => {
-  const { session } = props;
+  const { session, fetchCart } = props;
   const { isAuthenticated } = session;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchCart({});
+    }
+  }, [isAuthenticated]);
 
   return (
     <ApplicationContext.Provider value={{ isAuthenticated }}>
@@ -24,4 +31,10 @@ const mapStateToProps = () => {
   });
 };
 
-export default connect(mapStateToProps)(ApplicationWrapper);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCart: (actions = {}) => dispatch(findAllCart({ actions })),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationWrapper);

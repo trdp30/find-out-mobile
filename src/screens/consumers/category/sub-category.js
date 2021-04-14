@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import CategorySubCategory from '../../../components/sub-category/category.sub-category';
+import { findByIdCategory } from '../../../store/actions/category.action';
 import { getDataById } from '../../../store/selectors/find-data.selector';
 
 function SubCategory(props) {
-  const { category } = props;
+  const { category, dispatch, route } = props;
+
+  useEffect(() => {
+    if (
+      category &&
+      category.status &&
+      category.status === 'not available' &&
+      route &&
+      route.params &&
+      route.params.category_id
+    ) {
+      dispatch(
+        findByIdCategory({
+          category_id: route.params.category_id,
+        }),
+      );
+    }
+  }, [category, route]);
 
   if (category.sub_categories && category.sub_categories.length) {
     return (

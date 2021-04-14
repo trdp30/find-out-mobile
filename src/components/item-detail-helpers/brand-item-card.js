@@ -5,19 +5,19 @@ import { connect } from 'react-redux';
 import { queryPbu } from '../../store/actions/product-brand-unit.action';
 
 function BrandItemCard(props) {
-  const { item, brandItem, getProductBrandUnit } = props;
+  const { product, productBrand, getProductBrandUnit } = props;
   const { navigate } = useNavigation();
 
   useEffect(() => {
-    if (brandItem && brandItem.id) {
-      getProductBrandUnit({ product_brand_id: brandItem.id });
+    if (productBrand && productBrand.id) {
+      getProductBrandUnit({ product_brand_id: productBrand.id });
     }
-  }, [brandItem]);
+  }, [productBrand]);
 
   const onPress = () => {
     navigate('selected-item-brand-details', {
-      item_id: item.id,
-      product_brand_id: brandItem.id,
+      item_id: product.id,
+      product_brand_id: productBrand.id,
     });
   };
 
@@ -53,7 +53,7 @@ function BrandItemCard(props) {
                 fontWeight: '600',
                 paddingHorizontal: 10,
               }}>
-              {brandItem.brand_name}
+              {productBrand.brand_name}
             </Text>
           </View>
         </View>

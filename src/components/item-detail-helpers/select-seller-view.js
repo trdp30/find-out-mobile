@@ -7,17 +7,22 @@ import ShopCard from './shop-card';
 function SelectSellerView(props) {
   const state = useContext(ItemContext);
   const { item, cartItem } = state;
+  const { productBrandUnits } = item;
   const sellerProducts = useMemo(() => {
-    if (
-      cartItem &&
-      cartItem.product_brand_unit &&
-      cartItem.product_brand_unit.seller_products
-    ) {
-      return cartItem.product_brand_unit.seller_products;
+    if (cartItem && cartItem.product_brand_unit_id) {
+      const pbu = productBrandUnits.find(
+        (d) => d.id === cartItem.product_brand_unit_id,
+      );
+      return pbu.seller_products;
     } else {
-      return [];
+      return productBrandUnits.seller_products;
     }
-  }, [cartItem, cartItem.product_brand_unit]);
+  }, [
+    cartItem,
+    cartItem.product_brand_unit_id,
+    productBrandUnits,
+    productBrandUnits.seller_products,
+  ]);
 
   if (sellerProducts && sellerProducts.length) {
     return (

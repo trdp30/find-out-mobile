@@ -13,9 +13,13 @@ import { findAllCategory } from '../../../store/actions/category.action';
 import { getListData } from '../../../store/selectors/data.selector';
 
 function Category(props) {
-  const { getAllCategory, dispatch } = props;
+  const { categories, fetchAllCategories } = props;
+
   useEffect(() => {
-    dispatch(findAllCategory({}));
+    debugger;
+    if (categories && !categories.length) {
+      fetchAllCategories({});
+    }
   }, []);
 
   return (
@@ -192,4 +196,10 @@ const mapStateToProps = () => {
   });
 };
 
-export default connect(mapStateToProps)(Category);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchAllCategories: () => dispatch(findAllCategory({ actions: {} })),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Category);

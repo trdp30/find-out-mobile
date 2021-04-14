@@ -18,7 +18,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
   console.log('item context', props);
   const {
     item = {},
-    cartItemRequest,
+    cartRequest,
     route: { params },
     createCI,
     updateCI,
@@ -35,24 +35,23 @@ const ItemWrapper = memo(({ children, ...props }) => {
 
   useEffect(() => {
     if (
-      !cartItemRequest.isQueryRequestLoading &&
+      !cartRequest.isLoading &&
       cartItem &&
-      !cartItem.id &&
+      !cartItem.uuid &&
       item &&
       item.product
     ) {
       addToCart({
-        item: item,
+        product_brand_id: item.productBrand.id,
         quantity: 0,
         isSaved: false,
-        product_brand_unit:
+        product_brand_unit_id:
           item.productBrandUnits && item.productBrandUnits.length
-            ? item.productBrandUnits[0]
+            ? item.productBrandUnits[0].id
             : null,
-        // seller_proctuct: null
       });
     }
-  }, [params, cartItemRequest.isQueryRequestLoading, item]);
+  }, [params, cartRequest.isLoading, item]);
 
   const checkIsAuthenticated = () => {
     Alert.alert(
@@ -70,34 +69,51 @@ const ItemWrapper = memo(({ children, ...props }) => {
     );
   };
 
-  const update = (key, value) => {
-    if (cartItem && cartItem.id) {
+  const update = ({ key, value, other, actions }) => {
+    if (cartItem && cartItem.uuid) {
       switch (key) {
-        case 'seller_proctuct': {
+        case 'seller_product_id': {
           if (isAuthenticated) {
-            updateCI(cartItem.id, {
-              [key]: value,
-              quantity: 1,
-            });
+            updateCI(
+              cartItem.uuid,
+              {
+                [key]: value,
+                quantity: 1,
+              },
+              actions,
+            );
           } else {
             checkIsAuthenticated();
           }
           break;
         }
-        case 'product_brand_unit':
-          updateCI(cartItem.id, {
-            [key]: value,
-            quantity: 0,
-            seller_proctuct: null,
-          });
+        case 'product_brand_unit_id':
+          updateCI(
+            cartItem.uuid,
+            {
+              [key]: value,
+              quantity: 0,
+              seller_product_id: null,
+            },
+            actions,
+          );
           break;
         default:
           if (key === 'quantity' && !isAuthenticated) {
             checkIsAuthenticated();
           } else {
-            updateCI(cartItem.id, {
-              [key]: value,
-            });
+            const data = {};
+            if (other && Object.keys(other).length) {
+              Object.keys(other).forEach((d) => (data[d] = other[d]));
+            }
+            updateCI(
+              cartItem.uuid,
+              {
+                [key]: value,
+                ...data,
+              },
+              actions,
+            );
           }
           break;
       }
@@ -108,7 +124,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
     <ItemContext.Provider
       value={{
         item,
-        cartItemRequest,
+        cartRequest,
         cartItem,
         addToCart,
         update,
@@ -116,7 +132,7 @@ const ItemWrapper = memo(({ children, ...props }) => {
       {typeof children === 'function'
         ? children({
             item,
-            cartItemRequest,
+            cartRequest,
             cartItem,
             update,
           })
@@ -131,7 +147,7 @@ const mapStateToProps = () => {
   return (state, { route: { params } }) => {
     const { item_id, product_brand_id } = params;
     return {
-      cartItemRequest: state.cartItem.request,
+      cartRequest: state.cart.request,
       cartItem: getData(state, product_brand_id),
       item: getProduct(state, product_brand_id, item_id),
     };
@@ -141,8 +157,8 @@ const mapStateToProps = () => {
 const mapDispatchToProps = (dispatch) => ({
   createCI: (data, actions) =>
     dispatch(createDraftCartItem({ payload: data, actions })),
-  updateCI: (cart_item_id, payload, actions = {}) =>
-    dispatch(updateDraftCartItem({ cart_item_id, payload, actions })),
+  updateCI: (cart_item_uuid, payload, actions = {}) =>
+    dispatch(updateDraftCartItem({ cart_item_uuid, payload, actions })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemWrapper);

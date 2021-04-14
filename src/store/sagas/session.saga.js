@@ -28,6 +28,7 @@ function* loginFlow() {
   while (true) {
     const { payload } = yield take(types.INITIALIZED_AUTHENTICATION);
     yield put({ type: types.AUTHENTICATION_SUCCESS, payload });
+    yield put({ type: types.SESSION_TOKEN_ADDED });
     yield take([types.INITIALIZED_UNAUTHENTICATION]);
     yield put({ type: types.UNAUTHENTICATE_SUCCESS });
   }

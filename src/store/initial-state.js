@@ -57,3 +57,39 @@ export const pbuInitialState = {
     filters: {},
   },
 };
+
+export const cartInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null,
+  },
+  data: {
+    byIds: {},
+    filters: {},
+  },
+};
+
+export const productBrandInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null,
+  },
+  data: {
+    byIds: {},
+    filters: {},
+  },
+};
+
+export const productInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null,
+  },
+  data: {
+    byIds: {},
+    filters: {},
+  },
+};

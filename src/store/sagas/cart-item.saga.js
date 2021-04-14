@@ -7,7 +7,10 @@ import {
   takeLatest,
   select,
 } from 'redux-saga/effects';
-import { cartItemActionTypes as types } from '../action-types';
+import {
+  cartItemActionTypes as types,
+  sessionActionTypes,
+} from '../action-types';
 import { v4 as uuid } from 'uuid';
 import { cartItemSchema } from '../schemas';
 import { catchReduxError, normalizeData } from '../actions/general.action';
@@ -17,6 +20,46 @@ import {
   updateCartItemSucceed,
 } from '../actions/cart-item.action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createRecord, patch, deleteRecord, updateRecord } from '../server';
+
+const createRequest = async (payload) => {
+  try {
+    const response = await createRecord('cart-item', payload);
+    if (response.data) {
+      return response.data;
+    } else {
+      return response;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updatedRequest = async (id, payload) => {
+  try {
+    const response = await updateRecord('cart-item', id, payload);
+    if (response.data) {
+      return response.data;
+    } else {
+      return response;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteRequest = async (id) => {
+  try {
+    const response = await deleteRecord('cart-item', id);
+    if (response.data) {
+      return response.data;
+    } else {
+      return response;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
 
 function* storeInLocalStorage({ payload }) {
   try {
@@ -34,7 +77,7 @@ function* querySaga({ query, actions = {} }) {
 function* createSaga({ payload, actions = {} }) {
   try {
     yield put({ type: types.CARTITEM_REQUEST_INITIATED });
-    yield delay(2000);
+    yield call(createRequest, payload);
     console.log('create api called');
     const normalizedData = yield call(normalizeData, {
       data: {
@@ -49,19 +92,18 @@ function* createSaga({ payload, actions = {} }) {
   }
 }
 
-function* updateSaga({ cart_item_id, payload, actions = {} }) {
+function* updateSaga({ cart_item_uuid, payload, actions = {} }) {
   try {
     yield put({ type: types.CARTITEM_REQUEST_INITIATED });
     if (payload && payload.quantity <= 0) {
       yield put({
         type: types.CARTITEM_DELETE_REQUEST,
-        cart_item_id,
+        cart_item_uuid,
         payload,
         actions,
       });
     } else {
-      yield delay(2000);
-      console.log('update api called');
+      yield call(updatedRequest, payload.id, payload);
       const normalizedData = yield call(normalizeData, {
         data: payload,
         schema: cartItemSchema,
@@ -69,20 +111,23 @@ function* updateSaga({ cart_item_id, payload, actions = {} }) {
       yield put(updateCartItemSucceed({ payload: normalizedData }));
     }
   } catch (error) {
+    if (actions && actions.onFailed) {
+      yield call(actions.onFailed, error);
+    }
     yield call(catchReduxError, types.CARTITEM_UPDATE_REQUEST_FAILED, error);
   }
 }
 
-function* deleteSaga({ cart_item_id, payload, actions = {} }) {
+function* deleteSaga({ cart_item_uuid, payload, actions = {} }) {
   try {
     yield put({ type: types.CARTITEM_REQUEST_INITIATED });
-    yield delay(2000);
+    yield call(deleteRequest, cart_item_uuid);
     console.log('delete api called');
 
     const normalizedData = yield call(normalizeData, {
       data: {
         ...payload,
-        seller_proctuct: null,
+        seller_item_id: null,
         quantity: 0,
       },
       schema: cartItemSchema,
@@ -98,7 +143,7 @@ function* createDraftSaga({ payload, actions = {} }) {
     const normalizedData = yield call(normalizeData, {
       data: {
         ...payload,
-        id: uuid(),
+        uuid: uuid(),
       },
       schema: cartItemSchema,
     });
@@ -108,47 +153,107 @@ function* createDraftSaga({ payload, actions = {} }) {
   }
 }
 
-function* updateDraftSaga({ cart_item_id, payload, actions = {} }) {
+function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
   try {
     const oldState = yield select(
-      (state) => state.cartItem.data.byId[cart_item_id],
+      (state) => state.cartItem.data.byId[cart_item_uuid],
     );
     const data =
       oldState && Object.keys(oldState).length
         ? { ...oldState, ...payload }
         : payload;
-    const normalizedData = yield call(normalizeData, {
-      data: data,
-      schema: cartItemSchema,
-    });
-    yield put(storeCartItemData({ payload: normalizedData }));
-    const newState = yield select(
-      (state) => state.cartItem.data.byId[cart_item_id],
-    );
-    if (newState.seller_proctuct && newState.seller_proctuct.id) {
-      if (!newState.isSaved) {
+    // const normalizedData = yield call(normalizeData, {
+    //   data: data,
+    //   schema: cartItemSchema,
+    // });
+    // yield put(storeCartItemData({ payload: normalizedData }));
+    // const newState = yield select(
+    //   (state) => state.cartItem.data.byId[cart_item_uuid],
+    // );
+    if (data.seller_product_id || data.seller_id) {
+      const { id, seller_product_id, quantity, uuid } = data;
+      if (!data.id) {
         yield put({
           type: types.CARTITEM_CREATE_REQUEST,
-          payload: newState,
+          payload: {
+            id: id,
+            seller_item_id: seller_product_id,
+            quantity,
+            uuid,
+          },
           actions,
         });
       } else {
         yield put({
           type: types.CARTITEM_UPDATE_REQUEST,
-          payload: newState,
+          payload: {
+            id: id,
+            seller_item_id: seller_product_id,
+            quantity,
+            uuid,
+          },
           actions,
         });
       }
-    } else if (newState.isSaved && !newState.seller) {
+    } else if (data.id && !data.seller_product_id) {
       yield put({
         type: types.CARTITEM_DELETE_REQUEST,
-        cart_item_id,
-        payload: newState,
+        cart_item_uuid,
+        payload: data,
         actions,
       });
+      const normalizedData = yield call(normalizeData, {
+        data: { ...data, seller_item_id: null, quantity: 0 },
+        schema: cartItemSchema,
+      });
+      yield put(storeCartItemData({ payload: normalizedData }));
     }
   } catch (error) {
+    debugger;
     yield call(catchReduxError, types.CARTITEM_DRAFT_PROCESS_FAILED, error);
+  }
+}
+
+function* workerSessionAuthenticated() {
+  try {
+    const data = yield select(({ cartItem }) => state.cartItem.data.byId);
+    if (data && Object.keys(data).length) {
+      for (value in data) {
+        if (value.seller_proctuct && value.seller_proctuct.id) {
+          const { id, seller_proctuct, quantity } = value;
+          if (!value.isSaved) {
+            yield put({
+              type: types.CARTITEM_CREATE_REQUEST,
+              payload: {
+                id: id,
+                seller_item_id: seller_proctuct.id,
+                quantity,
+              },
+              actions,
+            });
+          } else {
+            yield put({
+              type: types.CARTITEM_UPDATE_REQUEST,
+              payload: {
+                id: id,
+                seller_item_id: seller_proctuct.id,
+                quantity,
+              },
+              actions,
+            });
+          }
+        } else if (value.isSaved && !value.seller) {
+          yield put({
+            type: types.CARTITEM_DELETE_REQUEST,
+            cart_item_uuid,
+            payload: value,
+            actions,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    yield call(catchReduxError, types.CARTITEM_CREATE_REQUEST_FAILED);
   }
 }
 
@@ -176,6 +281,11 @@ function* watcherCreateDraft() {
 
 function* watcherUpdateDraft() {
   yield takeLatest(types.CARTITEM_UPDATE_DRAFT_REQUEST, updateDraftSaga);
+}
+
+function* watcherSessionAuthenticated() {
+  yield takeLatest(sessionActionTypes.SESSION_TOKEN_ADDED),
+    workerSessionAuthenticated;
 }
 
 export default function* rootCartItemSaga() {

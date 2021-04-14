@@ -17,9 +17,9 @@ const AuthWrapper = ({ children, ...props }) => {
   const { session, dispatch } = props;
   const { isAuthenticated } = session;
   const navigation = useNavigation();
-  const [phone, updatePhone] = useState('');
-  const [code, updateCode] = useState('');
-  const [showCodeView, toggleView] = useState(false);
+  const [phone, updatePhone] = useState('9706055724');
+  const [code, updateCode] = useState('123456');
+  const [showCodeView, toggleView] = useState(true);
   const [isRequesting, toggleRequesting] = useState(false);
 
   const onRequestOtpSucceed = () => {

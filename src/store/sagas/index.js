@@ -6,6 +6,9 @@ import seller from './seller.saga';
 import address from './address.saga';
 import productBrandUnit from './product-brand-unit.saga';
 import sessionSaga from './session.saga';
+import cartSaga from './cart.saga';
+import productBrandSaga from './product-brand.saga';
+import productSaga from './product.saga';
 
 export default function* rootSaga() {
   yield all([
@@ -16,5 +19,8 @@ export default function* rootSaga() {
     address(),
     productBrandUnit(),
     sessionSaga(),
+    cartSaga(),
+    productBrandSaga(),
+    productSaga(),
   ]);
 }

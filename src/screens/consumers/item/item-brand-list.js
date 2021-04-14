@@ -5,32 +5,37 @@ import BrandItemCard from '../../../components/item-detail-helpers/brand-item-ca
 import { getDataById } from '../../../store/selectors/find-data.selector';
 
 function ItemBrandList(props) {
-  const { item } = props;
+  const { product } = props;
 
-  const itemBrands = useMemo(() => {
-    if (item && item.id) {
-      return item.product_brands;
+  const productBrands = useMemo(() => {
+    if (product && product.id) {
+      return product.product_brands;
     } else {
       return [];
     }
   });
 
-  const renderItem = (data) => (
-    <BrandItemCard item={item} brandItem={data.item} />
+  const renderItem = ({ item }) => (
+    <BrandItemCard product={product} productBrand={item} />
   );
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={{ flex: 1, paddingTop: 40 }}>
         <View style={{ flex: 1, padding: 20 }}>
           <View style={{ marginBottom: 10 }}>
-            <Text style={{ fontSize: 24 }}>{item && item.name}</Text>
+            <Text style={{ fontSize: 24 }}>{product && product.name}</Text>
           </View>
-          <FlatList
-            data={itemBrands}
-            showsVerticalScrollIndicator={false}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          />
+          {productBrands && productBrands.length ? (
+            <FlatList
+              data={productBrands}
+              showsVerticalScrollIndicator={false}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          ) : (
+            <Text>Loading...</Text>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -38,9 +43,9 @@ function ItemBrandList(props) {
 }
 
 const mapStateToProps = () => {
-  const getItem = getDataById();
+  const getProduct = getDataById();
   return (state, { route: { params } }) => ({
-    item: getItem(state, 'item', params.item_id),
+    product: getProduct(state, 'product', params.item_id),
   });
 };
 

@@ -79,6 +79,8 @@ function* findByIdSaga({ seller_id, actions = {} }) {
 }
 
 function* querySaga({ query, actions = {} }) {
+  debugger;
+
   try {
     yield put({ type: types.SELLER_REQUEST_INITIATED });
     const payload = yield call(queryData, query);
@@ -93,9 +95,6 @@ function* querySaga({ query, actions = {} }) {
 }
 
 // -------------------- watchers --------------------
-function* watcherFindAll() {
-  yield takeLatest(types.SELLER_FIND_ALL_REQUEST, findAllSaga);
-}
 
 function* watcherFindById() {
   yield takeEvery(types.SELLER_FIND_BY_ID_REQUEST, findByIdSaga);
@@ -106,5 +105,5 @@ function* watcherQuery() {
 }
 
 export default function* rootSellerSaga() {
-  yield all([fork(watcherFindAll), fork(watcherFindById), fork(watcherQuery)]);
+  yield all([fork(watcherFindById), fork(watcherQuery)]);
 }

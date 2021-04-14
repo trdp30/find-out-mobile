@@ -2,16 +2,14 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { View, Text, Pressable, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { queryItem } from '../../store/actions/item.action';
-
-const colors = ['#ADC8FF', '#DFFCA9', '#AEF5FE', '#FFF2B3', '#FFD1A9'];
+import { queryProduct } from '../../store/actions/product.action';
 
 function CategorySubCategory(props) {
-  const { category, subCategory, getItems } = props;
+  const { category, subCategory, getProducts } = props;
   const navigation = useNavigation();
 
   useEffect(() => {
-    getItems({
+    getProducts({
       sub_category_id: subCategory.id,
     });
   }, [subCategory]);
@@ -55,7 +53,8 @@ function CategorySubCategory(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getItems: (query, actions = {}) => dispatch(queryItem({ query, actions })),
+    getProducts: (query, actions = {}) =>
+      dispatch(queryProduct({ query, actions })),
   };
 };
 
