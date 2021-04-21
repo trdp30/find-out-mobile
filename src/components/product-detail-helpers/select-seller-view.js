@@ -6,20 +6,20 @@ import ShopCard from './shop-card';
 
 function SelectSellerView(props) {
   const state = useContext(ItemContext);
-  const { item, cartItem } = state;
-  const { productBrandUnits } = item;
+  const { item, draftCartItem } = state;
+  const { productBrandUnits = {} } = item;
   const sellerProducts = useMemo(() => {
-    if (cartItem && cartItem.product_brand_unit_id) {
+    if (draftCartItem && draftCartItem.product_brand_unit_id) {
       const pbu = productBrandUnits.find(
-        (d) => d.id === cartItem.product_brand_unit_id,
+        (d) => d.id === draftCartItem.product_brand_unit_id,
       );
-      return pbu.seller_products;
+      return pbu && pbu.seller_products;
     } else {
       return productBrandUnits.seller_products;
     }
   }, [
-    cartItem,
-    cartItem.product_brand_unit_id,
+    draftCartItem,
+    draftCartItem.product_brand_unit_id,
     productBrandUnits,
     productBrandUnits.seller_products,
   ]);

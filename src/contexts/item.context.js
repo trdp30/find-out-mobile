@@ -1,5 +1,11 @@
 import { useNavigation } from '@react-navigation/core';
-import React, { createContext, useContext, useEffect, useMemo } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
 import { Alert } from 'react-native';
 import { memo } from 'react';
 import { connect } from 'react-redux';
@@ -14,8 +20,39 @@ export const ItemContext = createContext();
 
 ItemContext.displayName = 'ItemContext';
 
+function reducer(state, action) {
+  const { key, value } = action;
+  switch (key) {
+    case 'seller_product_id': {
+      return {
+        ...state,
+        seller_product_id: value,
+        quantity: 1,
+      };
+    }
+    case 'product_brand_unit_id': {
+      return {
+        ...state,
+        product_brand_unit_id: value,
+        quantity: 0,
+        seller_product_id: null,
+      };
+    }
+    case 'quantity': {
+      return {
+        ...state,
+        quantity: value,
+      };
+    }
+    default:
+      return {
+        ...state,
+        [key]: value,
+      };
+  }
+}
+
 const ProductWrapper = memo(({ children, ...props }) => {
-  console.log('item context', props);
   const {
     item = {},
     cartRequest,
@@ -24,8 +61,28 @@ const ProductWrapper = memo(({ children, ...props }) => {
     updateCI,
     cartItem,
   } = props;
+
+  const initialState = useMemo(
+    () => ({
+      product_brand_id: item.productBrand.id,
+      quantity: 0,
+      product_brand_unit_id:
+        item.productBrandUnits && item.productBrandUnits.length
+          ? item.productBrandUnits[0].id
+          : null,
+      ...cartItem,
+    }),
+    [params, cartItem],
+  );
   const { isAuthenticated } = useContext(ApplicationContext);
   const navigation = useNavigation();
+  const [draftCartItem, updateDraftCartItem] = useReducer(
+    reducer,
+    initialState,
+  );
+
+  console.log('item context', props.cartItem);
+  console.log('draftCartItem', draftCartItem);
 
   const addToCart = (payload) => {
     createCI({
@@ -33,25 +90,13 @@ const ProductWrapper = memo(({ children, ...props }) => {
     });
   };
 
-  useEffect(() => {
-    if (
-      !cartRequest.isLoading &&
-      cartItem &&
-      !cartItem.uuid &&
-      item &&
-      item.product
-    ) {
-      addToCart({
-        product_brand_id: item.productBrand.id,
-        quantity: 0,
-        isSaved: false,
-        product_brand_unit_id:
-          item.productBrandUnits && item.productBrandUnits.length
-            ? item.productBrandUnits[0].id
-            : null,
-      });
+  const update = ({ key, value }) => {
+    if (key === 'seller_product_id' && !isAuthenticated) {
+      checkIsAuthenticated();
+    } else {
+      updateDraftCartItem({ key, value });
     }
-  }, [params, cartRequest.isLoading, item]);
+  };
 
   const checkIsAuthenticated = () => {
     Alert.alert(
@@ -69,72 +114,27 @@ const ProductWrapper = memo(({ children, ...props }) => {
     );
   };
 
-  const update = ({ key, value, other, actions }) => {
-    if (cartItem && cartItem.uuid) {
-      switch (key) {
-        case 'seller_product_id': {
-          if (isAuthenticated) {
-            updateCI(
-              cartItem.uuid,
-              {
-                [key]: value,
-                quantity: 1,
-              },
-              actions,
-            );
-          } else {
-            checkIsAuthenticated();
-          }
-          break;
-        }
-        case 'product_brand_unit_id':
-          updateCI(
-            cartItem.uuid,
-            {
-              [key]: value,
-              quantity: 0,
-              seller_product_id: null,
-            },
-            actions,
-          );
-          break;
-        default:
-          if (key === 'quantity' && !isAuthenticated) {
-            checkIsAuthenticated();
-          } else {
-            const data = {};
-            if (other && Object.keys(other).length) {
-              Object.keys(other).forEach((d) => (data[d] = other[d]));
-            }
-            updateCI(
-              cartItem.uuid,
-              {
-                [key]: value,
-                ...data,
-              },
-              actions,
-            );
-          }
-          break;
-      }
+  useEffect(() => {
+    if (cartItem.uuid) {
+      updateCI(cartItem.uuid, draftCartItem);
+    } else {
+      createCI(draftCartItem);
     }
-  };
+  }, [draftCartItem]);
 
   return (
     <ItemContext.Provider
       value={{
         item,
-        cartRequest,
-        cartItem,
         addToCart,
         update,
+        draftCartItem,
       }}>
       {typeof children === 'function'
         ? children({
             item,
-            cartRequest,
-            cartItem,
             update,
+            draftCartItem,
           })
         : children}
     </ItemContext.Provider>

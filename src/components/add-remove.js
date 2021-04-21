@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import colors from '../styles/colors';
 
 function AddRemove(props) {
   const { update, state } = props;
-  const [count, updateCount] = useState(1);
+  const [count, updateCount] = useState(() =>
+    state.quantity ? state.quantity : 1,
+  );
 
   const increment = () => {
     updateCount((prev) => parseInt(prev) + 1);
@@ -26,18 +28,6 @@ function AddRemove(props) {
     if (
       state &&
       Object.keys(state).length &&
-      state.id &&
-      count !== state.quantity
-    ) {
-      updateCount(state.quantity);
-    }
-  }, [state.quantity]);
-
-  useEffect(() => {
-    if (
-      state &&
-      Object.keys(state).length &&
-      state.id &&
       parseInt(state.quantity) !== count
     ) {
       update('quantity', count, { onFailed });

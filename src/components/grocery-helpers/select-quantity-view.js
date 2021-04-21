@@ -5,7 +5,7 @@ import { ItemContext } from '../../contexts/item.context';
 
 function SelectQuantityView() {
   const state = useContext(ItemContext);
-  const { item, cartItem, update } = state;
+  const { item, update, draftCartItem } = state;
 
   const { productBrandUnits = [], product } = item;
 
@@ -35,7 +35,7 @@ function SelectQuantityView() {
     if (
       avaiableProductBrandUnits &&
       avaiableProductBrandUnits.id &&
-      cartItem.product_brand_unit_id !== avaiableProductBrandUnits.id
+      draftCartItem.product_brand_unit_id !== avaiableProductBrandUnits.id
     ) {
       update({
         key: 'product_brand_unit_id',
@@ -46,16 +46,16 @@ function SelectQuantityView() {
 
   useEffect(() => {
     if (
-      cartItem &&
-      cartItem.product_brand_unit_id &&
+      draftCartItem &&
+      draftCartItem.product_brand_unit_id &&
       avaiableProductBrandUnits &&
       !avaiableProductBrandUnits.id
     ) {
       updateProductBrandUnits(
-        quantityList.find((d) => d.id === cartItem.product_brand_unit_id),
+        quantityList.find((d) => d.id === draftCartItem.product_brand_unit_id),
       );
     }
-  }, [cartItem, cartItem.product_brand_unit_id]);
+  }, [draftCartItem, draftCartItem.product_brand_unit_id]);
 
   if (quantityList && quantityList.length) {
     return (

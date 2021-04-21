@@ -70,42 +70,65 @@ function* storeInLocalStorage({ payload }) {
   }
 }
 
-function* querySaga({ query, actions = {} }) {
-  yield put({ type: types.CARTITEM_REQUEST_INITIATED });
-}
-
 function* createSaga({ payload, actions = {} }) {
   try {
-    yield put({ type: types.CARTITEM_REQUEST_INITIATED });
-    yield call(createRequest, payload);
-    console.log('create api called');
+    const response = yield call(createRequest, payload);
     const normalizedData = yield call(normalizeData, {
-      data: {
-        ...payload,
-        isSaved: true,
-      },
+      data: response,
       schema: cartItemSchema,
     });
-    yield put(createCartItemSucceed({ payload: normalizedData }));
+    yield put(updateCartItemSucceed({ payload: normalizedData }));
   } catch (error) {
     yield call(catchReduxError, types.CARTITEM_CREATE_REQUEST_FAILED, error);
   }
 }
 
-function* updateSaga({ cart_item_uuid, payload, actions = {} }) {
+function* deleteSaga({ cart_item_id, cart_item_uuid, actions = {} }) {
   try {
     yield put({ type: types.CARTITEM_REQUEST_INITIATED });
+    yield call(deleteRequest, cart_item_id);
+    const normalizedData = yield call(normalizeData, {
+      data: {
+        uuid: cart_item_uuid,
+        seller_id: null,
+        seller_product_id: null,
+        quantity: 0,
+        cart_id: null,
+        id: null,
+        mrp_price: null,
+        product: {
+          id: 1,
+          name: 'Toor Dal',
+          brand_name: 'Tata Sampoorna Toor Dal',
+          unit: 'gm',
+          unit_value: null,
+        },
+        selling_price: null,
+      },
+      schema: cartItemSchema,
+    });
+    yield put(updateCartItemSucceed({ payload: normalizedData }));
+  } catch (error) {
+    if (actions && actions.onFailed) {
+      yield call(actions.onFailed, error);
+    }
+    yield call(catchReduxError, types.CARTITEM_DELETE_REQUEST_FAILED, error);
+  }
+}
+
+function* updateSaga({ cart_item_uuid, cart_item_id, payload, actions = {} }) {
+  try {
     if (payload && payload.quantity <= 0) {
       yield put({
         type: types.CARTITEM_DELETE_REQUEST,
+        cart_item_id,
         cart_item_uuid,
-        payload,
         actions,
       });
     } else {
-      yield call(updatedRequest, payload.id, payload);
+      const response = yield call(updatedRequest, cart_item_id, payload);
       const normalizedData = yield call(normalizeData, {
-        data: payload,
+        data: response,
         schema: cartItemSchema,
       });
       yield put(updateCartItemSucceed({ payload: normalizedData }));
@@ -118,27 +141,7 @@ function* updateSaga({ cart_item_uuid, payload, actions = {} }) {
   }
 }
 
-function* deleteSaga({ cart_item_uuid, payload, actions = {} }) {
-  try {
-    yield put({ type: types.CARTITEM_REQUEST_INITIATED });
-    yield call(deleteRequest, cart_item_uuid);
-    console.log('delete api called');
-
-    const normalizedData = yield call(normalizeData, {
-      data: {
-        ...payload,
-        seller_product_id: null,
-        quantity: 0,
-      },
-      schema: cartItemSchema,
-    });
-    yield put(updateCartItemSucceed({ payload: normalizedData }));
-  } catch (error) {
-    yield call(catchReduxError, types.CARTITEM_DELETE_REQUEST_FAILED, error);
-  }
-}
-
-function* createDraftSaga({ payload, actions = {} }) {
+function* createDraftSaga({ payload }) {
   try {
     const normalizedData = yield call(normalizeData, {
       data: {
@@ -158,44 +161,46 @@ function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
     const oldState = yield select(
       (state) => state.cartItem.data.byId[cart_item_uuid],
     );
-    const data =
-      oldState && Object.keys(oldState).length
-        ? { ...oldState, ...payload }
-        : payload;
-    if (data.seller_product_id || data.seller_id) {
-      const { id, seller_product_id, quantity, uuid } = data;
-      if (!data.id) {
+
+    const { seller_product_id, quantity } = payload;
+
+    if (seller_product_id) {
+      if (!oldState.id) {
         yield put({
           type: types.CARTITEM_CREATE_REQUEST,
           payload: {
-            id: id,
             seller_product_id,
             quantity,
-            uuid,
+            uuid: cart_item_uuid,
           },
           actions,
         });
       } else {
         yield put({
           type: types.CARTITEM_UPDATE_REQUEST,
+          cart_item_id: oldState.id,
+          cart_item_uuid,
           payload: {
-            id: id,
             seller_product_id,
             quantity,
-            uuid,
+            uuid: cart_item_uuid,
           },
           actions,
         });
       }
-    } else if (data.id && !data.seller_product_id) {
+    } else if (oldState.id && !seller_product_id) {
       yield put({
         type: types.CARTITEM_DELETE_REQUEST,
+        cart_item_id: oldState.id,
         cart_item_uuid,
-        payload: data,
         actions,
       });
+    } else if (!oldState.id && !seller_product_id) {
       const normalizedData = yield call(normalizeData, {
-        data: { ...data, seller_product_id: null, quantity: 0 },
+        data: {
+          ...payload,
+          uuid: cart_item_uuid,
+        },
         schema: cartItemSchema,
       });
       yield put(storeCartItemData({ payload: normalizedData }));
@@ -205,54 +210,7 @@ function* updateDraftSaga({ cart_item_uuid, payload, actions = {} }) {
   }
 }
 
-function* workerSessionAuthenticated() {
-  try {
-    const data = yield select(({ cartItem }) => state.cartItem.data.byId);
-    if (data && Object.keys(data).length) {
-      for (value in data) {
-        if (value.seller_proctuct && value.seller_proctuct.id) {
-          const { id, seller_proctuct, quantity } = value;
-          if (!value.isSaved) {
-            yield put({
-              type: types.CARTITEM_CREATE_REQUEST,
-              payload: {
-                id: id,
-                seller_product_id: seller_proctuct.id,
-                quantity,
-              },
-              actions,
-            });
-          } else {
-            yield put({
-              type: types.CARTITEM_UPDATE_REQUEST,
-              payload: {
-                id: id,
-                seller_product_id: seller_proctuct.id,
-                quantity,
-              },
-              actions,
-            });
-          }
-        } else if (value.isSaved && !value.seller) {
-          yield put({
-            type: types.CARTITEM_DELETE_REQUEST,
-            cart_item_uuid,
-            payload: value,
-            actions,
-          });
-        }
-      }
-    }
-  } catch (error) {
-    yield call(catchReduxError, types.CARTITEM_CREATE_REQUEST_FAILED);
-  }
-}
-
 // ------------------ Watchers ----------------------
-
-function* watcherQuery() {
-  yield takeLatest(types.CARTITEM_QUERY_REQUEST, querySaga);
-}
 
 function* watcherCreate() {
   yield takeLatest(types.CARTITEM_CREATE_REQUEST, createSaga);
@@ -274,15 +232,9 @@ function* watcherUpdateDraft() {
   yield takeLatest(types.CARTITEM_UPDATE_DRAFT_REQUEST, updateDraftSaga);
 }
 
-function* watcherSessionAuthenticated() {
-  yield takeLatest(sessionActionTypes.SESSION_TOKEN_ADDED),
-    workerSessionAuthenticated;
-}
-
 export default function* rootCartItemSaga() {
   yield all([
     fork(watcherCreate),
-    fork(watcherQuery),
     fork(watcherUpdate),
     fork(watcherDelete),
     fork(watcherCreateDraft),
