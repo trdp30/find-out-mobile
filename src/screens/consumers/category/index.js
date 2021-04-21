@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -14,10 +14,12 @@ import { getListData } from '../../../store/selectors/data.selector';
 
 function Category(props) {
   const { categories, fetchAllCategories } = props;
+  const isCategoryCalled = useRef(false);
 
   useEffect(() => {
-    if (categories && !categories.length) {
+    if (!isCategoryCalled.current && categories && !categories.length) {
       fetchAllCategories({});
+      isCategoryCalled.current = true;
     }
   }, []);
 

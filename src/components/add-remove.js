@@ -5,34 +5,17 @@ import colors from '../styles/colors';
 
 function AddRemove(props) {
   const { update, state } = props;
-  const [count, updateCount] = useState(() =>
-    state.quantity ? state.quantity : 1,
-  );
 
   const increment = () => {
-    updateCount((prev) => parseInt(prev) + 1);
+    update('quantity', parseInt(state.quantity) + 1);
   };
 
   const decrement = () => {
     let currentCount = parseInt(state.quantity);
-    if (currentCount > 0 && count > 0) {
-      updateCount((prev) => parseInt(prev) - 1);
+    if (currentCount > 0) {
+      update('quantity', parseInt(state.quantity) - 1);
     }
   };
-
-  const onFailed = () => {
-    updateCount(() => state.quantity);
-  };
-
-  useEffect(() => {
-    if (
-      state &&
-      Object.keys(state).length &&
-      parseInt(state.quantity) !== count
-    ) {
-      update('quantity', count, { onFailed });
-    }
-  }, [count]);
 
   return (
     <View>
@@ -65,7 +48,7 @@ function AddRemove(props) {
             borderLeftColor: colors['color-primary-500'],
             borderLeftWidth: 1,
           }}>
-          <Text style={{ fontSize: 16 }}>{count}</Text>
+          <Text style={{ fontSize: 16 }}>{state.quantity}</Text>
         </View>
         <TouchableOpacity onPress={increment}>
           <View

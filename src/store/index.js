@@ -11,7 +11,7 @@ let composeEnhancers = compose;
 composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 function configureStore(initialState) {
-  const middlewares = [sagaMiddleware, logger];
+  const middlewares = [sagaMiddleware];
   const store = createStore(
     reducers,
     initialState,

@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
 } from 'react';
 import { Alert } from 'react-native';
 import { memo } from 'react';
@@ -44,6 +45,12 @@ function reducer(state, action) {
         quantity: value,
       };
     }
+    case 'reset': {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
     default:
       return {
         ...state,
@@ -80,6 +87,7 @@ const ProductWrapper = memo(({ children, ...props }) => {
     reducer,
     initialState,
   );
+  const isReset = useRef(false);
 
   console.log('item context', props.cartItem);
   console.log('draftCartItem', draftCartItem);
@@ -90,7 +98,18 @@ const ProductWrapper = memo(({ children, ...props }) => {
     });
   };
 
+  const onSuccess = () => {};
+
+  const onFailed = () => {
+    isReset.current = true;
+    updateDraftCartItem({
+      key: 'reset',
+      payload: cartItem,
+    });
+  };
+
   const update = ({ key, value }) => {
+    isReset.current = false;
     if (key === 'seller_product_id' && !isAuthenticated) {
       checkIsAuthenticated();
     } else {
@@ -115,10 +134,12 @@ const ProductWrapper = memo(({ children, ...props }) => {
   };
 
   useEffect(() => {
-    if (cartItem.uuid) {
-      updateCI(cartItem.uuid, draftCartItem);
-    } else {
-      createCI(draftCartItem);
+    if (!isReset.current) {
+      if (cartItem.uuid) {
+        updateCI(cartItem.uuid, draftCartItem, { onFailed });
+      } else {
+        createCI(draftCartItem);
+      }
     }
   }, [draftCartItem]);
 
