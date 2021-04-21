@@ -8,22 +8,22 @@ import { getDataById } from '../../../store/selectors/find-data.selector';
 function SubCategory(props) {
   const { category, dispatch, route } = props;
 
-  useEffect(() => {
-    if (
-      category &&
-      category.status &&
-      category.status === 'not available' &&
-      route &&
-      route.params &&
-      route.params.category_id
-    ) {
-      dispatch(
-        findByIdCategory({
-          category_id: route.params.category_id,
-        }),
-      );
-    }
-  }, [category, route]);
+  // useEffect(() => {
+  //   if (
+  //     category &&
+  //     category.status &&
+  //     category.status === 'not available' &&
+  //     route &&
+  //     route.params &&
+  //     route.params.category_id
+  //   ) {
+  //     dispatch(
+  //       findByIdCategory({
+  //         category_id: route.params.category_id,
+  //       }),
+  //     );
+  //   }
+  // }, [category, route]);
 
   if (category.sub_categories && category.sub_categories.length) {
     return (
