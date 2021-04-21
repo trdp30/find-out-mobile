@@ -89,9 +89,6 @@ const ProductWrapper = memo(({ children, ...props }) => {
   );
   const isReset = useRef(false);
 
-  console.log('item context', props.cartItem);
-  console.log('draftCartItem', draftCartItem);
-
   const addToCart = (payload) => {
     createCI({
       ...payload,

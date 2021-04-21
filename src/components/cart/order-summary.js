@@ -2,7 +2,10 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import colors from '../../styles/colors';
 
-function OrderSummary() {
+function OrderSummary(props) {
+  const { cart } = props;
+  const { item_total_price, cart_total, discount = 0 } = cart;
+
   return (
     <View
       style={{
@@ -28,16 +31,7 @@ function OrderSummary() {
             marginTop: 10,
           }}>
           <Text>Subtotal</Text>
-          <Text>100</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 10,
-          }}>
-          <Text>GST</Text>
-          <Text>10</Text>
+          <Text>{item_total_price}</Text>
         </View>
         <View
           style={{
@@ -47,6 +41,15 @@ function OrderSummary() {
           }}>
           <Text>Shipping</Text>
           <Text>0</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 10,
+          }}>
+          <Text>Discount</Text>
+          <Text>{discount}</Text>
         </View>
       </View>
       <View
@@ -75,7 +78,7 @@ function OrderSummary() {
             fontWeight: '500',
             color: colors['color-primary-600'],
           }}>
-          110
+          {cart_total}
         </Text>
       </View>
     </View>

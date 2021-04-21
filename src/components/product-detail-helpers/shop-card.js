@@ -8,7 +8,6 @@ import AddToCart from './add-to-cart';
 
 function ShopCard(props) {
   const { sellerProduct, getSeller, seller = {} } = props;
-  // console.log('ShopCard', props);
   const offerDiscount = useMemo(() => {
     if (sellerProduct && sellerProduct.id) {
       const sub = sellerProduct.mrp_price - sellerProduct.selling_price;
