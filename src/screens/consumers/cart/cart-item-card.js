@@ -7,22 +7,33 @@ import colors from '../../../styles/colors';
 
 function CartItemCard(props) {
   const { cartItem, cart_item_id, updateCI } = props;
-  const { item, product_brand_unit, seller_proctuct, quantity } = cartItem;
+  const {
+    mrp_price,
+    product = {},
+    seller_product_id,
+    selling_price,
+  } = cartItem;
 
   const offerDiscount = useMemo(() => {
-    if (seller_proctuct && seller_proctuct.id) {
-      const sub = seller_proctuct.mrp_price - seller_proctuct.selling_price;
-      return Math.floor((sub / seller_proctuct.mrp_price) * 100);
+    if (cartItem && Object.keys(cartItem).length) {
+      const sub = mrp_price - selling_price;
+      return Math.floor((sub / mrp_price) * 100);
     } else {
       return 0;
     }
-  }, [seller_proctuct]);
+  }, [cartItem]);
+
+  const onFailed = () => {};
 
   const update = (key, value) => {
-    updateCI(cart_item_id, {
-      ...cartItem,
-      [key]: value,
-    });
+    updateCI(
+      cartItem.uuid,
+      {
+        seller_product_id,
+        [key]: value,
+      },
+      { onFailed },
+    );
   };
 
   return (
@@ -42,21 +53,18 @@ function CartItemCard(props) {
       />
       <View style={{ marginHorizontal: 10, flex: 1 }}>
         <Text style={{ fontSize: 16, fontWeight: '500' }}>
-          {item && item.productBrand.brand_name}
+          {product && product.brand_name}
         </Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text>
-            Rs.{' '}
-            <Text style={{ fontSize: 18 }}>
-              {seller_proctuct.selling_price}
-            </Text>
+            Rs. <Text style={{ fontSize: 18 }}>{selling_price}</Text>
           </Text>
           <Text
             style={{
               marginHorizontal: 5,
               textDecorationLine: 'line-through',
             }}>
-            {seller_proctuct.mrp_price}
+            {mrp_price}
           </Text>
           {offerDiscount ? (
             <View>
@@ -72,10 +80,7 @@ function CartItemCard(props) {
             <></>
           )}
         </View>
-        <Text>
-          {product_brand_unit &&
-            `${product_brand_unit.unit_quantity} ${item.product.unit}`}
-        </Text>
+        <Text>{product && `${product.unit_value} ${product.unit}`}</Text>
       </View>
       <View
         style={{
@@ -91,8 +96,8 @@ function CartItemCard(props) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCI: (cart_item_id, payload, actions = {}) =>
-      dispatch(updateDraftCartItem({ cart_item_id, payload, actions })),
+    updateCI: (cart_item_uuid, payload, actions = {}) =>
+      dispatch(updateDraftCartItem({ cart_item_uuid, payload, actions })),
   };
 };
 

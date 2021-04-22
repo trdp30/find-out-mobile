@@ -28,23 +28,6 @@ function* findAllSaga({ actions = {} }) {
     const payload = yield call(getAllData);
     yield put(findAllCartSucceed({ payload, meta: {} }));
     if (payload.cart_items && payload.cart_items.length) {
-      for (cartItem of payload.cart_items) {
-        const {
-          product_brand_id,
-          seller_id,
-          product: { id: product_id },
-        } = cartItem;
-        yield all([
-          put(findByIdProduct({ product_id: product_id, actions: {} })),
-          put(findByIdSeller({ seller_id: seller_id, actions: {} })),
-          put(
-            queryPbu({
-              query: { product_brand_id: product_brand_id },
-              actions: {},
-            }),
-          ),
-        ]);
-      }
       const normalizedCartItemData = yield call(normalizeData, {
         data: payload.cart_items,
         schema: cartItemArraySchema,

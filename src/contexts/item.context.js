@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useReducer,
   useRef,
+  useCallback,
 } from 'react';
 import { Alert } from 'react-native';
 import { memo } from 'react';
@@ -17,6 +18,8 @@ import {
 import { getCartItemData } from '../store/selectors/cart-item.selector';
 import { getItemData } from '../store/selectors/item.selector';
 import { ApplicationContext } from './application.context';
+import { useFocusEffect } from '@react-navigation/native';
+
 export const ItemContext = createContext();
 
 ItemContext.displayName = 'ItemContext';
@@ -95,8 +98,6 @@ const ProductWrapper = memo(({ children, ...props }) => {
     });
   };
 
-  const onSuccess = () => {};
-
   const onFailed = () => {
     isReset.current = true;
     updateDraftCartItem({
@@ -104,6 +105,21 @@ const ProductWrapper = memo(({ children, ...props }) => {
       payload: cartItem,
     });
   };
+
+  useFocusEffect(
+    useCallback(
+      (d) => {
+        if (
+          cartItem &&
+          Object.keys(cartItem).length &&
+          !cartRequest.isLoading
+        ) {
+          onFailed();
+        }
+      },
+      [cartRequest.isLoading],
+    ),
+  );
 
   const update = ({ key, value }) => {
     isReset.current = false;

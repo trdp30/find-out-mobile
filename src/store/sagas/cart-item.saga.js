@@ -8,6 +8,7 @@ import {
   select,
 } from 'redux-saga/effects';
 import {
+  cartActionTypes,
   cartItemActionTypes as types,
   sessionActionTypes,
 } from '../action-types';
@@ -78,6 +79,7 @@ function* createSaga({ payload, actions = {} }) {
       schema: cartItemSchema,
     });
     yield put(updateCartItemSucceed({ payload: normalizedData }));
+    yield put({ type: cartActionTypes.CART_FIND_ALL_REQUEST });
   } catch (error) {
     yield call(catchReduxError, types.CARTITEM_CREATE_REQUEST_FAILED, error);
   }
@@ -108,6 +110,7 @@ function* deleteSaga({ cart_item_id, cart_item_uuid, actions = {} }) {
       schema: cartItemSchema,
     });
     yield put(updateCartItemSucceed({ payload: normalizedData }));
+    yield put({ type: cartActionTypes.CART_FIND_ALL_REQUEST });
   } catch (error) {
     if (actions && actions.onFailed) {
       yield call(actions.onFailed, error);
@@ -132,6 +135,7 @@ function* updateSaga({ cart_item_uuid, cart_item_id, payload, actions = {} }) {
         schema: cartItemSchema,
       });
       yield put(updateCartItemSucceed({ payload: normalizedData }));
+      yield put({ type: cartActionTypes.CART_FIND_ALL_REQUEST });
     }
   } catch (error) {
     if (actions && actions.onFailed) {

@@ -4,7 +4,10 @@ import CartItemCard from '../../screens/consumers/cart/cart-item-card';
 
 function CartItemList(props) {
   const { cartItems } = props;
-  const filteredList = useMemo(() => Object.values(cartItems), [cartItems]);
+  const filteredList = useMemo(
+    () => (cartItems ? Object.values(cartItems) : []),
+    [cartItems],
+  );
 
   return (
     <View>

@@ -13,16 +13,16 @@ import { connect } from 'react-redux';
 import { getFilteredCartItems } from '../../../store/selectors/cart-item-filter.selector';
 
 function Cart(props) {
-  const { navigation, cart, request } = props;
+  const { navigation, cart = {}, request } = props;
   const [hasCartItem, toggleHasCartItem] = useState(false);
 
   useEffect(() => {
-    if (cart.cart_items && cart.cart_items.length) {
+    if (cart && cart.cart_items && cart.cart_items.length) {
       toggleHasCartItem(() => true);
     } else {
       toggleHasCartItem(() => false);
     }
-  }, [cart.cart_items]);
+  }, [cart && cart.cart_items]);
 
   if (hasCartItem) {
     return (
@@ -30,7 +30,7 @@ function Cart(props) {
         <View style={{ marginTop: 20, flex: 1, paddingTop: 20 }}>
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
             <View style={{ margin: 15 }}>
-              {/* <CartItemList cartItems={cartItems} /> */}
+              <CartItemList cartItems={cart.cart_items} />
             </View>
             <OrderSummary cart={cart} />
             <TouchableOpacity
