@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, Fragment } from 'react';
 import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { findByIdSeller } from '../../store/actions/seller.action';
@@ -58,23 +58,26 @@ function ShopCard(props) {
                 {sellerProduct.selling_price}
               </Text>
             </Text>
-            <Text
-              style={{
-                marginHorizontal: 5,
-                textDecorationLine: 'line-through',
-              }}>
-              {sellerProduct.mrp_price}
-            </Text>
-            {offerDiscount ? (
-              <View>
+            {offerDiscount && offerDiscount > 0 ? (
+              <Fragment>
                 <Text
                   style={{
-                    color: colors['color-primary-500'],
-                    fontWeight: '700',
+                    marginHorizontal: 5,
+                    textDecorationLine: 'line-through',
                   }}>
-                  (off {offerDiscount}%)
+                  {sellerProduct.mrp_price}
                 </Text>
-              </View>
+
+                <View>
+                  <Text
+                    style={{
+                      color: colors['color-primary-500'],
+                      fontWeight: '700',
+                    }}>
+                    (off {offerDiscount}%)
+                  </Text>
+                </View>
+              </Fragment>
             ) : (
               <></>
             )}

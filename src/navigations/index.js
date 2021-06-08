@@ -16,7 +16,7 @@ import Landing from '../screens/landing';
 
 const Tab = createBottomTabNavigator();
 
-function TabNavigations() {
+function TabNavigation() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={CategoryNavigation} />
@@ -49,7 +49,7 @@ function RootNavigation() {
             }}>
             <Stack.Screen
               name="home"
-              component={TabNavigations}
+              component={TabNavigation}
               options={(route) => ({
                 headerShown: false,
               })}

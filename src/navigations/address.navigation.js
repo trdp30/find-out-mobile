@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Cart from '../screens/consumers/cart';
 import Address from '../screens/consumers/address';
+import SelectAddress from '../screens/consumers/address/select-address';
 import HeaderRightProfileButton from '../components/header-right-profile-button';
 import AddAddress from '../screens/consumers/address/add-address';
 
@@ -16,10 +17,17 @@ function AddressNavigation() {
         headerBackTitleVisible: false,
       }}>
       <Stack.Screen
+        name="select-address-list"
+        component={SelectAddress}
+        options={({ route }) => ({
+          title: 'Select Address',
+        })}
+      />
+      <Stack.Screen
         name="address-list"
         component={Address}
         options={({ route }) => ({
-          title: 'Select Address',
+          title: 'My Addresses',
         })}
       />
       <Stack.Screen

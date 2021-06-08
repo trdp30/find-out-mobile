@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import AddRemove from '../../../components/add-remove';
@@ -59,23 +59,25 @@ function CartItemCard(props) {
           <Text>
             Rs. <Text style={{ fontSize: 18 }}>{selling_price}</Text>
           </Text>
-          <Text
-            style={{
-              marginHorizontal: 5,
-              textDecorationLine: 'line-through',
-            }}>
-            {mrp_price}
-          </Text>
-          {offerDiscount ? (
-            <View>
+          {offerDiscount && offerDiscount > 0 ? (
+            <Fragment>
               <Text
                 style={{
-                  color: colors['color-primary-500'],
-                  fontWeight: '700',
+                  marginHorizontal: 5,
+                  textDecorationLine: 'line-through',
                 }}>
-                (off {offerDiscount}%)
+                {mrp_price}
               </Text>
-            </View>
+              <View>
+                <Text
+                  style={{
+                    color: colors['color-primary-500'],
+                    fontWeight: '700',
+                  }}>
+                  (off {offerDiscount}%)
+                </Text>
+              </View>
+            </Fragment>
           ) : (
             <></>
           )}

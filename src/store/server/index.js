@@ -47,9 +47,9 @@ async function getRecord(url, config) {
 }
 
 //GET Calls
-export function findAll(type) {
+export function findAll(type, config) {
   let url = `/${type}`;
-  return getRecord(url);
+  return getRecord(url, config);
 }
 
 export function findRecord(type, id, config = {}) {

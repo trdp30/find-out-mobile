@@ -16,6 +16,12 @@ function Cart(props) {
   const { navigation, cart = {}, request } = props;
   const [hasCartItem, toggleHasCartItem] = useState(false);
 
+  const navigateToSelectAddress = () => {
+    navigation.navigate('cart-add-address', {
+      screen: 'select-address-list',
+    });
+  };
+
   useEffect(() => {
     if (cart && cart.cart_items && cart.cart_items.length) {
       toggleHasCartItem(() => true);
@@ -33,8 +39,7 @@ function Cart(props) {
               <CartItemList cartItems={cart.cart_items} />
             </View>
             <OrderSummary cart={cart} />
-            <TouchableOpacity
-              onPress={() => navigation.navigate('cart-add-address')}>
+            <TouchableOpacity onPress={navigateToSelectAddress}>
               <View
                 style={{
                   backgroundColor: colors['color-primary-500'],

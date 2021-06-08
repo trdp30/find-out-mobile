@@ -8,8 +8,12 @@ import { getListData } from '../../../store/selectors/data.selector';
 import Icon from 'react-native-vector-icons/Ionicons';
 import color from '../../../styles/colors';
 
-function Address(props) {
+function SelectAddress(props) {
   const { addresses, fetchAllAddress, request, navigation } = props;
+
+  const setSelectedAddress = (address) => {
+    console.log(address);
+  };
 
   if (request.isLoading) {
     return (
@@ -27,7 +31,17 @@ function Address(props) {
             marginHorizontal: 20,
             flex: 1,
           }}>
-          <AddressList addresses={addresses} />
+          <AddressList
+            addresses={addresses}
+            setSelectedAddress={setSelectedAddress}
+          />
+        </View>
+        <View style={{ position: 'relative', bottom: 5 }}>
+          <NextButton
+            onPress={() => {
+              props.navigation.navigate('select-payment-method');
+            }}
+          />
         </View>
       </SafeAreaView>
     );
@@ -71,4 +85,4 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAllAddress: (actions = {}) => dispatch(findAllAddress({ actions })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Address);
+export default connect(mapStateToProps, mapDispatchToProps)(SelectAddress);

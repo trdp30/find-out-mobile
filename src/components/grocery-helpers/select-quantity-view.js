@@ -9,7 +9,7 @@ function SelectQuantityView() {
 
   const { productBrandUnits = [], product } = item;
 
-  const [avaiableProductBrandUnits, updateProductBrandUnits] = useState({});
+  const [availableProductBrandUnits, updateProductBrandUnits] = useState({});
 
   const quantityList = useMemo(() => {
     if (Object.keys(item).length && productBrandUnits.length) {
@@ -17,8 +17,8 @@ function SelectQuantityView() {
       const list = productBrandUnits.map((pbu) => {
         return {
           ...pbu,
-          key: `${pbu.unit_quantity} ${unit}`,
-          value: pbu.unit_quantity,
+          key: `${pbu.unit_value} ${unit}`,
+          value: pbu.unit_value,
         };
       });
       return list;
@@ -33,23 +33,23 @@ function SelectQuantityView() {
 
   useEffect(() => {
     if (
-      avaiableProductBrandUnits &&
-      avaiableProductBrandUnits.id &&
-      draftCartItem.product_brand_unit_id !== avaiableProductBrandUnits.id
+      availableProductBrandUnits &&
+      availableProductBrandUnits.id &&
+      draftCartItem.product_brand_unit_id !== availableProductBrandUnits.id
     ) {
       update({
         key: 'product_brand_unit_id',
-        value: avaiableProductBrandUnits.id,
+        value: availableProductBrandUnits.id,
       });
     }
-  }, [avaiableProductBrandUnits]);
+  }, [availableProductBrandUnits]);
 
   useEffect(() => {
     if (
       draftCartItem &&
       draftCartItem.product_brand_unit_id &&
-      avaiableProductBrandUnits &&
-      !avaiableProductBrandUnits.id
+      availableProductBrandUnits &&
+      !availableProductBrandUnits.id
     ) {
       updateProductBrandUnits(
         quantityList.find((d) => d.id === draftCartItem.product_brand_unit_id),
@@ -77,7 +77,7 @@ function SelectQuantityView() {
           {quantityList && quantityList.length ? (
             <DropDown
               setSelectedItem={updatePackageType}
-              selectedItem={avaiableProductBrandUnits}
+              selectedItem={availableProductBrandUnits}
               listSource={quantityList}
             />
           ) : (

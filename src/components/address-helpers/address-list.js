@@ -3,8 +3,10 @@ import { FlatList } from 'react-native';
 import AddressCard from '../address-card';
 
 function AddressList(props) {
-  const { addresses } = props;
-  const renderItem = ({ item }) => <AddressCard address={item} />;
+  const { addresses, setSelectedAddress } = props;
+  const renderItem = ({ item }) => (
+    <AddressCard address={item} setSelectedAddress={setSelectedAddress} />
+  );
   return (
     <FlatList
       data={addresses}

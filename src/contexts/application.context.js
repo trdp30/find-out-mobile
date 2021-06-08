@@ -12,7 +12,7 @@ const ApplicationWrapper = ({ children, ...props }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchCart({});
+      // fetchCart({});
     }
   }, [isAuthenticated]);
 
